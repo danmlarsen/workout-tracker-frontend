@@ -7,7 +7,7 @@ export default function WorkoutHistory() {
   const workouts = useWorkouts();
 
   return (
-    <div>
+    <div className="space-y-4">
       <h2 className="text-2xl font-bold">
         Workout History {workouts.isFetched && <span className="text-muted-foreground font-normal">({workouts.data?.length ?? 0})</span>}
       </h2>
