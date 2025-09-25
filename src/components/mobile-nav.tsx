@@ -4,7 +4,7 @@ const navItems = [
   { label: 'Home', href: '/' },
   { label: 'History', href: '/history' },
   { label: 'Train', href: '/train' },
-  { label: 'Stats', href: '/stats' },
+  { label: 'Exercises', href: '/exercises' },
 ];
 
 export default function MobileNav() {

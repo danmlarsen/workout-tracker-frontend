@@ -5,14 +5,14 @@ import ActiveWorkoutForm from '@/app/(core)/train/active-workout-form';
 
 export default function ActiveWorkoutModal() {
   const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
-  const { data: workout, isLoading } = useActiveWorkout();
+  const { data: activeWorkout } = useActiveWorkout();
 
   return (
     <>
       <Drawer open={activeWorkoutOpen} onOpenChange={setActiveWorkoutOpen}>
         <DrawerContent className="h-[95dvh]">
           <DrawerHeader>
-            <DrawerTitle>title</DrawerTitle>
+            <DrawerTitle>{activeWorkout?.title}</DrawerTitle>
           </DrawerHeader>
           <div className="p-4">
             <ActiveWorkoutForm />
@@ -20,12 +20,12 @@ export default function ActiveWorkoutModal() {
         </DrawerContent>
       </Drawer>
 
-      {workout && (
+      {activeWorkout && (
         <>
           <div className="h-20" />
-          <div onClick={() => setActiveWorkoutOpen(true)} className="fixed bottom-20 inset-x-0 h-20 bg-black text-white grid place-items-center">
-            active workout: {workout.title}
-          </div>
+          <button onClick={() => setActiveWorkoutOpen(true)} className="fixed bottom-20 inset-x-0 h-20 bg-black text-white grid place-items-center">
+            {activeWorkout?.title}
+          </button>
         </>
       )}
     </>

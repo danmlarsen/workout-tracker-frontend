@@ -1,3 +1,3 @@
 export default function StatsPage() {
-  return <h1>Stats</h1>;
+  return <h1>Exercises</h1>;
 }

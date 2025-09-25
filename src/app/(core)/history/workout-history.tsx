@@ -1,6 +1,6 @@
 'use client';
 
-import { useCompletedWorkouts, useWorkouts } from '@/api/workouts/queries';
+import { useCompletedWorkouts } from '@/api/workouts/queries';
 import WorkoutHistoryItem from './workout-history-item';
 import InfiniteScroll from 'react-infinite-scroller';
 
