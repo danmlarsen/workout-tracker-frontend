@@ -1,14 +1,14 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useActiveWorkout, useCreateWorkout } from '@/api/workouts/queries';
+import { useActiveWorkout, useCreateActiveWorkout } from '@/api/workouts/queries';
 import { useActiveWorkoutContext } from '@/context/active-workout-context';
 
 export default function NewWorkoutButton() {
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();
 
   const { data: activeWorkout } = useActiveWorkout();
-  const createWorkoutQuery = useCreateWorkout();
+  const createWorkoutQuery = useCreateActiveWorkout();
 
   function handleClick() {
     if (activeWorkout) {

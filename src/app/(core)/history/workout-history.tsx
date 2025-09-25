@@ -1,21 +1,28 @@
 'use client';
 
-import { useWorkouts } from '@/api/workouts/queries';
+import { useCompletedWorkouts, useWorkouts } from '@/api/workouts/queries';
 import WorkoutHistoryItem from './workout-history-item';
+import InfiniteScroll from 'react-infinite-scroller';
 
 export default function WorkoutHistory() {
-  const workouts = useWorkouts();
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } = useCompletedWorkouts();
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold">
-        Workout History {workouts.isFetched && <span className="text-muted-foreground font-normal">({workouts.data?.length ?? 0})</span>}
-      </h2>
-      <ul className="space-y-6">
-        {workouts.data?.map(workout => (
-          <WorkoutHistoryItem key={workout.id} data={workout} />
-        ))}
-      </ul>
+      <h2 className="text-2xl font-bold">Workout History</h2>
+      {!isLoading && (
+        <InfiniteScroll
+          initialLoad={false}
+          loadMore={() => {
+            if (!isFetching) {
+              fetchNextPage();
+            }
+          }}
+          hasMore={hasNextPage}
+        >
+          <ul className="space-y-6">{data?.pages.map?.(group => group.results.map(workout => <WorkoutHistoryItem key={workout.id} data={workout} />))}</ul>
+        </InfiniteScroll>
+      )}
     </div>
   );
 }

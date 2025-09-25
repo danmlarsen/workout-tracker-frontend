@@ -1,26 +1,31 @@
-import { Exercise } from '../exercises/types';
+import { type TExercise } from '../exercises/types';
 
-export interface Workout {
+export type TWorkoutsQuery = {
+  results: TWorkout[];
+  nextCursor: number;
+};
+
+export type TWorkout = {
   id: number;
   title: string;
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
   userId: number;
-  workoutExercises: WorkoutExercise[];
-}
+  workoutExercises: TWorkoutExercise[];
+};
 
-export interface WorkoutExercise {
+export type TWorkoutExercise = {
   id: number;
   workoutId: number;
   exerciseId: number;
   createdAt: string;
   updatedAt: string;
-  exercise: Exercise;
-  workoutSets: WorkoutSet[];
-}
+  exercise: TExercise;
+  workoutSets: TWorkoutSet[];
+};
 
-export interface WorkoutSet {
+export type TWorkoutSet = {
   id: number;
   workoutExerciseId: number;
   createdAt: string;
@@ -29,4 +34,10 @@ export interface WorkoutSet {
   reps: number | null;
   weight: number | null;
   duration: number | null;
-}
+};
+
+export type TWorkoutSetDto = {
+  reps?: number;
+  weight?: number;
+  duration?: number;
+};

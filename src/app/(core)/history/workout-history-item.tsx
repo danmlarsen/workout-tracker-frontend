@@ -1,10 +1,10 @@
 import { useDeleteWorkout } from '@/api/workouts/queries';
-import { type Workout } from '@/api/workouts/types';
+import { type TWorkout } from '@/api/workouts/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDate } from 'date-fns';
 
-export default function WorkoutHistoryItem({ data: { id, title, createdAt, workoutExercises } }: { data: Workout }) {
+export default function WorkoutHistoryItem({ data: { id, title, createdAt, workoutExercises } }: { data: TWorkout }) {
   const { mutate: deleteWorkout } = useDeleteWorkout();
 
   return (

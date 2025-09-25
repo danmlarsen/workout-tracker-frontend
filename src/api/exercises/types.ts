@@ -1,4 +1,4 @@
-export interface Exercise {
+export type TExercise = {
   id: number;
   name: string;
   userId: number | null;
@@ -6,4 +6,4 @@ export interface Exercise {
   muscleGroup: string;
   equipment: string;
   image: string | null;
-}
+};
