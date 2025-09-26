@@ -3,7 +3,8 @@ export type TExercise = {
   name: string;
   userId: number | null;
   type: string;
-  muscleGroup: string;
+  muscleGroups: string[];
   equipment: string;
   image: string | null;
+  timesUsed: number;
 };

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { Exercise } from './types';
+import { type TExercise } from './types';
 import { apiClient } from '../client';
 
 export const useExercises = () =>
-  useQuery<Exercise[]>({
+  useQuery<TExercise[]>({
     queryKey: ['exercises'],
-    queryFn: () => apiClient<Exercise[]>('/exercises'),
+    queryFn: () => apiClient<TExercise[]>('/exercises'),
   });

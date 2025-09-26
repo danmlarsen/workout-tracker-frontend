@@ -2,20 +2,20 @@
 
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
-import ExercisesList from '../exercises/exercises-list';
+import ExerciseForm from './exercise-form';
 
-export default function AddExerciseButton() {
+export default function AddNewExerciseButton() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button>Add Exercise</Button>
+        <Button>Add new exercise</Button>
       </DrawerTrigger>
       <DrawerContent className="h-[95dvh]">
         <DrawerHeader>
-          <DrawerTitle>Add exercise</DrawerTitle>
+          <DrawerTitle>Add new exercise</DrawerTitle>
         </DrawerHeader>
-        <div className="p-4">
-          <ExercisesList />
+        <div className="px-4">
+          <ExerciseForm />
         </div>
       </DrawerContent>
     </Drawer>
