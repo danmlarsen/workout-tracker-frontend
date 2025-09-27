@@ -9,12 +9,17 @@ export default function ExercisesList() {
 
   const { mutate: addWorkoutExercise } = useAddWorkoutExercise();
 
-  if (!activeWorkout) return null;
-
   return (
     <ul>
       {exercises.data?.map(exercise => (
-        <li key={exercise.id} onClick={() => addWorkoutExercise({ workoutId: activeWorkout.id, exerciseId: exercise.id })}>
+        <li
+          key={exercise.id}
+          onClick={() => {
+            if (activeWorkout) {
+              addWorkoutExercise({ workoutId: activeWorkout.id, exerciseId: exercise.id });
+            }
+          }}
+        >
           <button className="grid grid-cols-[50px_1fr_50px] items-center w-full gap-2 p-4 bg-secondary">
             <div>img</div>
             <div className="text-left">

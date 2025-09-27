@@ -8,3 +8,10 @@ export type TExercise = {
   image: string | null;
   timesUsed: number;
 };
+
+export type TExerciseDto = {
+  name: string;
+  type: string;
+  muscleGroups: string[];
+  equipment: string;
+};
