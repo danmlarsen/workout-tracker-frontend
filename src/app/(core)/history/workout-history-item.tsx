@@ -1,19 +1,16 @@
-import { useDeleteWorkout } from '@/api/workouts/queries';
 import { type TWorkout } from '@/api/workouts/types';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { formatDate } from 'date-fns';
+import WorkoutHistoryItemDropdownMenu from './workout-history-item-dropdown-menu';
 
 export default function WorkoutHistoryItem({ data: { id, title, createdAt, workoutExercises } }: { data: TWorkout }) {
-  const { mutate: deleteWorkout } = useDeleteWorkout();
-
   return (
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>{title}</CardTitle>
-          <Button variant="ghost">...</Button>
+          <WorkoutHistoryItemDropdownMenu workoutId={id} />
         </div>
         <CardDescription>{formatDate(createdAt, 'PP')}</CardDescription>
       </CardHeader>
@@ -40,7 +37,6 @@ export default function WorkoutHistoryItem({ data: { id, title, createdAt, worko
             })}
           </TableBody>
         </Table>
-        <Button onClick={() => deleteWorkout(id)}>DELETE</Button>
       </CardContent>
     </Card>
   );
