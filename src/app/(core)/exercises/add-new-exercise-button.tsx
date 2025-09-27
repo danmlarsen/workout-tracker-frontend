@@ -3,10 +3,13 @@
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import ExerciseForm from './exercise-form';
+import { useState } from 'react';
 
 export default function AddNewExerciseButton() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Drawer>
+    <Drawer open={isOpen} onOpenChange={newState => setIsOpen(newState)}>
       <DrawerTrigger asChild>
         <Button>Add new exercise</Button>
       </DrawerTrigger>
@@ -15,7 +18,7 @@ export default function AddNewExerciseButton() {
           <DrawerTitle>Add new exercise</DrawerTitle>
         </DrawerHeader>
         <div className="px-4 pb-6 overflow-y-auto">
-          <ExerciseForm />
+          <ExerciseForm onSuccess={() => setIsOpen(false)} />
         </div>
       </DrawerContent>
     </Drawer>

@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import { useCreateExercise } from '@/api/exercises/queries';
 
 const equipment = ['Barbell', 'Dumbbell', 'Kettlebell', 'Machine', 'Bodyweight', 'Cardio', 'Smith Machine', 'Cable', 'Safety Bar', 'Other'];
 const muscleGroups = [
@@ -41,7 +42,7 @@ const exerciseSchema = z.object({
   muscleGroups: z.array(z.enum(muscleGroups)).min(1),
 });
 
-export default function ExerciseForm() {
+export default function ExerciseForm({ onSuccess }: { onSuccess?: () => void }) {
   const form = useForm<z.infer<typeof exerciseSchema>>({
     resolver: zodResolver(exerciseSchema),
     defaultValues: {
@@ -51,9 +52,12 @@ export default function ExerciseForm() {
       muscleGroups: [],
     },
   });
+  const createExerciseMutation = useCreateExercise();
 
   async function handleSubmit(data: z.infer<typeof exerciseSchema>) {
-    console.log(data);
+    createExerciseMutation.mutate(data, {
+      onSuccess,
+    });
   }
 
   return (
