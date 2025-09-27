@@ -2,6 +2,7 @@
 
 import { useExercises } from '@/api/exercises/queries';
 import { useActiveWorkout, useAddWorkoutExercise } from '@/api/workouts/queries';
+import ExerciseAvatar from '@/components/ui/exercise-avatar';
 
 export default function ExercisesList() {
   const exercises = useExercises();
@@ -20,8 +21,10 @@ export default function ExercisesList() {
             }
           }}
         >
-          <button className="grid grid-cols-[50px_1fr_50px] items-center w-full gap-2 p-4 bg-secondary">
-            <div>img</div>
+          <button className="grid grid-cols-[50px_1fr_50px] items-center w-full gap-4 p-4 bg-secondary">
+            <div>
+              <ExerciseAvatar name={exercise.name} />
+            </div>
             <div className="text-left">
               <h2>{exercise.name}</h2>
               <div>
