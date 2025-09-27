@@ -1,21 +1,32 @@
 'use client';
 
 import AddExerciseButton from './add-exercise-button';
-import { useActiveWorkout, useCompleteWorkout } from '@/api/workouts/queries';
+import { useActiveWorkout, useCompleteWorkout, useUpdateWorkout } from '@/api/workouts/queries';
 import { Button } from '@/components/ui/button';
 import { useActiveWorkoutContext } from '@/context/active-workout-context';
 import WorkoutExercise from './workout-exercise';
+import EditWorkoutNameButton from './edit-workout-name-button';
 
 export default function ActiveWorkoutForm() {
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();
   const { data: workout } = useActiveWorkout();
   const { mutate: completeWorkout } = useCompleteWorkout();
+  const updateWorkoutMutation = useUpdateWorkout();
 
   function handleCompleteWorkout() {
     setActiveWorkoutOpen(false);
     if (workout) {
       completeWorkout(workout.id);
     }
+  }
+
+  function handleUpdateWorkoutName(newTitle: string) {
+    if (!workout) return;
+
+    updateWorkoutMutation.mutate({
+      workoutId: workout.id,
+      data: { title: newTitle },
+    });
   }
 
   if (!workout) {
@@ -30,7 +41,7 @@ export default function ActiveWorkoutForm() {
       </div>
       <div className="flex justify-between items-center">
         <h1>{workout.title}</h1>
-        <Button>Edit name</Button>
+        <EditWorkoutNameButton workoutName={workout.title} handleEdit={handleUpdateWorkoutName} />
       </div>
 
       {workout.workoutExercises && workout.workoutExercises.length > 0 && (

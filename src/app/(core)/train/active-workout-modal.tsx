@@ -1,6 +1,6 @@
 import { useActiveWorkout } from '@/api/workouts/queries';
 import { useActiveWorkoutContext } from '@/context/active-workout-context';
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from './ui/drawer';
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from '../../../components/ui/drawer';
 import ActiveWorkoutForm from '@/app/(core)/train/active-workout-form';
 
 export default function ActiveWorkoutModal() {

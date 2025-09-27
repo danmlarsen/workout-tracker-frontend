@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '../client';
-import { type TWorkoutSetDto, type TWorkout, type TWorkoutsQuery } from './types';
+import { type TWorkoutSetDto, type TWorkout, type TWorkoutsQuery, TUpdateWorkoutDto } from './types';
 
 export function useWorkouts() {
   return useQuery<TWorkoutsQuery>({
@@ -65,6 +65,23 @@ export function useCompleteWorkout() {
     onSuccess: (_, workoutId) => {
       queryClient.setQueryData(['activeWorkout'], null);
       queryClient.invalidateQueries({ queryKey: ['workouts', workoutId] });
+      queryClient.invalidateQueries({ queryKey: ['workouts'] });
+    },
+  });
+}
+
+export function useUpdateWorkout() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ workoutId, data }: { workoutId: number; data: TUpdateWorkoutDto }) =>
+      apiClient<TWorkout>(`/workouts/${workoutId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      }),
+    onSuccess: workout => {
+      queryClient.invalidateQueries({ queryKey: ['activeWorkout'] });
+      queryClient.invalidateQueries({ queryKey: ['workouts', workout.id] });
       queryClient.invalidateQueries({ queryKey: ['workouts'] });
     },
   });

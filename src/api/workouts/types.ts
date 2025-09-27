@@ -41,3 +41,7 @@ export type TWorkoutSetDto = {
   weight?: number;
   duration?: number;
 };
+
+export type TUpdateWorkoutDto = {
+  title?: string;
+};
