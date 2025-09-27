@@ -1,6 +1,6 @@
 import { useActiveWorkout } from '@/api/workouts/queries';
 import { useActiveWorkoutContext } from '@/context/active-workout-context';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from './ui/drawer';
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from './ui/drawer';
 import ActiveWorkoutForm from '@/app/(core)/train/active-workout-form';
 
 export default function ActiveWorkoutModal() {
@@ -12,7 +12,8 @@ export default function ActiveWorkoutModal() {
       <Drawer open={activeWorkoutOpen} onOpenChange={setActiveWorkoutOpen}>
         <DrawerContent className="h-[95dvh]">
           <DrawerHeader>
-            <DrawerTitle>{activeWorkout?.title}</DrawerTitle>
+            <DrawerTitle className="sr-only">{activeWorkout?.title}</DrawerTitle>
+            <DrawerDescription className="sr-only">Current active workout</DrawerDescription>
           </DrawerHeader>
           <div className="px-4 pb-6 overflow-y-auto">
             <ActiveWorkoutForm />

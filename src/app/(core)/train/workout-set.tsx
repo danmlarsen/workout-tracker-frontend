@@ -1,6 +1,8 @@
 import { useUpdateWorkoutSet } from '@/api/workouts/queries';
 import { TWorkoutSetDto, type TWorkoutSet } from '@/api/workouts/types';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { TableCell, TableRow } from '@/components/ui/table';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function WorkoutSet({ workoutSet, workoutId, setNumber }: { workoutSet: TWorkoutSet; workoutId: number; setNumber: number }) {
@@ -17,20 +19,28 @@ export default function WorkoutSet({ workoutSet, workoutId, setNumber }: { worko
   );
 
   return (
-    <li className="grid grid-cols-3 items-center">
-      <div>Set #{setNumber}</div>
-      <Input
-        type="number"
-        placeholder="weight"
-        defaultValue={workoutSet.weight?.toString() || ''}
-        onChange={e => debouncedUpdateWorkoutSet({ weight: parseInt(e.target.value) })}
-      />
-      <Input
-        type="number"
-        placeholder="reps"
-        defaultValue={workoutSet.reps?.toString() || ''}
-        onChange={e => debouncedUpdateWorkoutSet({ reps: parseInt(e.target.value) })}
-      />
-    </li>
+    <TableRow>
+      <TableCell>{setNumber}</TableCell>
+      <TableCell>-</TableCell>
+      <TableCell>
+        <Input
+          type="number"
+          placeholder=""
+          defaultValue={workoutSet.weight?.toString() || ''}
+          onChange={e => debouncedUpdateWorkoutSet({ weight: parseInt(e.target.value) })}
+        />
+      </TableCell>
+      <TableCell>
+        <Input
+          type="number"
+          placeholder=""
+          defaultValue={workoutSet.reps?.toString() || ''}
+          onChange={e => debouncedUpdateWorkoutSet({ reps: parseInt(e.target.value) })}
+        />
+      </TableCell>
+      <TableCell>
+        <Checkbox />
+      </TableCell>
+    </TableRow>
   );
 }

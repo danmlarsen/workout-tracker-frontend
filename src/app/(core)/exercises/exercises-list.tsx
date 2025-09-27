@@ -4,11 +4,11 @@ import { useExercises } from '@/api/exercises/queries';
 import { useActiveWorkout, useAddWorkoutExercise } from '@/api/workouts/queries';
 import ExerciseAvatar from '@/components/ui/exercise-avatar';
 
-export default function ExercisesList() {
+export default function ExercisesList({ onExerciseClick }: { onExerciseClick?: () => void }) {
   const exercises = useExercises();
   const { data: activeWorkout } = useActiveWorkout();
 
-  const { mutate: addWorkoutExercise } = useAddWorkoutExercise();
+  const mutateWorkoutExercise = useAddWorkoutExercise();
 
   return (
     <ul>
@@ -17,7 +17,12 @@ export default function ExercisesList() {
           key={exercise.id}
           onClick={() => {
             if (activeWorkout) {
-              addWorkoutExercise({ workoutId: activeWorkout.id, exerciseId: exercise.id });
+              mutateWorkoutExercise.mutate(
+                { workoutId: activeWorkout.id, exerciseId: exercise.id },
+                {
+                  onSuccess: () => onExerciseClick?.(),
+                }
+              );
             }
           }}
         >

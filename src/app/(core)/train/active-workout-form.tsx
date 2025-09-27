@@ -1,7 +1,6 @@
 'use client';
 
 import AddExerciseButton from './add-exercise-button';
-import { format } from 'date-fns';
 import { useActiveWorkout, useCompleteWorkout } from '@/api/workouts/queries';
 import { Button } from '@/components/ui/button';
 import { useActiveWorkoutContext } from '@/context/active-workout-context';
@@ -12,23 +11,28 @@ export default function ActiveWorkoutForm() {
   const { data: workout } = useActiveWorkout();
   const { mutate: completeWorkout } = useCompleteWorkout();
 
+  function handleCompleteWorkout() {
+    setActiveWorkoutOpen(false);
+    if (workout) {
+      completeWorkout(workout.id);
+    }
+  }
+
   if (!workout) {
     return <div>No active workout</div>;
   }
 
   return (
-    <div>
-      <h1>{workout.title}</h1>
-      <p>{format(workout.createdAt, "PPP 'at' p")}</p>
+    <div className="space-y-8">
+      <div className="flex justify-between items-center">
+        <div>timer</div>
+        <Button onClick={handleCompleteWorkout}>Finish</Button>
+      </div>
+      <div className="flex justify-between items-center">
+        <h1>{workout.title}</h1>
+        <Button>Edit name</Button>
+      </div>
 
-      <Button
-        onClick={() => {
-          setActiveWorkoutOpen(false);
-          completeWorkout(workout.id);
-        }}
-      >
-        Complete Workout
-      </Button>
       {workout.workoutExercises && workout.workoutExercises.length > 0 && (
         <ul className="space-y-4">
           {workout.workoutExercises.map(workoutExercise => (
