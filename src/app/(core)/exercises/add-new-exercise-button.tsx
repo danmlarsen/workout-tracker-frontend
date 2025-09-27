@@ -14,7 +14,7 @@ export default function AddNewExerciseButton() {
         <DrawerHeader>
           <DrawerTitle>Add new exercise</DrawerTitle>
         </DrawerHeader>
-        <div className="px-4">
+        <div className="px-4 pb-6 overflow-y-auto">
           <ExerciseForm />
         </div>
       </DrawerContent>

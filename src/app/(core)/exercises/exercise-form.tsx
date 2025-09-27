@@ -9,8 +9,30 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 
-const equipment = ['Barbell', 'Dumbbell', 'Kettlebell', 'Machine', 'Bodyweight'];
-const muscleGroups = ['Chest', 'Font Delts', 'Middle Delts', 'Rear Delts'];
+const equipment = ['Barbell', 'Dumbbell', 'Kettlebell', 'Machine', 'Bodyweight', 'Cardio', 'Smith Machine', 'Cable', 'Safety Bar', 'Other'];
+const muscleGroups = [
+  'Chest',
+  'Front Delts',
+  'Middle Delts',
+  'Rear Delts',
+  'Biceps',
+  'Triceps',
+  'Forearms',
+  'Lats',
+  'Upper Back',
+  'Lower Back',
+  'Neck',
+  'Abs',
+  'Glutes',
+  'Hamstrings',
+  'Quadriceps',
+  'Abductors',
+  'Adductors',
+  'Calves',
+  'Olympic',
+  'Full-Body',
+  'Other',
+];
 
 const exerciseSchema = z.object({
   name: z.string().min(2),
@@ -36,7 +58,7 @@ export default function ExerciseForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="name"

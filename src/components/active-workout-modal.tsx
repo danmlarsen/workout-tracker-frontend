@@ -14,7 +14,7 @@ export default function ActiveWorkoutModal() {
           <DrawerHeader>
             <DrawerTitle>{activeWorkout?.title}</DrawerTitle>
           </DrawerHeader>
-          <div className="p-4">
+          <div className="px-4 pb-6 overflow-y-auto">
             <ActiveWorkoutForm />
           </div>
         </DrawerContent>
