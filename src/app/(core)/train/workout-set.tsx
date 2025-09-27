@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { useDebouncedCallback } from 'use-debounce';
 
-export default function WorkoutSet({ workoutSet, workoutId, setNumber }: { workoutSet: TWorkoutSet; workoutId: number; setNumber: number }) {
+export default function WorkoutSet({ workoutSet, workoutId }: { workoutSet: TWorkoutSet; workoutId: number }) {
   const { mutate: updateWorkoutSet } = useUpdateWorkoutSet();
   const debouncedUpdateWorkoutSet = useDebouncedCallback(
     (payload: TWorkoutSetDto) =>
@@ -20,7 +20,7 @@ export default function WorkoutSet({ workoutSet, workoutId, setNumber }: { worko
 
   return (
     <TableRow>
-      <TableCell>{setNumber}</TableCell>
+      <TableCell>{workoutSet.setNumber}</TableCell>
       <TableCell>-</TableCell>
       <TableCell>
         <Input

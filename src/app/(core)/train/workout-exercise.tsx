@@ -22,8 +22,8 @@ export default function WorkoutExercise({ workoutExercise }: { workoutExercise: 
           </TableRow>
         </TableHeader>
         <TableBody className="text-center">
-          {workoutExercise.workoutSets.map((workoutSet, index) => (
-            <WorkoutSet key={workoutSet.id} workoutSet={workoutSet} workoutId={workoutExercise.workoutId} setNumber={index + 1} />
+          {workoutExercise.workoutSets.map(workoutSet => (
+            <WorkoutSet key={workoutSet.id} workoutSet={workoutSet} workoutId={workoutExercise.workoutId} />
           ))}
         </TableBody>
       </Table>

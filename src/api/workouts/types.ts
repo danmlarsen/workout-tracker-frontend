@@ -23,6 +23,7 @@ export type TWorkoutExercise = {
   updatedAt: string;
   exercise: TExercise;
   workoutSets: TWorkoutSet[];
+  exerciseOrder: number;
 };
 
 export type TWorkoutSet = {
@@ -34,6 +35,7 @@ export type TWorkoutSet = {
   reps: number | null;
   weight: number | null;
   duration: number | null;
+  setNumber: number;
 };
 
 export type TWorkoutSetDto = {
