@@ -23,6 +23,10 @@ export function useCompletedWorkouts() {
     },
     initialPageParam: undefined,
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    initialData: {
+      pages: [],
+      pageParams: [undefined],
+    },
   });
 }
 
