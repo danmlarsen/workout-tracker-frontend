@@ -1,6 +1,6 @@
 import { type TWorkoutExercise } from '@/api/workouts/types';
 import WorkoutSet from './workout-set';
-import { useAddWorkoutSet } from '@/api/workouts/queries';
+import { useAddWorkoutSet } from '@/api/workouts/mutations';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 

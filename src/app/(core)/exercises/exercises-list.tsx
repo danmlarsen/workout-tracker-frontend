@@ -1,7 +1,8 @@
 'use client';
 
 import { useExercises } from '@/api/exercises/queries';
-import { useActiveWorkout, useAddWorkoutExercise } from '@/api/workouts/queries';
+import { useAddWorkoutExercise } from '@/api/workouts/mutations';
+import { useActiveWorkout } from '@/api/workouts/queries';
 import ExerciseAvatar from '@/components/ui/exercise-avatar';
 
 export default function ExercisesList({ onExerciseClick }: { onExerciseClick?: () => void }) {

@@ -3,12 +3,11 @@
 import ActiveWorkoutModal from '@/app/(core)/train/active-workout-modal';
 import MobileNav from '@/components/mobile-nav';
 import { ActiveWorkoutProvider } from '@/context/active-workout-context';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@/react-query/queryClient';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export default function CoreLayout({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient();
-
   return (
     <QueryClientProvider client={queryClient}>
       <ActiveWorkoutProvider>

@@ -5,7 +5,7 @@ import WorkoutHistoryItem from './workout-history-item';
 import InfiniteScroll from 'react-infinite-scroller';
 
 export default function WorkoutHistory() {
-  const { data, fetchNextPage, hasNextPage, isFetching } = useCompletedWorkouts();
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading, isSuccess } = useCompletedWorkouts();
 
   return (
     <div className="space-y-4">
@@ -19,7 +19,9 @@ export default function WorkoutHistory() {
         }}
         hasMore={hasNextPage}
       >
-        <ul className="space-y-6">{data.pages.map(group => group.results.map(workout => <WorkoutHistoryItem key={workout.id} data={workout} />))}</ul>
+        {isSuccess && (
+          <ul className="space-y-6">{data.pages.map(group => group.results.map(workout => <WorkoutHistoryItem key={workout.id} data={workout} />))}</ul>
+        )}
       </InfiniteScroll>
     </div>
   );

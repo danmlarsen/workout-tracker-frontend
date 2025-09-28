@@ -1,6 +1,6 @@
 'use client';
 
-import { useDeleteWorkout } from '@/api/workouts/queries';
+import { useDeleteWorkout } from '@/api/workouts/mutations';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 

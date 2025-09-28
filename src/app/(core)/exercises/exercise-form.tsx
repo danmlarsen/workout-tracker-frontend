@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-import { useCreateExercise } from '@/api/exercises/queries';
+import { useCreateExercise } from '@/api/exercises/mutations';
 
 const equipment = ['Barbell', 'Dumbbell', 'Kettlebell', 'Machine', 'Bodyweight', 'Cardio', 'Smith Machine', 'Cable', 'Safety Bar', 'Other'];
 const muscleGroups = [

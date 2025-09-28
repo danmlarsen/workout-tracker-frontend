@@ -1,12 +1,13 @@
 'use client';
 
 import AddExerciseButton from './add-exercise-button';
-import { useActiveWorkout, useCompleteWorkout, useUpdateWorkout } from '@/api/workouts/queries';
+import { useCompleteWorkout, useUpdateWorkout } from '@/api/workouts/mutations';
 import { Button } from '@/components/ui/button';
 import { useActiveWorkoutContext } from '@/context/active-workout-context';
 import WorkoutExercise from './workout-exercise';
 import EditWorkoutNameButton from './edit-workout-name-button';
 import Timer from '@/components/ui/timer';
+import { useActiveWorkout } from '@/api/workouts/queries';
 
 export default function ActiveWorkoutForm() {
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();

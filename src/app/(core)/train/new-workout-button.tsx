@@ -1,8 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useActiveWorkout, useCreateActiveWorkout } from '@/api/workouts/queries';
+import { useActiveWorkout } from '@/api/workouts/queries';
 import { useActiveWorkoutContext } from '@/context/active-workout-context';
+import { useCreateActiveWorkout } from '@/api/workouts/mutations';
 
 export default function NewWorkoutButton() {
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();
