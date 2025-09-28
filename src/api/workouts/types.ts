@@ -42,6 +42,7 @@ export type TWorkoutSetDto = {
   reps?: number;
   weight?: number;
   duration?: number;
+  completed?: boolean;
 };
 
 export type TUpdateWorkoutDto = {

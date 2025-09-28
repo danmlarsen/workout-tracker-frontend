@@ -3,6 +3,7 @@ import { TWorkoutSetDto, type TWorkoutSet } from '@/api/workouts/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { TableCell, TableRow } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function WorkoutSet({ workoutSet, workoutId }: { workoutSet: TWorkoutSet; workoutId: number }) {
@@ -12,7 +13,7 @@ export default function WorkoutSet({ workoutSet, workoutId }: { workoutSet: TWor
   const debouncedUpdateWorkoutSet = useDebouncedCallback((payload: TWorkoutSetDto) => updateWorkoutSet(payload), 500);
 
   return (
-    <TableRow>
+    <TableRow className={cn('', workoutSet.completedAt && 'bg-slate-100 hover:bg-slate-50')}>
       <TableCell>{workoutSet.setNumber}</TableCell>
       <TableCell>-</TableCell>
       <TableCell>
@@ -34,7 +35,11 @@ export default function WorkoutSet({ workoutSet, workoutId }: { workoutSet: TWor
         />
       </TableCell>
       <TableCell>
-        <Checkbox />
+        <Checkbox
+          className="rounded-full size-8"
+          checked={!!workoutSet.completedAt}
+          onCheckedChange={isChecked => updateWorkoutSet({ completed: !!isChecked })}
+        />
       </TableCell>
     </TableRow>
   );
