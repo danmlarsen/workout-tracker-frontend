@@ -11,7 +11,7 @@ export default function ExercisesList({ onExerciseClick }: { onExerciseClick?: (
   const mutateWorkoutExercise = useAddWorkoutExercise();
 
   return (
-    <ul>
+    <ul className="space-y-2">
       {exercises.data?.map(exercise => (
         <li
           key={exercise.id}
@@ -26,7 +26,7 @@ export default function ExercisesList({ onExerciseClick }: { onExerciseClick?: (
             }
           }}
         >
-          <button className="grid grid-cols-[50px_1fr_50px] items-center w-full gap-4 p-4 bg-secondary">
+          <button className="grid grid-cols-[50px_1fr_50px] items-center w-full gap-4 py-4">
             <div>
               <ExerciseAvatar name={exercise.name} />
             </div>
