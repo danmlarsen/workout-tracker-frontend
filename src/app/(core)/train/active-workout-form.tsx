@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useActiveWorkoutContext } from '@/context/active-workout-context';
 import WorkoutExercise from './workout-exercise';
 import EditWorkoutNameButton from './edit-workout-name-button';
+import Timer from '@/components/ui/timer';
 
 export default function ActiveWorkoutForm() {
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();
@@ -36,7 +37,7 @@ export default function ActiveWorkoutForm() {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <div>timer</div>
+        <Timer workout={workout} />
         <Button onClick={handleCompleteWorkout}>Finish</Button>
       </div>
       <div className="flex justify-between items-center">
