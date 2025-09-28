@@ -6,17 +6,10 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function WorkoutSet({ workoutSet, workoutId }: { workoutSet: TWorkoutSet; workoutId: number }) {
-  const { mutate: updateWorkoutSet } = useUpdateWorkoutSet();
-  const debouncedUpdateWorkoutSet = useDebouncedCallback(
-    (payload: TWorkoutSetDto) =>
-      updateWorkoutSet({
-        workoutId,
-        workoutExerciseId: workoutSet.workoutExerciseId,
-        setId: workoutSet.id,
-        data: payload,
-      }),
-    500
-  );
+  const updateWorkoutSetMutation = useUpdateWorkoutSet();
+  const updateWorkoutSet = (payload: TWorkoutSetDto) =>
+    updateWorkoutSetMutation.mutate({ workoutId, workoutExerciseId: workoutSet.workoutExerciseId, setId: workoutSet.id, data: payload });
+  const debouncedUpdateWorkoutSet = useDebouncedCallback((payload: TWorkoutSetDto) => updateWorkoutSet(payload), 500);
 
   return (
     <TableRow>
@@ -28,6 +21,7 @@ export default function WorkoutSet({ workoutSet, workoutId }: { workoutSet: TWor
           placeholder=""
           defaultValue={workoutSet.weight?.toString() || ''}
           onChange={e => debouncedUpdateWorkoutSet({ weight: parseInt(e.target.value) })}
+          onBlur={e => updateWorkoutSet({ weight: parseInt(e.target.value) })}
         />
       </TableCell>
       <TableCell>
@@ -36,6 +30,7 @@ export default function WorkoutSet({ workoutSet, workoutId }: { workoutSet: TWor
           placeholder=""
           defaultValue={workoutSet.reps?.toString() || ''}
           onChange={e => debouncedUpdateWorkoutSet({ reps: parseInt(e.target.value) })}
+          onBlur={e => updateWorkoutSet({ reps: parseInt(e.target.value) })}
         />
       </TableCell>
       <TableCell>
