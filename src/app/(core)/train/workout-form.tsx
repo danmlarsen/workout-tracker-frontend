@@ -3,43 +3,36 @@
 import AddExerciseButton from './add-exercise-button';
 import { useCompleteWorkout, useUpdateWorkout } from '@/api/workouts/mutations';
 import { Button } from '@/components/ui/button';
-import { useActiveWorkoutContext } from '@/context/active-workout-context';
 import WorkoutExercise from './workout-exercise';
 import EditWorkoutNameButton from './edit-workout-name-button';
 import Timer from '@/components/ui/timer';
-import { useActiveWorkout } from '@/api/workouts/queries';
+import { type TWorkout } from '@/api/workouts/types';
 
-export default function ActiveWorkoutForm() {
-  const { setActiveWorkoutOpen } = useActiveWorkoutContext();
-  const { data: workout } = useActiveWorkout();
+export default function WorkoutForm({ workout, onSuccess }: { workout: TWorkout; onSuccess?: () => void }) {
   const { mutate: completeWorkout } = useCompleteWorkout();
   const updateWorkoutMutation = useUpdateWorkout();
 
   function handleCompleteWorkout() {
-    setActiveWorkoutOpen(false);
-    if (workout) {
-      completeWorkout(workout.id);
-    }
+    onSuccess?.();
+    completeWorkout(workout.id);
   }
 
   function handleUpdateWorkoutName(newTitle: string) {
-    if (!workout) return;
-
     updateWorkoutMutation.mutate({
       workoutId: workout.id,
       data: { title: newTitle },
     });
   }
 
-  if (!workout) {
-    return <div>No active workout</div>;
-  }
-
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <Timer workout={workout} />
-        <Button onClick={handleCompleteWorkout}>Finish</Button>
+        {!workout.completedAt && (
+          <>
+            <Timer workout={workout} />
+            <Button onClick={handleCompleteWorkout}>Finish</Button>
+          </>
+        )}
       </div>
       <div className="flex justify-between items-center">
         <h1>{workout.title}</h1>
