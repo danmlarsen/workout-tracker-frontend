@@ -20,7 +20,7 @@ export default function WorkoutHistory() {
         hasMore={hasNextPage}
       >
         {isSuccess && (
-          <ul className="space-y-6">{data.pages.map(group => group.results.map(workout => <WorkoutHistoryItem key={workout.id} data={workout} />))}</ul>
+          <ul className="space-y-6">{data.pages.map(group => group.results.map(workout => <WorkoutHistoryItem key={workout.id} workout={workout} />))}</ul>
         )}
       </InfiniteScroll>
     </div>
