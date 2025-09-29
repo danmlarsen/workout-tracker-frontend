@@ -2,13 +2,10 @@
 
 import { useExercises } from '@/api/exercises/queries';
 import { useAddWorkoutExercise } from '@/api/workouts/mutations';
-import { useActiveWorkout } from '@/api/workouts/queries';
 import ExerciseAvatar from '@/components/ui/exercise-avatar';
 
-export default function ExercisesList({ onExerciseClick }: { onExerciseClick?: () => void }) {
+export default function ExercisesList({ selectedWorkoutId, onExerciseClick }: { selectedWorkoutId?: number; onExerciseClick?: () => void }) {
   const exercises = useExercises();
-  const { data: activeWorkout } = useActiveWorkout();
-
   const mutateWorkoutExercise = useAddWorkoutExercise();
 
   return (
@@ -17,9 +14,9 @@ export default function ExercisesList({ onExerciseClick }: { onExerciseClick?: (
         <li
           key={exercise.id}
           onClick={() => {
-            if (activeWorkout) {
+            if (selectedWorkoutId) {
               mutateWorkoutExercise.mutate(
-                { workoutId: activeWorkout.id, exerciseId: exercise.id },
+                { workoutId: selectedWorkoutId, exerciseId: exercise.id },
                 {
                   onSuccess: () => onExerciseClick?.(),
                 }
