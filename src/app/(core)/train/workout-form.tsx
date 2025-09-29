@@ -46,7 +46,7 @@ export default function WorkoutForm({ workout, onSuccess }: { workout: TWorkout;
       </div>
       <div className="flex justify-between items-center">
         <h1>{workout.title}</h1>
-        {isActiveWorkout || (isEditing && <EditWorkoutNameButton workoutName={workout.title} handleEdit={handleUpdateWorkoutName} />)}
+        {(isActiveWorkout || isEditing) && <EditWorkoutNameButton workoutName={workout.title} handleEdit={handleUpdateWorkoutName} />}
       </div>
 
       {workout.workoutExercises && workout.workoutExercises.length > 0 && (
@@ -56,7 +56,7 @@ export default function WorkoutForm({ workout, onSuccess }: { workout: TWorkout;
           ))}
         </ul>
       )}
-      {isActiveWorkout || (isEditing && <AddExerciseButton workoutId={workout.id} />)}
+      {(isActiveWorkout || isEditing) && <AddExerciseButton workoutId={workout.id} />}
     </div>
   );
 }
