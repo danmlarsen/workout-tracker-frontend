@@ -36,17 +36,17 @@ export default function WorkoutForm({ workout, onSuccess }: { workout: TWorkout;
       </div>
       <div className="flex justify-between items-center">
         <h1>{workout.title}</h1>
-        <EditWorkoutNameButton workoutName={workout.title} handleEdit={handleUpdateWorkoutName} />
+        {!workout.completedAt && <EditWorkoutNameButton workoutName={workout.title} handleEdit={handleUpdateWorkoutName} />}
       </div>
 
       {workout.workoutExercises && workout.workoutExercises.length > 0 && (
         <ul className="space-y-4">
           {workout.workoutExercises.map(workoutExercise => (
-            <WorkoutExercise key={workoutExercise.id} workoutExercise={workoutExercise} />
+            <WorkoutExercise key={workoutExercise.id} workoutExercise={workoutExercise} isEditing={!workout.completedAt} />
           ))}
         </ul>
       )}
-      <AddExerciseButton />
+      {!workout.completedAt && <AddExerciseButton />}
     </div>
   );
 }

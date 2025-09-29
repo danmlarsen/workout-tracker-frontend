@@ -4,7 +4,7 @@ import { useAddWorkoutSet } from '@/api/workouts/mutations';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-export default function WorkoutExercise({ workoutExercise }: { workoutExercise: TWorkoutExercise }) {
+export default function WorkoutExercise({ workoutExercise, isEditing = true }: { workoutExercise: TWorkoutExercise; isEditing?: boolean }) {
   const { mutate: addWorkoutSet } = useAddWorkoutSet();
 
   return (
@@ -23,14 +23,16 @@ export default function WorkoutExercise({ workoutExercise }: { workoutExercise: 
         </TableHeader>
         <TableBody className="text-center">
           {workoutExercise.workoutSets.map(workoutSet => (
-            <WorkoutSet key={workoutSet.id} workoutSet={workoutSet} workoutId={workoutExercise.workoutId} />
+            <WorkoutSet key={workoutSet.id} workoutSet={workoutSet} workoutId={workoutExercise.workoutId} isEditing={isEditing} />
           ))}
         </TableBody>
       </Table>
 
-      <Button onClick={() => addWorkoutSet({ workoutId: workoutExercise.workoutId, workoutExerciseId: workoutExercise.id })} className="w-full">
-        + Add set
-      </Button>
+      {isEditing && (
+        <Button onClick={() => addWorkoutSet({ workoutId: workoutExercise.workoutId, workoutExerciseId: workoutExercise.id })} className="w-full">
+          + Add set
+        </Button>
+      )}
     </li>
   );
 }
