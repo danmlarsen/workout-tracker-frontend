@@ -39,14 +39,16 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
             </TableHeader>
             <TableBody>
               {workoutExercises.map(workoutExercise => {
-                const bestSet = workoutExercise.workoutSets.length
-                  ? `${workoutExercise.workoutSets[0].weight} kg x ${workoutExercise.workoutSets[0].reps}`
-                  : '-';
+                const completedSets = workoutExercise.workoutSets.filter(set => !!set.completedAt);
+
+                if (!completedSets) return null;
+
+                const bestSet = completedSets.length > 0 ? `${completedSets[0].weight} kg x ${completedSets[0].reps}` : '-';
 
                 return (
                   <TableRow key={workoutExercise.id}>
                     <TableCell>{workoutExercise.exercise.name}</TableCell>
-                    <TableCell className="text-center">{workoutExercise.workoutSets.length}</TableCell>
+                    <TableCell className="text-center">{completedSets.length}</TableCell>
                     <TableCell className="text-end">{bestSet}</TableCell>
                   </TableRow>
                 );
