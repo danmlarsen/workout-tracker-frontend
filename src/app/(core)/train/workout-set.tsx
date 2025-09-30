@@ -22,6 +22,20 @@ export default function WorkoutSet({
     updateWorkoutSetMutation.mutate({ workoutId, workoutExerciseId: workoutSet.workoutExerciseId, setId: workoutSet.id, data: payload });
   const debouncedUpdateWorkoutSet = useDebouncedCallback((payload: TWorkoutSetDto) => updateWorkoutSet(payload), 500);
 
+  function handleCheckedChange(isChecked: boolean) {
+    const payload = {
+      weight: workoutSet.weight || previousSet?.weight || undefined,
+      reps: workoutSet.reps || previousSet?.reps || undefined,
+      completed: isChecked,
+    };
+
+    if (isChecked && (!payload.weight || !payload.reps)) {
+      return;
+    }
+
+    updateWorkoutSet(payload);
+  }
+
   return (
     <TableRow className={cn('', workoutSet.completedAt && 'bg-slate-100 hover:bg-slate-50')}>
       <TableCell>{workoutSet.setNumber}</TableCell>
@@ -50,7 +64,7 @@ export default function WorkoutSet({
         <Checkbox
           className="rounded-full size-8"
           checked={!!workoutSet.completedAt}
-          onCheckedChange={isChecked => updateWorkoutSet({ completed: !!isChecked })}
+          onCheckedChange={checked => handleCheckedChange(!!checked)}
           disabled={!isEditing}
         />
       </TableCell>
