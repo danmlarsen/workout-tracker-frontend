@@ -22,8 +22,14 @@ export default function WorkoutExercise({ workoutExercise, isEditing = true }: {
           </TableRow>
         </TableHeader>
         <TableBody className="text-center">
-          {workoutExercise.workoutSets.map(workoutSet => (
-            <WorkoutSet key={workoutSet.id} workoutSet={workoutSet} workoutId={workoutExercise.workoutId} isEditing={isEditing} />
+          {workoutExercise.workoutSets.map((workoutSet, index) => (
+            <WorkoutSet
+              key={workoutSet.id}
+              workoutSet={workoutSet}
+              workoutId={workoutExercise.workoutId}
+              isEditing={isEditing}
+              previousSet={workoutExercise.previousWorkoutExercise?.workoutSets[index]}
+            />
           ))}
         </TableBody>
       </Table>

@@ -24,6 +24,7 @@ export type TWorkoutExercise = {
   exercise: TExercise;
   workoutSets: TWorkoutSet[];
   exerciseOrder: number;
+  previousWorkoutExercise?: TWorkoutExercise;
 };
 
 export type TWorkoutSet = {

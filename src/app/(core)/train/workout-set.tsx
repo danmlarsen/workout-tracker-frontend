@@ -6,7 +6,17 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 import { useDebouncedCallback } from 'use-debounce';
 
-export default function WorkoutSet({ workoutSet, workoutId, isEditing = true }: { workoutSet: TWorkoutSet; workoutId: number; isEditing?: boolean }) {
+export default function WorkoutSet({
+  workoutSet,
+  workoutId,
+  isEditing = true,
+  previousSet,
+}: {
+  workoutSet: TWorkoutSet;
+  workoutId: number;
+  isEditing?: boolean;
+  previousSet?: TWorkoutSet;
+}) {
   const updateWorkoutSetMutation = useUpdateWorkoutSet();
   const updateWorkoutSet = (payload: TWorkoutSetDto) =>
     updateWorkoutSetMutation.mutate({ workoutId, workoutExerciseId: workoutSet.workoutExerciseId, setId: workoutSet.id, data: payload });
@@ -15,11 +25,11 @@ export default function WorkoutSet({ workoutSet, workoutId, isEditing = true }: 
   return (
     <TableRow className={cn('', workoutSet.completedAt && 'bg-slate-100 hover:bg-slate-50')}>
       <TableCell>{workoutSet.setNumber}</TableCell>
-      <TableCell>-</TableCell>
+      <TableCell>{previousSet ? `${previousSet.weight} x ${previousSet.reps}` : '-'}</TableCell>
       <TableCell>
         <Input
           type="number"
-          placeholder=""
+          placeholder={previousSet?.weight ? previousSet.weight.toString() : ''}
           defaultValue={workoutSet.weight?.toString() || ''}
           onChange={e => debouncedUpdateWorkoutSet({ weight: parseInt(e.target.value) })}
           onBlur={e => updateWorkoutSet({ weight: parseInt(e.target.value) })}
@@ -29,7 +39,7 @@ export default function WorkoutSet({ workoutSet, workoutId, isEditing = true }: 
       <TableCell>
         <Input
           type="number"
-          placeholder=""
+          placeholder={previousSet?.reps ? previousSet.reps.toString() : ''}
           defaultValue={workoutSet.reps?.toString() || ''}
           onChange={e => debouncedUpdateWorkoutSet({ reps: parseInt(e.target.value) })}
           onBlur={e => updateWorkoutSet({ reps: parseInt(e.target.value) })}
