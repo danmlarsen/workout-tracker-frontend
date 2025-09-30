@@ -1,16 +1,50 @@
-import { API_TESTING_TOKEN, API_URL } from '@/lib/constants';
+import { API_URL } from '@/lib/constants';
+import { useAuth } from './auth/auth-context';
 
-export const apiClient = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
-  const res = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
-    headers: {
+export const useApiClient = () => {
+  const { accessToken, refresh, logout } = useAuth();
+
+  const apiClient = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
+    const headers = new Headers({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${API_TESTING_TOKEN}`,
       ...options?.headers,
-    },
-    credentials: 'include',
-  });
+    });
 
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
+    if (accessToken) {
+      headers.set('Authorization', `Bearer ${accessToken}`);
+    }
+
+    let res = await fetch(`${API_URL}${endpoint}`, {
+      ...options,
+      headers,
+      credentials: 'include',
+    });
+
+    // If token expired, try refresh flow
+    if (res.status === 401) {
+      try {
+        const newToken = await refresh();
+
+        if (!newToken) throw new Error('No access token after refresh');
+
+        headers.set('Authorization', `Bearer ${newToken}`);
+        res = await fetch(`${API_URL}${endpoint}`, {
+          ...options,
+          headers,
+          credentials: 'include',
+        });
+      } catch (err) {
+        logout();
+        throw err;
+      }
+    }
+
+    if (!res.ok) {
+      throw new Error(await res.text());
+    }
+
+    return res.json();
+  };
+
+  return { apiClient };
 };

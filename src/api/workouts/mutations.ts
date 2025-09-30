@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '../client';
+import { useApiClient } from '../client';
 import { type TWorkoutSetDto, type TUpdateWorkoutDto, type TWorkout } from './types';
 
 export function useCreateActiveWorkout() {
+  const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -17,6 +18,7 @@ export function useCreateActiveWorkout() {
 }
 
 export function useCompleteWorkout() {
+  const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,6 +34,7 @@ export function useCompleteWorkout() {
 }
 
 export function useUpdateWorkout() {
+  const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -47,6 +50,7 @@ export function useUpdateWorkout() {
 }
 
 export function useDeleteWorkout() {
+  const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -62,6 +66,7 @@ export function useDeleteWorkout() {
 }
 
 export function useAddWorkoutExercise() {
+  const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -79,6 +84,7 @@ export function useAddWorkoutExercise() {
 }
 
 export function useAddWorkoutSet() {
+  const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -93,6 +99,7 @@ export function useAddWorkoutSet() {
 }
 
 export function useUpdateWorkoutSet() {
+  const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
