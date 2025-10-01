@@ -6,7 +6,7 @@ export type AuthContextType = {
   accessToken: string | null;
   isLoggedIn: boolean;
   login: (token: string) => void;
-  loginWithCredentials: (email: string, password: string) => Promise<void>;
+  loginWithCredentials: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
   refresh: () => Promise<string | null>;
 };
@@ -28,18 +28,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const loginWithCredentials = async (email: string, password: string) => {
-    const res = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (!res.ok) throw new Error('Invalid credentials');
-    const { access_token: accessToken } = await res.json();
-    setAccessToken(accessToken);
+      if (!res.ok) {
+        const errorMessage = await res.text();
+        return {
+          success: false,
+          message: errorMessage || 'Invalid credentials',
+        };
+      }
+
+      const { access_token: accessToken } = await res.json();
+      setAccessToken(accessToken);
+
+      return {
+        success: true,
+      };
+    } catch {
+      return {
+        success: false,
+        message: 'Network error. Please try again.',
+      };
+    }
   };
 
   const logout = () => {
