@@ -7,7 +7,7 @@ export type AuthContextType = {
   isLoggedIn: boolean;
   login: (token: string) => void;
   loginWithCredentials: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
-  logout: () => void;
+  logout: () => Promise<void>;
   refresh: () => Promise<string | null>;
 };
 
@@ -60,7 +60,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await fetch(`${API_URL}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      credentials: 'include',
+    });
+
     setAccessToken(null);
     queryClient.removeQueries({ queryKey: ['user'] });
   };
