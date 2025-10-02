@@ -2,12 +2,23 @@ import { API_URL } from '@/lib/constants';
 import { useQueryClient } from '@tanstack/react-query';
 import { createContext, useContext, useEffect, useState } from 'react';
 
+export type LoginResult = {
+  success: boolean;
+  message?: string;
+};
+
+export type RegisterResult = {
+  success: boolean;
+  message?: string;
+};
+
 export type AuthContextType = {
   accessToken: string | null;
   isLoggedIn: boolean;
   isLoading: boolean;
   login: (token: string) => void;
-  loginWithCredentials: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  loginWithCredentials: (email: string, password: string) => Promise<LoginResult>;
+  register: (email: string, password: string) => Promise<RegisterResult>;
   logout: () => Promise<void>;
   refresh: () => Promise<string | null>;
 };
@@ -58,6 +69,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return {
         success: false,
         message: 'Network error. Please try again.',
+      };
+    }
+  };
+
+  const register = async (email: string, password: string): Promise<RegisterResult> => {
+    try {
+      const res = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const errorMessage = await res.text();
+        return {
+          success: false,
+          message: errorMessage || 'Registration failed',
+        };
+      }
+
+      return {
+        success: true,
+      };
+    } catch {
+      return {
+        success: false,
+        message: 'Network error. Please try again',
       };
     }
   };
@@ -120,7 +161,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ accessToken, isLoggedIn: !!accessToken, isLoading, login, loginWithCredentials, logout, refresh }}>
+    <AuthContext.Provider value={{ accessToken, isLoggedIn: !!accessToken, isLoading, login, loginWithCredentials, register, logout, refresh }}>
       {children}
     </AuthContext.Provider>
   );
