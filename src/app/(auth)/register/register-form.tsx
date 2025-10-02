@@ -1,12 +1,14 @@
 'use client';
 
+import { useAuth } from '@/api/auth/auth-context';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { passwordSchema } from '@/validation/passwordSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import z from 'zod';
+import z, { email } from 'zod';
 
 const registerSchema = z
   .object({
@@ -29,8 +31,17 @@ export default function RegisterForm() {
     },
   });
 
-  function handleSubmit(data: z.infer<typeof registerSchema>) {
-    console.log(data);
+  const { register } = useAuth();
+  const router = useRouter();
+
+  async function handleSubmit(data: z.infer<typeof registerSchema>) {
+    const response = await register(data.email, data.password);
+
+    if (response.success) {
+      router.push('/login');
+    } else {
+      console.error(response.message);
+    }
   }
 
   return (
