@@ -1,14 +1,21 @@
-'use client';
+"use client";
 
-import { useAuth } from '@/api/auth/auth-context';
-import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { passwordSchema } from '@/validation/passwordSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import z, { email } from 'zod';
+import { useAuth } from "@/api/auth/auth-context";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { passwordSchema } from "@/validation/passwordSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import z, { email } from "zod";
 
 const registerSchema = z
   .object({
@@ -16,18 +23,18 @@ const registerSchema = z
     password: passwordSchema,
     passwordConfirm: z.string(),
   })
-  .refine(data => data.password === data.passwordConfirm, {
-    message: 'Passwords dont match',
-    path: ['passwordConfirm'],
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: "Passwords dont match",
+    path: ["passwordConfirm"],
   });
 
 export default function RegisterForm() {
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      email: '',
-      password: '',
-      passwordConfirm: '',
+      email: "",
+      password: "",
+      passwordConfirm: "",
     },
   });
 
@@ -38,9 +45,18 @@ export default function RegisterForm() {
     const response = await register(data.email, data.password);
 
     if (response.success) {
-      router.push('/login');
+      router.push("/login");
     } else {
-      console.error(response.message);
+      if (response.statusCode === 409) {
+        form.setError("email", {
+          message: response.message,
+        });
+      } else {
+        form.setError("root", {
+          type: "custom",
+          message: response.message,
+        });
+      }
     }
   }
 
@@ -89,6 +105,10 @@ export default function RegisterForm() {
               </FormItem>
             )}
           />
+
+          {form.formState.errors.root?.message && (
+            <FormMessage>{form.formState.errors.root.message}</FormMessage>
+          )}
 
           <Button type="submit" size="lg" className="w-full">
             Register

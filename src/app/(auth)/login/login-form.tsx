@@ -11,7 +11,7 @@ import z from 'zod';
 
 const loginSchema = z.object({
   email: z.email(),
-  password: z.string().min(1),
+  password: z.string().min(1, 'Please enter a password'),
 });
 
 export default function LoginForm() {
@@ -31,13 +31,15 @@ export default function LoginForm() {
 
     if (response.success) {
       router.push('/');
+    } else {
+      form.setError('root', { type: 'custom', message: 'Invalid email and/or password' });
     }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <fieldset className="space-y-4">
+        <fieldset className="space-y-4" disabled={form.formState.isSubmitting}>
           <FormField
             control={form.control}
             name="email"
@@ -65,6 +67,8 @@ export default function LoginForm() {
               </FormItem>
             )}
           />
+
+          {form.formState.errors.root?.message && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
 
           <Button type="submit" size="lg" className="w-full">
             Login

@@ -1,14 +1,16 @@
-import { API_URL } from '@/lib/constants';
-import { useQueryClient } from '@tanstack/react-query';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { API_URL } from "@/lib/constants";
+import { useQueryClient } from "@tanstack/react-query";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export type LoginResult = {
   success: boolean;
+  statusCode?: number;
   message?: string;
 };
 
 export type RegisterResult = {
   success: boolean;
+  statusCode?: number;
   message?: string;
 };
 
@@ -17,7 +19,10 @@ export type AuthContextType = {
   isLoggedIn: boolean;
   isLoading: boolean;
   login: (token: string) => void;
-  loginWithCredentials: (email: string, password: string) => Promise<LoginResult>;
+  loginWithCredentials: (
+    email: string,
+    password: string,
+  ) => Promise<LoginResult>;
   register: (email: string, password: string) => Promise<RegisterResult>;
   logout: () => Promise<void>;
   refresh: () => Promise<string | null>;
@@ -27,7 +32,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
   return ctx;
 };
 
@@ -43,19 +48,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const loginWithCredentials = async (email: string, password: string) => {
     try {
       const res = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
       if (!res.ok) {
-        const errorMessage = await res.text();
+        const parsedResponse = await res.json();
         return {
           success: false,
-          message: errorMessage || 'Invalid credentials',
+          message: parsedResponse?.message || "Invalid credentials",
         };
       }
 
@@ -68,27 +73,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: 'Network error. Please try again.',
+        message: "Network error. Please try again.",
       };
     }
   };
 
-  const register = async (email: string, password: string): Promise<RegisterResult> => {
+  const register = async (
+    email: string,
+    password: string,
+  ): Promise<RegisterResult> => {
     try {
       const res = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
       if (!res.ok) {
-        const errorMessage = await res.text();
+        const parsedResponse = await res.json();
         return {
           success: false,
-          message: errorMessage || 'Registration failed',
+          statusCode: parsedResponse?.statusCode,
+          message: parsedResponse?.message || "Registration failed",
         };
       }
 
@@ -98,7 +107,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: 'Network error. Please try again',
+        message: "Network error. Please try again",
       };
     }
   };
@@ -107,27 +116,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (accessToken) {
       try {
         await fetch(`${API_URL}/auth/logout`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          credentials: 'include',
+          credentials: "include",
         });
       } catch (error) {
-        console.warn('Logout request failed:', error);
+        console.warn("Logout request failed:", error);
       }
     }
 
     setAccessToken(null);
-    queryClient.removeQueries({ queryKey: ['user'] });
+    queryClient.removeQueries({ queryKey: ["user"] });
   };
 
   const refresh = async () => {
     try {
       const res = await fetch(`${API_URL}/auth/refresh`, {
-        method: 'POST',
-        credentials: 'include',
+        method: "POST",
+        credentials: "include",
       });
 
       if (res.ok) {
@@ -152,7 +161,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-100">
         <div className="text-center">
           <p className="text-gray-600">Loading...</p>
         </div>
@@ -161,7 +170,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ accessToken, isLoggedIn: !!accessToken, isLoading, login, loginWithCredentials, register, logout, refresh }}>
+    <AuthContext.Provider
+      value={{
+        accessToken,
+        isLoggedIn: !!accessToken,
+        isLoading,
+        login,
+        loginWithCredentials,
+        register,
+        logout,
+        refresh,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
