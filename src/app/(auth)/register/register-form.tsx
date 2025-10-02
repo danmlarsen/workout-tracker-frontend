@@ -79,7 +79,9 @@ export default function RegisterForm() {
             )}
           />
 
-          <Button type="submit">Register</Button>
+          <Button type="submit" size="lg" className="w-full">
+            Register
+          </Button>
         </fieldset>
       </form>
     </Form>

@@ -66,7 +66,9 @@ export default function LoginForm() {
             )}
           />
 
-          <Button type="submit">Login</Button>
+          <Button type="submit" size="lg" className="w-full">
+            Login
+          </Button>
         </fieldset>
       </form>
     </Form>
