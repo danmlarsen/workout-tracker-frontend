@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 export type AuthContextType = {
   accessToken: string | null;
   isLoggedIn: boolean;
+  isLoading: boolean;
   login: (token: string) => void;
   loginWithCredentials: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => Promise<void>;
@@ -21,6 +22,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const queryClient = useQueryClient();
 
   const login = (token: string) => {
@@ -75,27 +77,45 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const refresh = async () => {
-    const res = await fetch(`${API_URL}/auth/refresh`, {
-      method: 'POST',
-      credentials: 'include',
-    });
+    try {
+      const res = await fetch(`${API_URL}/auth/refresh`, {
+        method: 'POST',
+        credentials: 'include',
+      });
 
-    if (res.ok) {
-      const { access_token: accessToken } = await res.json();
-      setAccessToken(accessToken);
-      return accessToken;
+      if (res.ok) {
+        const { access_token: accessToken } = await res.json();
+        setAccessToken(accessToken);
+        return accessToken;
+      }
+
+      setAccessToken(null);
+      return null;
+    } catch {
+      setAccessToken(null);
+      return null;
+    } finally {
+      setIsLoading(false);
     }
-
-    logout();
-    return null;
   };
 
   useEffect(() => {
     refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <AuthContext.Provider value={{ accessToken, isLoggedIn: !!accessToken, login, loginWithCredentials, logout, refresh }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ accessToken, isLoggedIn: !!accessToken, isLoading, login, loginWithCredentials, logout, refresh }}>
+      {children}
+    </AuthContext.Provider>
   );
 };

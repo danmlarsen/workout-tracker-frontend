@@ -4,28 +4,43 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from './auth-context';
 import { useEffect, useState } from 'react';
 
-export default function AuthGuard({ children, fallback }: { children: React.ReactNode; fallback?: React.ReactNode }) {
+interface AuthGuardProps {
+  children: React.ReactNode;
+  requireAuth?: boolean;
+  redirectTo?: string;
+}
+
+export default function AuthGuard({ children, requireAuth = true, redirectTo }: AuthGuardProps) {
   const router = useRouter();
-  const { isLoggedIn, accessToken } = useAuth();
-  const [isChecking, setIsChecking] = useState(true);
+  const { isLoggedIn } = useAuth();
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    if (accessToken !== null || !isLoggedIn) {
-      setIsChecking(false);
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasMounted) return;
+
+    const shouldRedirect = requireAuth ? !isLoggedIn : isLoggedIn;
+    const defaultRedirect = requireAuth ? '/login' : '/';
+
+    if (shouldRedirect) {
+      router.push(redirectTo || defaultRedirect);
     }
+  }, [hasMounted, isLoggedIn, requireAuth, redirectTo, router]);
 
-    if (!isChecking && !isLoggedIn) {
-      router.push('/login');
-    }
-  }, [accessToken, isLoggedIn, router, isChecking]);
-
-  if (isChecking) {
-    return fallback || <div>Loading...</div>;
-  }
-
-  if (!isLoggedIn) {
+  // Prevent hydration mismatch
+  if (!hasMounted) {
     return null;
   }
 
-  return children;
+  // Check if user should be allowed to see this route
+  const canAccess = requireAuth ? isLoggedIn : !isLoggedIn;
+
+  if (!canAccess) {
+    return null;
+  }
+
+  return <>{children}</>;
 }
