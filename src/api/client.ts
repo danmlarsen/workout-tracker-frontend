@@ -25,7 +25,12 @@ export const useApiClient = () => {
       try {
         const newToken = await refresh();
 
-        if (!newToken) throw new Error('No access token after refresh');
+        if (!newToken) {
+          if (accessToken) {
+            await logout();
+          }
+          throw new Error('No access token after refresh');
+        }
 
         headers.set('Authorization', `Bearer ${newToken}`);
         res = await fetch(`${API_URL}${endpoint}`, {
@@ -34,7 +39,9 @@ export const useApiClient = () => {
           credentials: 'include',
         });
       } catch (err) {
-        logout();
+        if (accessToken) {
+          await logout();
+        }
         throw err;
       }
     }
