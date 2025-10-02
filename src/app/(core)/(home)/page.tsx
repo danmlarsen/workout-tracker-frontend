@@ -1,10 +1,9 @@
-import Link from 'next/link';
-
 export default function HomePage() {
   return (
-    <div>
-      <h1>Home</h1>
-      <Link href="/logout">Logout</Link>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-bold">Home</h1>
+      </div>
     </div>
   );
 }

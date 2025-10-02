@@ -1,19 +1,19 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'History', href: '/history' },
-  { label: 'Train', href: '/train' },
-  { label: 'Exercises', href: '/exercises' },
+  { label: "Home", href: "/" },
+  { label: "Workouts", href: "/workouts" },
+  { label: "Exercises", href: "/exercises" },
+  { label: "Settings", href: "/settings" },
 ];
 
 export default function MobileNav() {
   return (
     <>
-      <div className="h-20" />
-      <nav className="fixed bottom-0 inset-x-0 h-20 bg-black grid text-white">
+      <div className="h-16" />
+      <nav className="bg-foreground text-background border-background fixed inset-x-0 bottom-0 grid h-16 border-t">
         <ul className="grid grid-cols-4">
-          {navItems.map(navItem => (
+          {navItems.map((navItem) => (
             <li key={navItem.label} className="grid">
               <Link href={navItem.href} className="grid place-items-center">
                 {navItem.label}
