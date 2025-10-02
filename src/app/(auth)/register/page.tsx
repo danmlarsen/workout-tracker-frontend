@@ -1,16 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import LoginForm from './login-form';
+import RegisterForm from './register-form';
 import AuthGuard from '@/api/auth/auth-guard';
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <AuthGuard requireAuth={false}>
       <Card className="w-full max-w-lg">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>Register</CardTitle>
         </CardHeader>
         <CardContent>
-          <LoginForm />
+          <RegisterForm />
         </CardContent>
       </Card>
     </AuthGuard>
