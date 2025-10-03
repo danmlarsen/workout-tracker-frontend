@@ -1,15 +1,21 @@
-'use client';
+"use client";
 
-import AddExerciseButton from './add-exercise-button';
-import { useCompleteWorkout, useUpdateWorkout } from '@/api/workouts/mutations';
-import { Button } from '@/components/ui/button';
-import WorkoutExercise from './workout-exercise';
-import EditWorkoutNameButton from './edit-workout-name-button';
-import Timer from '@/components/ui/timer';
-import { type TWorkout } from '@/api/workouts/types';
-import { useState } from 'react';
+import AddExerciseButton from "./add-exercise-button";
+import { useCompleteWorkout, useUpdateWorkout } from "@/api/workouts/mutations";
+import { Button } from "@/components/ui/button";
+import WorkoutExercise from "./workout-exercise";
+import EditWorkoutNameButton from "./edit-workout-name-button";
+import Timer from "@/components/ui/timer";
+import { type TWorkout } from "@/api/workouts/types";
+import { useState } from "react";
 
-export default function WorkoutForm({ workout, onSuccess }: { workout: TWorkout; onSuccess?: () => void }) {
+export default function WorkoutForm({
+  workout,
+  onSuccess,
+}: {
+  workout: TWorkout;
+  onSuccess?: () => void;
+}) {
   const [isEditing, setIsEditing] = useState(false);
 
   const { mutate: completeWorkout } = useCompleteWorkout();
@@ -31,7 +37,7 @@ export default function WorkoutForm({ workout, onSuccess }: { workout: TWorkout;
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         {isActiveWorkout ? (
           <>
             <Timer workout={workout} />
@@ -40,23 +46,36 @@ export default function WorkoutForm({ workout, onSuccess }: { workout: TWorkout;
         ) : (
           <>
             <p>{workout.completedAt}</p>
-            <Button onClick={() => setIsEditing(curState => !curState)}>{isEditing ? 'Done' : 'Edit'}</Button>
+            <Button onClick={() => setIsEditing((curState) => !curState)}>
+              {isEditing ? "Done" : "Edit"}
+            </Button>
           </>
         )}
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <h1>{workout.title}</h1>
-        {(isActiveWorkout || isEditing) && <EditWorkoutNameButton workoutName={workout.title} handleEdit={handleUpdateWorkoutName} />}
+        {(isActiveWorkout || isEditing) && (
+          <EditWorkoutNameButton
+            workoutName={workout.title}
+            handleEdit={handleUpdateWorkoutName}
+          />
+        )}
       </div>
 
       {workout.workoutExercises && workout.workoutExercises.length > 0 && (
         <ul className="space-y-4">
-          {workout.workoutExercises.map(workoutExercise => (
-            <WorkoutExercise key={workoutExercise.id} workoutExercise={workoutExercise} isEditing={isActiveWorkout || isEditing} />
+          {workout.workoutExercises.map((workoutExercise) => (
+            <WorkoutExercise
+              key={workoutExercise.id}
+              workoutExercise={workoutExercise}
+              isEditing={isActiveWorkout || isEditing}
+            />
           ))}
         </ul>
       )}
-      {(isActiveWorkout || isEditing) && <AddExerciseButton workoutId={workout.id} />}
+      {(isActiveWorkout || isEditing) && (
+        <AddExerciseButton workoutId={workout.id} />
+      )}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 const parseToNumberOrNull = (value: string): number | null => {
@@ -26,10 +26,13 @@ export default function WorkoutSet({
   previousSet?: TWorkoutSet;
   placeholderSet?: Partial<TWorkoutSet>;
 }) {
-  console.log(workoutSet.weight);
-
   const [weight, setWeight] = useState(workoutSet.weight?.toString() || "");
   const [reps, setReps] = useState(workoutSet.reps?.toString() || "");
+
+  useEffect(() => {
+    setWeight(workoutSet.weight?.toString() || "");
+    setReps(workoutSet.reps?.toString() || "");
+  }, [workoutSet.weight, workoutSet.reps]);
 
   const updateWorkoutSetMutation = useUpdateWorkoutSet();
   const updateWorkoutSet = (payload: TWorkoutSetDto) =>
@@ -69,8 +72,6 @@ export default function WorkoutSet({
     }
 
     updateWorkoutSet(payload);
-    setWeight(payload.weight?.toString() || "");
-    setReps(payload.reps?.toString() || "");
   }
 
   function handleWeightChange(value: string) {
