@@ -1,4 +1,4 @@
-import { type TExercise } from '../exercises/types';
+import { type TExercise } from "../exercises/types";
 
 export type TWorkoutsQuery = {
   results: TWorkout[];
@@ -40,9 +40,9 @@ export type TWorkoutSet = {
 };
 
 export type TWorkoutSetDto = {
-  reps?: number;
-  weight?: number;
-  duration?: number;
+  reps?: number | null;
+  weight?: number | null;
+  duration?: number | null;
   completed?: boolean;
 };
 
