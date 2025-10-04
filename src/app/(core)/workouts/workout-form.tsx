@@ -8,6 +8,7 @@ import EditWorkoutNameButton from "./edit-workout-name-button";
 import Timer from "@/components/ui/timer";
 import { type TWorkout } from "@/api/workouts/types";
 import { useState } from "react";
+import { formatDate } from "date-fns";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -44,7 +45,7 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
           </>
         ) : (
           <>
-            <p>{workout.completedAt}</p>
+            <p>{formatDate(workout.completedAt!, "EEEE PP")}</p>
             <Button onClick={() => setIsEditing((curState) => !curState)}>
               {isEditing ? "Done" : "Edit"}
             </Button>
