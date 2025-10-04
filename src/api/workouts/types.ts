@@ -49,3 +49,9 @@ export type TWorkoutSetDto = {
 export type TUpdateWorkoutDto = {
   title?: string;
 };
+
+export type TWorkoutStats = {
+  totalWorkouts: number;
+  totalHours: number;
+  totalWeightLifted: number;
+};
