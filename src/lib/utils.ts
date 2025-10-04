@@ -1,3 +1,4 @@
+import { TWorkoutSet } from "@/api/workouts/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -32,4 +33,25 @@ export function formatCompactNumber(value: number): string {
 
 export function formatWeight(value: number): string {
   return formatNumber(value, { compact: true, maximumFractionDigits: 0 });
+}
+
+export function calculateOneRepMax(weight: number, reps: number): number {
+  if (reps === 1) return weight;
+  // Epley formula
+  return weight * (1 + reps / 30);
+}
+
+export function getBestSetByOneRM(sets: TWorkoutSet[]): TWorkoutSet | null {
+  if (sets.length === 0) return null;
+
+  return sets.reduce((best, current) => {
+    const currentOneRM = calculateOneRepMax(current.weight!, current.reps!);
+    const bestOneRM = calculateOneRepMax(best.weight!, best.reps!);
+
+    return currentOneRM > bestOneRM ? current : best;
+  });
+}
+
+export function formatBestSet(bestSet: TWorkoutSet | null): string {
+  return bestSet ? `${bestSet.weight} kg x ${bestSet.reps}` : "-";
 }

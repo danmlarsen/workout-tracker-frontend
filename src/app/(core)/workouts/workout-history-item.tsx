@@ -26,6 +26,7 @@ import { useState } from "react";
 import WorkoutModal from "./workout-modal";
 import { Button } from "@/components/ui/button";
 import { ClockIcon, WeightIcon } from "lucide-react";
+import { formatBestSet, getBestSetByOneRM } from "@/lib/utils";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -100,15 +101,12 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
             <TableBody>
               {workoutExercises.map((workoutExercise) => {
                 const completedSets = workoutExercise.workoutSets.filter(
-                  (set) => !!set.completedAt,
+                  (set) => !!set.completedAt && set.reps && set.weight,
                 );
 
                 if (!completedSets) return null;
 
-                const bestSet =
-                  completedSets.length > 0
-                    ? `${completedSets[0].weight} kg x ${completedSets[0].reps}`
-                    : "-";
+                const bestSet = formatBestSet(getBestSetByOneRM(completedSets));
 
                 return (
                   <TableRow key={workoutExercise.id}>
