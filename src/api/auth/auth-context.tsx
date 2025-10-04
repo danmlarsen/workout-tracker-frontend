@@ -129,7 +129,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     setAccessToken(null);
-    queryClient.removeQueries({ queryKey: ["user"] });
+    queryClient.clear();
   };
 
   const refresh = async () => {
