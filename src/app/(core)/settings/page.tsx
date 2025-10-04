@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function SettingsPage() {
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex min-h-12 items-center justify-between">
         <h1 className="text-xl font-bold">Settings</h1>
       </div>
 
