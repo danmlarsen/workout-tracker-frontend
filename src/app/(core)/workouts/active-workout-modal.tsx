@@ -8,6 +8,9 @@ import {
   DrawerTitle,
 } from "../../../components/ui/drawer";
 import WorkoutForm from "@/app/(core)/workouts/workout-form";
+import { Button } from "@/components/ui/button";
+import { XIcon } from "lucide-react";
+import Timer from "@/components/ui/timer";
 
 export default function ActiveWorkoutModal() {
   const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
@@ -39,12 +42,27 @@ export default function ActiveWorkoutModal() {
       {activeWorkout && (
         <>
           <div className="h-16" />
-          <button
-            onClick={() => setActiveWorkoutOpen(true)}
-            className="bg-foreground text-background fixed inset-x-0 bottom-16 grid h-16 place-items-center"
-          >
-            {activeWorkout?.title}
-          </button>
+          <div className="bg-foreground text-background fixed inset-x-0 bottom-16 grid h-16 grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4">
+            <div>
+              <Button>
+                <XIcon />
+              </Button>
+            </div>
+            <div className="flex flex-col items-center">
+              <div>{activeWorkout.title}</div>
+              <div>
+                <Timer workout={activeWorkout} />
+              </div>
+            </div>
+            <div>
+              <Button
+                variant="secondary"
+                onClick={() => setActiveWorkoutOpen(true)}
+              >
+                Resume
+              </Button>
+            </div>
+          </div>
         </>
       )}
     </>
