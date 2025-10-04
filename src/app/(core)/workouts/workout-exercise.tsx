@@ -10,14 +10,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+type TWorkoutExerciseProps = {
+  workoutExercise: TWorkoutExercise;
+  isEditing?: boolean;
+  isActiveWorkout?: boolean;
+};
+
 export default function WorkoutExercise({
   workoutExercise,
   isEditing = true,
-}: {
-  workoutExercise: TWorkoutExercise;
-  isEditing?: boolean;
-}) {
-  const { mutate: addWorkoutSet } = useAddWorkoutSet();
+  isActiveWorkout = false,
+}: TWorkoutExerciseProps) {
+  const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
 
   const previousSets = workoutExercise.previousWorkoutExercise?.workoutSets;
   const lastSet = previousSets
@@ -52,6 +56,7 @@ export default function WorkoutExercise({
                 isEditing={isEditing}
                 previousSet={previousSets?.[index]}
                 placeholderSet={placeholderSet}
+                isActiveWorkout={isActiveWorkout}
               />
             );
           })}

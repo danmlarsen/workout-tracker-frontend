@@ -9,17 +9,18 @@ import Timer from "@/components/ui/timer";
 import { type TWorkout } from "@/api/workouts/types";
 import { useState } from "react";
 
-export default function WorkoutForm({
-  workout,
-  onSuccess,
-}: {
+type TWorkoutFormProps = {
   workout: TWorkout;
   onSuccess?: () => void;
-}) {
+};
+
+export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
+  const isActiveWorkout = !workout.completedAt;
+
   const [isEditing, setIsEditing] = useState(false);
 
   const { mutate: completeWorkout } = useCompleteWorkout();
-  const updateWorkoutMutation = useUpdateWorkout();
+  const updateWorkoutMutation = useUpdateWorkout(isActiveWorkout);
 
   function handleCompleteWorkout() {
     onSuccess?.();
@@ -32,8 +33,6 @@ export default function WorkoutForm({
       data: { title: newTitle },
     });
   }
-
-  const isActiveWorkout = !workout.completedAt;
 
   return (
     <div className="space-y-8">
@@ -69,12 +68,16 @@ export default function WorkoutForm({
               key={workoutExercise.id}
               workoutExercise={workoutExercise}
               isEditing={isActiveWorkout || isEditing}
+              isActiveWorkout={isActiveWorkout}
             />
           ))}
         </ul>
       )}
       {(isActiveWorkout || isEditing) && (
-        <AddExerciseButton workoutId={workout.id} />
+        <AddExerciseButton
+          workoutId={workout.id}
+          isActiveWorkout={isActiveWorkout}
+        />
       )}
     </div>
   );

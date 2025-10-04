@@ -16,7 +16,7 @@ export function useCreateActiveWorkout() {
         method: "POST",
       }),
     onSuccess: (newWorkout) => {
-      queryClient.setQueryData(["workouts", "activeWorkout"], newWorkout);
+      queryClient.setQueryData(["activeWorkout"], newWorkout);
     },
   });
 }
@@ -31,13 +31,13 @@ export function useCompleteWorkout() {
         method: "POST",
       }),
     onSuccess: () => {
-      queryClient.setQueryData(["workouts", "activeWorkout"], null);
+      queryClient.setQueryData(["activeWorkout"], null);
       queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });
 }
 
-export function useUpdateWorkout() {
+export function useUpdateWorkout(isActiveWorkout?: boolean) {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
@@ -54,7 +54,15 @@ export function useUpdateWorkout() {
         body: JSON.stringify(data),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+      if (isActiveWorkout) {
+        queryClient.invalidateQueries({
+          queryKey: ["activeWorkout"],
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ["workouts"],
+        });
+      }
     },
   });
 }
@@ -75,7 +83,7 @@ export function useDeleteWorkout() {
   });
 }
 
-export function useAddWorkoutExercise() {
+export function useAddWorkoutExercise(isActiveWorkout?: boolean) {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
@@ -94,12 +102,20 @@ export function useAddWorkoutExercise() {
         }),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+      if (isActiveWorkout) {
+        queryClient.invalidateQueries({
+          queryKey: ["activeWorkout"],
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ["workouts"],
+        });
+      }
     },
   });
 }
 
-export function useAddWorkoutSet() {
+export function useAddWorkoutSet(isActiveWorkout?: boolean) {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
@@ -118,12 +134,20 @@ export function useAddWorkoutSet() {
         },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+      if (isActiveWorkout) {
+        queryClient.invalidateQueries({
+          queryKey: ["activeWorkout"],
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ["workouts"],
+        });
+      }
     },
   });
 }
 
-export function useUpdateWorkoutSet() {
+export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
@@ -147,9 +171,15 @@ export function useUpdateWorkoutSet() {
         },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["workouts"],
-      });
+      if (isActiveWorkout) {
+        queryClient.invalidateQueries({
+          queryKey: ["activeWorkout"],
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ["workouts"],
+        });
+      }
     },
   });
 }

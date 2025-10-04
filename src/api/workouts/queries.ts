@@ -28,7 +28,7 @@ export function useCompletedWorkouts() {
       );
     },
     initialPageParam: undefined,
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 }
 
@@ -45,7 +45,7 @@ export function useActiveWorkout() {
   const { apiClient } = useApiClient();
 
   return useQuery<TWorkout | null>({
-    queryKey: ["workouts", "activeWorkout"],
+    queryKey: ["activeWorkout"],
     queryFn: () => apiClient<TWorkout | null>("/workouts/active"),
     staleTime: 0,
   });

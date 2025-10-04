@@ -10,13 +10,18 @@ import {
 } from "@/components/ui/drawer";
 import ExercisesList from "../exercises/exercises-list";
 import { useState } from "react";
+import { useAddWorkoutExercise } from "@/api/workouts/mutations";
 
 export default function AddExerciseButton({
   workoutId,
+  isActiveWorkout = false,
 }: {
   workoutId: number;
+  isActiveWorkout?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const mutateWorkoutExercise = useAddWorkoutExercise(isActiveWorkout);
 
   return (
     <Drawer open={isOpen} onOpenChange={(newState) => setIsOpen(newState)}>
@@ -29,8 +34,16 @@ export default function AddExerciseButton({
         </DrawerHeader>
         <div className="overflow-y-auto px-4 pb-6">
           <ExercisesList
-            selectedWorkoutId={workoutId}
-            onExerciseClick={() => setIsOpen(false)}
+            onExerciseClick={(exerciseId) => {
+              mutateWorkoutExercise.mutate(
+                { workoutId, exerciseId },
+                {
+                  onSuccess: () => {
+                    setIsOpen(false);
+                  },
+                },
+              );
+            }}
           />
         </div>
       </DrawerContent>

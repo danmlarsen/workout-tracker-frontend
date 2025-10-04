@@ -13,19 +13,23 @@ const parseToNumberOrNull = (value: string): number | null => {
   return isNaN(parsed) ? null : parsed;
 };
 
+type TWorkoutSetProps = {
+  workoutSet: TWorkoutSet;
+  workoutId: number;
+  isEditing?: boolean;
+  isActiveWorkout?: boolean;
+  previousSet?: TWorkoutSet;
+  placeholderSet?: Partial<TWorkoutSet>;
+};
+
 export default function WorkoutSet({
   workoutSet,
   workoutId,
   isEditing = true,
+  isActiveWorkout = false,
   previousSet,
   placeholderSet,
-}: {
-  workoutSet: TWorkoutSet;
-  workoutId: number;
-  isEditing?: boolean;
-  previousSet?: TWorkoutSet;
-  placeholderSet?: Partial<TWorkoutSet>;
-}) {
+}: TWorkoutSetProps) {
   const [weight, setWeight] = useState(workoutSet.weight?.toString() || "");
   const [reps, setReps] = useState(workoutSet.reps?.toString() || "");
 
@@ -34,7 +38,7 @@ export default function WorkoutSet({
     setReps(workoutSet.reps?.toString() || "");
   }, [workoutSet.weight, workoutSet.reps]);
 
-  const updateWorkoutSetMutation = useUpdateWorkoutSet();
+  const updateWorkoutSetMutation = useUpdateWorkoutSet(isActiveWorkout);
   const updateWorkoutSet = (payload: TWorkoutSetDto) =>
     updateWorkoutSetMutation.mutate({
       workoutId,
