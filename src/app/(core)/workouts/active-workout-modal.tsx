@@ -9,8 +9,8 @@ import {
 } from "../../../components/ui/drawer";
 import WorkoutForm from "@/app/(core)/workouts/workout-form";
 import { Button } from "@/components/ui/button";
-import { XIcon } from "lucide-react";
 import Timer from "@/components/ui/timer";
+import DeleteActiveWorkoutDialog from "./delete-active-workout-dialog";
 
 export default function ActiveWorkoutModal() {
   const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
@@ -42,11 +42,9 @@ export default function ActiveWorkoutModal() {
       {activeWorkout && (
         <>
           <div className="h-16" />
-          <div className="bg-foreground text-background fixed inset-x-0 bottom-16 grid h-16 grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4">
+          <div className="bg-foreground/90 text-background fixed inset-x-0 bottom-16 grid h-16 grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4">
             <div>
-              <Button>
-                <XIcon />
-              </Button>
+              <DeleteActiveWorkoutDialog />
             </div>
             <div className="flex flex-col items-center">
               <div>{activeWorkout.title}</div>

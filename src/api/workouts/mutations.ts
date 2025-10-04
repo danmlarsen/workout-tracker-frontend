@@ -37,6 +37,21 @@ export function useCompleteWorkout() {
   });
 }
 
+export function useDeleteActiveWorkout() {
+  const { apiClient } = useApiClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () =>
+      apiClient<TWorkout>("/workouts/active", {
+        method: "DELETE",
+      }),
+    onSuccess: () => {
+      queryClient.setQueryData(["activeWorkout"], null);
+    },
+  });
+}
+
 export function useUpdateWorkout(isActiveWorkout?: boolean) {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
