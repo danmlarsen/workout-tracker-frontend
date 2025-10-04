@@ -25,7 +25,7 @@ import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu
 import { useState } from "react";
 import WorkoutModal from "./workout-modal";
 import { Button } from "@/components/ui/button";
-import { ClockIcon, WeightIcon } from "lucide-react";
+import { ClockIcon, MaximizeIcon, WeightIcon } from "lucide-react";
 import { formatBestSet, getBestSetByOneRM } from "@/lib/utils";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
@@ -69,8 +69,12 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
           <div className="flex items-center justify-between">
             <CardTitle>{title}</CardTitle>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" onClick={() => setModalIsOpen(true)}>
-                Open
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setModalIsOpen(true)}
+              >
+                <MaximizeIcon />
               </Button>
               <WorkoutHistoryItemDropdownMenu workoutId={id} />
             </div>
