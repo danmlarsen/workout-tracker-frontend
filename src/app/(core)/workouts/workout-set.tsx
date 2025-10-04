@@ -76,29 +76,29 @@ export default function WorkoutSet({
 
   function handleWeightChange(value: string) {
     setWeight(value);
-    const numericvalue = parseToNumberOrNull(value);
-    debouncedUpdateWeight(numericvalue);
+    const numericValue = parseToNumberOrNull(value);
+    debouncedUpdateWeight(numericValue);
   }
 
   function handleWeightBlur() {
     debouncedUpdateWeight.cancel();
-    const numericvalue = parseToNumberOrNull(weight);
-    if (numericvalue !== workoutSet.weight) {
-      updateWorkoutSet({ weight: numericvalue });
+    const numericValue = parseToNumberOrNull(weight);
+    if (numericValue !== workoutSet.weight) {
+      updateWorkoutSet({ weight: numericValue });
     }
   }
 
   function handleRepsChange(value: string) {
     setReps(value);
-    const numericvalue = parseToNumberOrNull(value);
-    debouncedUpdateReps(numericvalue);
+    const numericValue = parseToNumberOrNull(value);
+    debouncedUpdateReps(numericValue);
   }
 
   function handleRepsBlur() {
     debouncedUpdateReps.cancel();
-    const numericvalue = parseToNumberOrNull(reps);
-    if (numericvalue !== workoutSet.reps) {
-      updateWorkoutSet({ reps: numericvalue });
+    const numericValue = parseToNumberOrNull(reps);
+    if (numericValue !== workoutSet.reps) {
+      updateWorkoutSet({ reps: numericValue });
     }
   }
 
