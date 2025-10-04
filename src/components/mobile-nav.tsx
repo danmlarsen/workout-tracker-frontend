@@ -11,7 +11,7 @@ export default function MobileNav() {
   return (
     <>
       <div className="h-16" />
-      <nav className="bg-foreground text-background border-background fixed inset-x-0 bottom-0 grid h-16 border-t">
+      <nav className="bg-foreground text-background border-background fixed inset-x-0 bottom-0 grid h-16">
         <ul className="grid grid-cols-4">
           {navItems.map((navItem) => (
             <li key={navItem.label} className="grid">

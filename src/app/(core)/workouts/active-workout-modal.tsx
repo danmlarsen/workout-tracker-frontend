@@ -43,7 +43,7 @@ export default function ActiveWorkoutModal() {
         <>
           <div className="h-16" />
           <div className="bg-foreground/90 text-background fixed inset-x-0 bottom-16 grid h-16 grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4">
-            <div>
+            <div className="flex items-center justify-start">
               <DeleteActiveWorkoutDialog />
             </div>
             <div className="flex flex-col items-center">
@@ -52,9 +52,10 @@ export default function ActiveWorkoutModal() {
                 <Timer workout={activeWorkout} />
               </div>
             </div>
-            <div>
+            <div className="flex items-center justify-end">
               <Button
                 variant="secondary"
+                size="sm"
                 onClick={() => setActiveWorkoutOpen(true)}
               >
                 Resume
