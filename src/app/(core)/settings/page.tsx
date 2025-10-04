@@ -7,8 +7,13 @@ export default function SettingsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Settings</h1>
       </div>
+
+      <Button className="w-full">Account settings</Button>
       <Button asChild className="w-full">
         <Link href="/logout">Logout</Link>
+      </Button>
+      <Button variant="destructive" className="w-full">
+        Delete account
       </Button>
     </div>
   );
