@@ -1,6 +1,11 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useApiClient } from "../client";
-import { TWorkoutStats, type TWorkout, type TWorkoutsQuery } from "./types";
+import {
+  TWorkoutCalendarData,
+  TWorkoutStats,
+  type TWorkout,
+  type TWorkoutsQuery,
+} from "./types";
 
 export function useWorkouts() {
   const { apiClient } = useApiClient();
@@ -57,5 +62,16 @@ export function useWorkoutStats() {
   return useQuery<TWorkoutStats>({
     queryKey: ["workouts", "stats"],
     queryFn: () => apiClient<TWorkoutStats>("/workouts/stats"),
+  });
+}
+
+export function useWorkoutCalendar(year: number) {
+  const { apiClient } = useApiClient();
+
+  return useQuery<TWorkoutCalendarData>({
+    queryKey: ["workouts", "workoutDates", year],
+    queryFn: () =>
+      apiClient<TWorkoutCalendarData>(`/workouts/calendar?year=${year}`),
+    staleTime: 60 * 60 * 1000,
   });
 }

@@ -55,3 +55,8 @@ export type TWorkoutStats = {
   totalHours: number;
   totalWeightLifted: number;
 };
+
+export type TWorkoutCalendarData = {
+  workoutDates: string[];
+  totalWorkouts: number;
+};
