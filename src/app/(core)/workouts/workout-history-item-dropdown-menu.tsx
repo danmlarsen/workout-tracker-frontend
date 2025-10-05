@@ -1,6 +1,5 @@
 "use client";
 
-import { useDeleteWorkout } from "@/api/workouts/mutations";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,29 +8,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontalIcon } from "lucide-react";
+import DeleteWorkoutDialog from "./delete-workout-dialog";
+import { useState } from "react";
 
 export default function WorkoutHistoryItemDropdownMenu({
   workoutId,
 }: {
   workoutId: number;
 }) {
-  const { mutate: deleteWorkout } = useDeleteWorkout();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="ghost">
-          <MoreHorizontalIcon />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>Edit Workout</DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Button variant="ghost" onClick={() => deleteWorkout(workoutId)}>
-            Delete Workout
+    <>
+      <DeleteWorkoutDialog
+        workoutId={workoutId}
+        isOpen={deleteDialogOpen}
+        onOpenChange={(newValue) => setDeleteDialogOpen(newValue)}
+      />
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button size="icon" variant="ghost">
+            <MoreHorizontalIcon />
           </Button>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Edit Workout</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Button variant="ghost" onClick={() => setDeleteDialogOpen(true)}>
+              Delete Workout
+            </Button>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 }
