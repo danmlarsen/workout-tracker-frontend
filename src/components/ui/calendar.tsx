@@ -31,7 +31,7 @@ function Calendar({
       showOutsideDays={showOutsideDays}
       modifiers={modifiers}
       modifiersClassNames={{
-        workout: "bg-blue-200 text-blue-800 rounded-full",
+        workout: "bg-slate-600 text-slate-100 rounded-full",
       }}
       className={cn(
         "bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
@@ -45,6 +45,7 @@ function Calendar({
           date.toLocaleString("default", { month: "short" }),
         ...formatters,
       }}
+      disabled={(date) => date > new Date()}
       classNames={{
         root: cn("w-fit", defaultClassNames.root),
         months: cn(
@@ -105,7 +106,7 @@ function Calendar({
           defaultClassNames.week_number,
         ),
         day: cn(
-          "relative w-full h-full p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md group/day aspect-square select-none",
+          "relative w-full h-full p-0 m-0.5 text-center group/day aspect-square select-none",
           defaultClassNames.day,
         ),
         range_start: cn(
@@ -115,7 +116,7 @@ function Calendar({
         range_middle: cn("rounded-none", defaultClassNames.range_middle),
         range_end: cn("rounded-r-md bg-accent", defaultClassNames.range_end),
         today: cn(
-          "bg-slate-300 text-accent-foreground rounded-full data-[selected=true]:rounded-none",
+          "bg-slate-300 text-accent-foreground rounded-full",
           defaultClassNames.today,
         ),
         outside: cn(
