@@ -26,7 +26,7 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
   const updateWorkoutMutation = useUpdateWorkout(isActiveWorkout);
 
   const hasIncompleteSets =
-    workout.workoutExercises.filter(
+    workout.workoutExercises?.filter(
       (workoutExercise) =>
         workoutExercise.workoutSets?.filter((set) => !set.completedAt).length >
         0,
