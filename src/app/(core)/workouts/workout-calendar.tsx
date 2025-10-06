@@ -2,12 +2,14 @@
 
 import { useWorkoutCalendar } from "@/api/workouts/queries";
 import { Calendar } from "@/components/ui/calendar";
-import { useState } from "react";
 
-export default function WorkoutCalendar() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date(),
-  );
+export default function WorkoutCalendar({
+  selectedDate,
+  setSelectedDate,
+}: {
+  selectedDate: Date | undefined;
+  setSelectedDate: (value: Date | undefined) => void;
+}) {
   const currentDate = selectedDate || new Date();
 
   const { data: calendarData } = useWorkoutCalendar(currentDate.getFullYear());

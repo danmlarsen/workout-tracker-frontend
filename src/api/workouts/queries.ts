@@ -16,15 +16,22 @@ export function useWorkouts() {
   });
 }
 
-export function useCompletedWorkouts() {
+export function useCompletedWorkouts(selectedDate?: Date) {
   const { apiClient } = useApiClient();
 
+  const dateString = selectedDate
+    ? selectedDate.toLocaleDateString("en-CA")
+    : undefined;
+
   return useInfiniteQuery<TWorkoutsQuery>({
-    queryKey: ["workouts"],
+    queryKey: dateString ? ["workouts", dateString] : ["workouts"],
     queryFn: ({ pageParam = undefined }) => {
       const searchParams = new URLSearchParams();
       if (pageParam) {
         searchParams.set("cursor", String(pageParam));
+      }
+      if (dateString) {
+        searchParams.set("date", dateString);
       }
       const queryString = searchParams.toString();
 
