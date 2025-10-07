@@ -17,7 +17,7 @@ export default function CoreLayout({
       <ActiveWorkoutProvider>
         <div className="min-h-screen bg-gray-200">
           <div className="p-4">
-            <div className="mx-auto max-w-3xl">{children}</div>
+            <div className="mx-auto max-w-lg">{children}</div>
           </div>
 
           <ActiveWorkoutModal />

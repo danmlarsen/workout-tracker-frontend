@@ -115,7 +115,7 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
             <TableHeader>
               <TableRow>
                 <TableHead>Exercise</TableHead>
-                <TableHead className="w-10 text-center">Sets</TableHead>
+                <TableHead className="w-8 text-center">Sets</TableHead>
                 <TableHead className="w-30 text-end">Best Set</TableHead>
               </TableRow>
             </TableHeader>
@@ -130,13 +130,13 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
                 const { exercise } = workoutExercise;
                 const bestSet = formatBestSet(getBestSetByOneRM(completedSets));
 
-                const NAME_MAXLENGTH = 26;
+                const NAME_MAXLENGTH = 20;
 
                 return (
                   <TableRow key={workoutExercise.id}>
                     <TableCell>
                       {exercise.name.length >= NAME_MAXLENGTH
-                        ? `${exercise.name.slice(0, NAME_MAXLENGTH - 3)}...`
+                        ? `${exercise.name.slice(0, NAME_MAXLENGTH - 3).trim()}...`
                         : exercise.name}
                     </TableCell>
                     <TableCell className="text-center">
