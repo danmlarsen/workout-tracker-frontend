@@ -25,7 +25,12 @@ import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu
 import { useState } from "react";
 import WorkoutModal from "./workout-modal";
 import { Button } from "@/components/ui/button";
-import { ClockIcon, MaximizeIcon, WeightIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  ClockIcon,
+  MaximizeIcon,
+  WeightIcon,
+} from "lucide-react";
 import { formatBestSet, getBestSetByOneRM } from "@/lib/utils";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
@@ -57,6 +62,12 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
     0,
   );
 
+  const totalCompletedSets = workout.workoutExercises.reduce(
+    (total, exercise) =>
+      total + exercise.workoutSets?.filter((set) => !!set.completedAt)?.length,
+    0,
+  );
+
   return (
     <>
       <WorkoutModal
@@ -82,15 +93,21 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
           <CardDescription>{formatDate(createdAt, "EEEE PP")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between gap-4 text-sm">
             {workoutDuration && (
               <div className="flex items-center gap-2">
-                <ClockIcon className="size-4" /> <span>{workoutDuration}</span>
+                <ClockIcon size={16} /> <span>{workoutDuration}</span>
               </div>
             )}
             {totalWeight && (
               <div className="flex items-center gap-2">
-                <WeightIcon className="size-4" /> <span>{totalWeight}kg</span>
+                <WeightIcon size={16} /> <span>{totalWeight}kg</span>
+              </div>
+            )}
+            {totalCompletedSets && (
+              <div className="flex items-center gap-2">
+                <CheckCircleIcon size={16} />{" "}
+                <span>{totalCompletedSets} sets</span>
               </div>
             )}
           </div>
