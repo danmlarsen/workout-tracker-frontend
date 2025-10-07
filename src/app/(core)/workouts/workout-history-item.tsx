@@ -127,11 +127,18 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
 
                 if (!completedSets) return null;
 
+                const { exercise } = workoutExercise;
                 const bestSet = formatBestSet(getBestSetByOneRM(completedSets));
+
+                const NAME_MAXLENGTH = 26;
 
                 return (
                   <TableRow key={workoutExercise.id}>
-                    <TableCell>{workoutExercise.exercise.name}</TableCell>
+                    <TableCell>
+                      {exercise.name.length >= NAME_MAXLENGTH
+                        ? `${exercise.name.slice(0, NAME_MAXLENGTH - 3)}...`
+                        : exercise.name}
+                    </TableCell>
                     <TableCell className="text-center">
                       {completedSets.length}
                     </TableCell>
