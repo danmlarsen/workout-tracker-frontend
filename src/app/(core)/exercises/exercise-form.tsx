@@ -1,54 +1,41 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import z from 'zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
-import { useCreateExercise } from '@/api/exercises/mutations';
-
-const equipment = ['Barbell', 'Dumbbell', 'Kettlebell', 'Machine', 'Bodyweight', 'Cardio', 'Smith Machine', 'Cable', 'Safety Bar', 'Other'];
-const muscleGroups = [
-  'Chest',
-  'Front Delts',
-  'Middle Delts',
-  'Rear Delts',
-  'Biceps',
-  'Triceps',
-  'Forearms',
-  'Lats',
-  'Upper Back',
-  'Lower Back',
-  'Neck',
-  'Abs',
-  'Glutes',
-  'Hamstrings',
-  'Quadriceps',
-  'Abductors',
-  'Adductors',
-  'Calves',
-  'Olympic',
-  'Full-Body',
-  'Other',
-];
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { useCreateExercise } from "@/api/exercises/mutations";
+import { EQUIPMENT_OPTIONS, MUSCLE_GROUP_OPTIONS } from "@/lib/constants";
 
 const exerciseSchema = z.object({
   name: z.string().min(2),
-  type: z.enum(['reps', 'time']),
-  equipment: z.enum(equipment),
-  muscleGroups: z.array(z.enum(muscleGroups)).min(1),
+  type: z.enum(["reps", "time"]),
+  equipment: z.enum(EQUIPMENT_OPTIONS),
+  muscleGroups: z.array(z.enum(MUSCLE_GROUP_OPTIONS)).min(1),
 });
 
-export default function ExerciseForm({ onSuccess }: { onSuccess?: () => void }) {
+export default function ExerciseForm({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) {
   const form = useForm<z.infer<typeof exerciseSchema>>({
     resolver: zodResolver(exerciseSchema),
     defaultValues: {
-      name: '',
-      type: 'reps',
-      equipment: 'barbell',
+      name: "",
+      type: "reps",
+      equipment: "Barbell",
       muscleGroups: [],
     },
   });
@@ -84,9 +71,13 @@ export default function ExerciseForm({ onSuccess }: { onSuccess?: () => void }) 
             <FormItem>
               <FormLabel>Target Type</FormLabel>
               <FormControl>
-                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex">
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex"
+                >
                   <FormItem>
-                    <FormLabel className="has-checked:bg-blue-500 p-4 bg-gray-200 rounded-sm">
+                    <FormLabel className="rounded-sm bg-gray-200 p-4 has-checked:bg-blue-500">
                       <FormControl>
                         <RadioGroupItem value="reps" className="sr-only" />
                       </FormControl>
@@ -94,7 +85,7 @@ export default function ExerciseForm({ onSuccess }: { onSuccess?: () => void }) 
                     </FormLabel>
                   </FormItem>
                   <FormItem>
-                    <FormLabel className="has-checked:bg-blue-500 p-4 bg-gray-200 rounded-sm">
+                    <FormLabel className="rounded-sm bg-gray-200 p-4 has-checked:bg-blue-500">
                       <FormControl>
                         <RadioGroupItem value="time" className="sr-only" />
                       </FormControl>
@@ -114,10 +105,14 @@ export default function ExerciseForm({ onSuccess }: { onSuccess?: () => void }) 
             <FormItem>
               <FormLabel>Equipment</FormLabel>
               <FormControl>
-                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-2">
-                  {equipment.map(item => (
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="grid grid-cols-2"
+                >
+                  {EQUIPMENT_OPTIONS.map((item) => (
                     <FormItem key={item}>
-                      <FormLabel className="has-checked:bg-blue-500 p-4 bg-gray-200 rounded-sm">
+                      <FormLabel className="rounded-sm bg-gray-200 p-4 has-checked:bg-blue-500">
                         <FormControl>
                           <RadioGroupItem value={item} className="sr-only" />
                         </FormControl>
@@ -138,19 +133,28 @@ export default function ExerciseForm({ onSuccess }: { onSuccess?: () => void }) 
             <FormItem>
               <FormLabel>Muscle Group</FormLabel>
               <div className="grid grid-cols-2 gap-2">
-                {muscleGroups.map(muscleGroup => (
+                {MUSCLE_GROUP_OPTIONS.map((muscleGroup) => (
                   <FormField
                     key={muscleGroup}
                     control={form.control}
                     name="muscleGroups"
                     render={({ field }) => (
                       <FormItem key={muscleGroup}>
-                        <FormLabel className="has-checked:bg-blue-500 p-4 bg-gray-200 rounded-sm">
+                        <FormLabel className="rounded-sm bg-gray-200 p-4 has-checked:bg-blue-500">
                           <FormControl>
                             <Checkbox
                               checked={field.value?.includes(muscleGroup)}
-                              onCheckedChange={checked =>
-                                checked ? field.onChange([...field.value, muscleGroup]) : field.onChange(field.value?.filter(value => value !== muscleGroup))
+                              onCheckedChange={(checked) =>
+                                checked
+                                  ? field.onChange([
+                                      ...field.value,
+                                      muscleGroup,
+                                    ])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== muscleGroup,
+                                      ),
+                                    )
                               }
                               className="sr-only"
                             />

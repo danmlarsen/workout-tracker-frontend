@@ -39,7 +39,7 @@ export default function ExercisesList({
                     {exercise.muscleGroups.map((muscleGroup, idx) => (
                       <span
                         key={muscleGroup}
-                        className="text-muted-foreground text-xs"
+                        className="text-muted-foreground text-xs capitalize"
                       >
                         {muscleGroup}
                         {idx + 1 !== exercise.muscleGroups.length ? ", " : ""}
