@@ -1,19 +1,15 @@
 "use client";
 
 import { useInfiniteExercises } from "@/api/exercises/queries";
+import { type TExercisesQueryFilters } from "@/api/exercises/types";
 import ExerciseAvatar from "@/components/ui/exercise-avatar";
-import { TEquipment, TMuscleGroup } from "@/lib/constants";
 import InfiniteScroll from "react-infinite-scroller";
 
 export default function ExercisesList({
   filters,
   onExerciseClick,
 }: {
-  filters?: {
-    name?: string;
-    muscleGroups?: TMuscleGroup[];
-    equipment?: TEquipment[];
-  };
+  filters?: TExercisesQueryFilters;
   onExerciseClick?: (id: number) => void;
 }) {
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteExercises(
@@ -21,6 +17,8 @@ export default function ExercisesList({
       filters,
     },
   );
+
+  console.log(filters);
 
   return (
     <InfiniteScroll

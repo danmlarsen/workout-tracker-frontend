@@ -35,7 +35,7 @@ export default function ExerciseForm({
     defaultValues: {
       name: "",
       type: "reps",
-      equipment: "Barbell",
+      equipment: "barbell",
       muscleGroups: [],
     },
   });

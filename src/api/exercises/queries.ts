@@ -1,5 +1,9 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { TExercisesQuery, type TExercise } from "./types";
+import {
+  type TExercisesQuery,
+  type TExercisesQueryFilters,
+  type TExercise,
+} from "./types";
 import { useApiClient } from "../client";
 
 export const useExercises = () => {
@@ -14,7 +18,7 @@ export const useExercises = () => {
 export const useInfiniteExercises = ({
   filters,
 }: {
-  filters?: { name?: string; muscleGroups?: string[]; equipment?: string[] };
+  filters?: TExercisesQueryFilters;
 } = {}) => {
   const { apiClient } = useApiClient();
 

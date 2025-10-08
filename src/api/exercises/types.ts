@@ -1,3 +1,5 @@
+import { type TEquipment, type TMuscleGroup } from "@/lib/constants";
+
 export type TExercise = {
   id: number;
   name: string;
@@ -19,4 +21,10 @@ export type TExerciseDto = {
 export type TExercisesQuery = {
   results: TExercise[];
   nextCursor: number;
+};
+
+export type TExercisesQueryFilters = {
+  name?: string;
+  muscleGroups?: TMuscleGroup[];
+  equipment?: TEquipment[];
 };
