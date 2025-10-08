@@ -19,7 +19,7 @@ import { useCreateExercise } from "@/api/exercises/mutations";
 import { EQUIPMENT_OPTIONS, MUSCLE_GROUP_OPTIONS } from "@/lib/constants";
 
 const exerciseSchema = z.object({
-  name: z.string().min(2),
+  name: z.string().min(2, "Exercise name too short (min 2 characters)"),
   type: z.enum(["reps", "time"]),
   equipment: z.enum(EQUIPMENT_OPTIONS),
   muscleGroups: z.array(z.enum(MUSCLE_GROUP_OPTIONS)).min(1),
