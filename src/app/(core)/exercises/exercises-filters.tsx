@@ -1,96 +1,93 @@
 "use client";
 
-import { TExercisesQueryFilters } from "@/api/exercises/types";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   EQUIPMENT_OPTIONS,
   MUSCLE_GROUP_OPTIONS,
   TEquipment,
   TMuscleGroup,
 } from "@/lib/constants";
-import { useCallback, useEffect, useState } from "react";
 
 export default function ExercisesFilters({
-  onFiltersChange,
+  nameFilter,
+  selectedEquipment,
+  selectedMuscleGroups,
+  onNameFilterChange,
+  onEquipmentChange,
+  onMuscleGroupsChange,
 }: {
-  onFiltersChange: (filters: TExercisesQueryFilters) => void;
+  nameFilter: string;
+  selectedEquipment: TEquipment[];
+  selectedMuscleGroups: TMuscleGroup[];
+  onNameFilterChange: (name: string) => void;
+  onEquipmentChange: (equipment: TEquipment[]) => void;
+  onMuscleGroupsChange: (muscleGroups: TMuscleGroup[]) => void;
 }) {
-  const [nameFilter, setNameFilter] = useState("");
-  const [selectedMuscleGroups, setSelectedMuscleGroups] = useState<
-    TMuscleGroup[]
-  >([]);
-  const [selectedEquipment, setSelectedEquipment] = useState<TEquipment[]>([]);
+  const toggleEquipment = (equipment: TEquipment) => {
+    onEquipmentChange(
+      selectedEquipment.includes(equipment)
+        ? selectedEquipment.filter((e) => e !== equipment)
+        : [...selectedEquipment, equipment],
+    );
+  };
 
-  const updateFilters = useCallback(() => {
-    const filters: TExercisesQueryFilters = {};
-
-    if (nameFilter.trim()) filters.name = nameFilter.trim();
-    if (selectedEquipment.length > 0) filters.equipment = selectedEquipment;
-    if (selectedMuscleGroups.length > 0)
-      filters.muscleGroups = selectedMuscleGroups;
-
-    onFiltersChange(filters);
-  }, [nameFilter, selectedEquipment, selectedMuscleGroups, onFiltersChange]);
-
-  useEffect(() => {
-    const timer = setTimeout(updateFilters, 500);
-    return () => clearTimeout(timer);
-  }, [nameFilter, updateFilters]);
-
-  useEffect(() => {
-    updateFilters();
-  }, [selectedEquipment, selectedMuscleGroups, updateFilters]);
+  const toggleMuscleGroup = (muscleGroup: TMuscleGroup) => {
+    onMuscleGroupsChange(
+      selectedMuscleGroups.includes(muscleGroup)
+        ? selectedMuscleGroups.filter((mg) => mg !== muscleGroup)
+        : [...selectedMuscleGroups, muscleGroup],
+    );
+  };
 
   return (
-    <div className="grid grid-cols-2">
-      <DropdownMenu>
-        <DropdownMenuTrigger>Equipment</DropdownMenuTrigger>
-        <DropdownMenuContent>
-          {EQUIPMENT_OPTIONS.map((equipment) => (
-            <DropdownMenuCheckboxItem
-              key={equipment}
-              className="capitalize"
-              checked={selectedEquipment.includes(equipment)}
-              onCheckedChange={() =>
-                setSelectedEquipment((prev) =>
-                  prev.includes(equipment)
-                    ? prev.filter((e) => e !== equipment)
-                    : [...prev, equipment],
-                )
-              }
-            >
-              {equipment}
-            </DropdownMenuCheckboxItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+    <div className="space-y-4">
+      <div>
+        <Input
+          placeholder="Search exercise name"
+          aria-label="Exercise name"
+          value={nameFilter}
+          onChange={(e) => onNameFilterChange(e.target.value)}
+        />
+      </div>
+      <div className="grid grid-cols-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger>Equipment</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {EQUIPMENT_OPTIONS.map((equipment) => (
+              <DropdownMenuCheckboxItem
+                key={equipment}
+                className="capitalize"
+                checked={selectedEquipment.includes(equipment)}
+                onCheckedChange={() => toggleEquipment(equipment)}
+              >
+                {equipment}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger>Muscle Groups</DropdownMenuTrigger>
-        <DropdownMenuContent className="grid grid-cols-2">
-          {MUSCLE_GROUP_OPTIONS.map((muscleGroup) => (
-            <DropdownMenuCheckboxItem
-              key={muscleGroup}
-              className="capitalize"
-              checked={selectedMuscleGroups.includes(muscleGroup)}
-              onCheckedChange={() =>
-                setSelectedMuscleGroups((prev) =>
-                  prev.includes(muscleGroup)
-                    ? prev.filter((e) => e !== muscleGroup)
-                    : [...prev, muscleGroup],
-                )
-              }
-            >
-              {muscleGroup}
-            </DropdownMenuCheckboxItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger>Muscle Groups</DropdownMenuTrigger>
+          <DropdownMenuContent className="grid grid-cols-2">
+            {MUSCLE_GROUP_OPTIONS.map((muscleGroup) => (
+              <DropdownMenuCheckboxItem
+                key={muscleGroup}
+                className="capitalize"
+                checked={selectedMuscleGroups.includes(muscleGroup)}
+                onCheckedChange={() => toggleMuscleGroup(muscleGroup)}
+              >
+                {muscleGroup}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 }

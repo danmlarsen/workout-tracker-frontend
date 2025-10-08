@@ -18,8 +18,6 @@ export default function ExercisesList({
     },
   );
 
-  console.log(filters);
-
   return (
     <InfiniteScroll
       initialLoad={false}
