@@ -15,3 +15,8 @@ export type TExerciseDto = {
   muscleGroups: string[];
   equipment: string;
 };
+
+export type TExercisesQuery = {
+  results: TExercise[];
+  nextCursor: number;
+};
