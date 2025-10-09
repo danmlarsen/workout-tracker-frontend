@@ -12,6 +12,19 @@ export const useExercises = () => {
   return useQuery<TExercise[]>({
     queryKey: ["exercises"],
     queryFn: () => apiClient<TExercise[]>("/exercises"),
+    staleTime: 60 * 60 * 1000,
+    gcTime: 24 * 60 * 60 * 1000,
+  });
+};
+
+export const useExercise = (exerciseId: number) => {
+  const { apiClient } = useApiClient();
+
+  return useQuery<TExercise>({
+    queryKey: ["exercises", exerciseId],
+    queryFn: () => apiClient<TExercise>(`/exercises/${exerciseId}`),
+    staleTime: 60 * 60 * 1000,
+    gcTime: 24 * 60 * 60 * 1000,
   });
 };
 
@@ -50,5 +63,7 @@ export const useInfiniteExercises = ({
     },
     initialPageParam: undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
+    staleTime: 60 * 60 * 1000,
+    gcTime: 24 * 60 * 60 * 1000,
   });
 };
