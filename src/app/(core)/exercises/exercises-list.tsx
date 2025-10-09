@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useExerciseWorkouts,
-  useInfiniteExercises,
-} from "@/api/exercises/queries";
+import { useInfiniteExercises } from "@/api/exercises/queries";
 import { TExercise, type TExercisesQueryFilters } from "@/api/exercises/types";
 import InfiniteScroll from "react-infinite-scroller";
 import ExerciseItem from "./exercise-item";

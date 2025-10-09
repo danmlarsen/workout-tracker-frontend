@@ -3,8 +3,7 @@ import {
   type TExercisesQuery,
   type TExercisesQueryFilters,
   type TExercise,
-  TExerciseWorkouts,
-  TExerciseWorkoutsQuery,
+  type TExerciseWorkoutsQuery,
 } from "./types";
 import { useApiClient } from "../client";
 
