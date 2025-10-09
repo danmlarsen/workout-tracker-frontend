@@ -7,9 +7,7 @@ import WorkoutCalendar from "./workout-calendar";
 import { useState } from "react";
 
 export default function WorkoutHistory() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date(),
-  );
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   const { data, fetchNextPage, hasNextPage, isFetching, isSuccess } =
     useCompletedWorkouts(selectedDate);
