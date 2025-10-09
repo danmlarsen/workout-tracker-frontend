@@ -7,7 +7,11 @@ import { useDebounce } from "use-debounce";
 import ExercisesFilters from "./exercises-filters";
 import ExercisesList from "./exercises-list";
 
-export default function ExercisesView() {
+export default function ExercisesView({
+  onExerciseClick,
+}: {
+  onExerciseClick?: (id: number) => void;
+}) {
   const [nameFilter, setNameFilter] = useState("");
   const [selectedMuscleGroups, setSelectedMuscleGroups] = useState<
     TMuscleGroup[]
@@ -37,7 +41,7 @@ export default function ExercisesView() {
         selectedEquipment={selectedEquipment}
         onEquipmentChange={setSelectedEquipment}
       />
-      <ExercisesList filters={filters} />
+      <ExercisesList filters={filters} onExerciseClick={onExerciseClick} />
     </>
   );
 }

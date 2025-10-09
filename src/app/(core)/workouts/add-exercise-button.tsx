@@ -8,9 +8,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import ExercisesList from "../exercises/exercises-list";
 import { useState } from "react";
 import { useAddWorkoutExercise } from "@/api/workouts/mutations";
+import ExercisesView from "../exercises/exercises-view";
 
 export default function AddExerciseButton({
   workoutId,
@@ -33,7 +33,7 @@ export default function AddExerciseButton({
           <DrawerTitle>Add exercise</DrawerTitle>
         </DrawerHeader>
         <div className="overflow-y-auto px-4 pb-6">
-          <ExercisesList
+          <ExercisesView
             onExerciseClick={(exerciseId) => {
               mutateWorkoutExercise.mutate(
                 { workoutId, exerciseId },
