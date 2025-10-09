@@ -3,6 +3,7 @@ import {
   type TExercisesQuery,
   type TExercisesQueryFilters,
   type TExercise,
+  TExerciseWorkouts,
 } from "./types";
 import { useApiClient } from "../client";
 
@@ -65,5 +66,15 @@ export const useInfiniteExercises = ({
     getNextPageParam: (lastPage) => lastPage.nextCursor,
     staleTime: 60 * 60 * 1000,
     gcTime: 24 * 60 * 60 * 1000,
+  });
+};
+
+export const useExerciseWorkouts = (exerciseId: number) => {
+  const { apiClient } = useApiClient();
+
+  return useQuery<TExerciseWorkouts[]>({
+    queryKey: ["exercises", { exerciseId }, "workouts"],
+    queryFn: () =>
+      apiClient<TExerciseWorkouts[]>(`/exercises/${exerciseId}/workouts`),
   });
 };

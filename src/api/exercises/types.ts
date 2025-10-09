@@ -1,4 +1,5 @@
 import { type TEquipment, type TMuscleGroup } from "@/lib/constants";
+import { type TWorkout, type TWorkoutSet } from "../workouts/types";
 
 export type TExercise = {
   id: number;
@@ -27,4 +28,8 @@ export type TExercisesQueryFilters = {
   name?: string;
   muscleGroups?: TMuscleGroup[];
   equipment?: TEquipment[];
+};
+
+export type TExerciseWorkouts = Omit<TWorkout, "workoutExercises"> & {
+  workoutSets: TWorkoutSet[];
 };
