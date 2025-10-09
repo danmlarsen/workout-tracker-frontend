@@ -6,13 +6,13 @@ export default function ExerciseItem({
   onExerciseClick,
 }: {
   exercise: TExercise;
-  onExerciseClick?: (id: number) => void;
+  onExerciseClick: (id: number) => void;
 }) {
   return (
     <li key={exercise.id}>
       <button
         className="grid w-full grid-cols-[50px_1fr_50px] items-center gap-4 py-4"
-        onClick={() => onExerciseClick?.(exercise.id)}
+        onClick={() => onExerciseClick(exercise.id)}
       >
         <div>
           <ExerciseAvatar name={exercise.name} />

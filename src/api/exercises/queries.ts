@@ -4,6 +4,7 @@ import {
   type TExercisesQueryFilters,
   type TExercise,
   TExerciseWorkouts,
+  TExerciseWorkoutsQuery,
 } from "./types";
 import { useApiClient } from "../client";
 
@@ -18,12 +19,13 @@ export const useExercises = () => {
   });
 };
 
-export const useExercise = (exerciseId: number) => {
+export const useExercise = (exerciseId?: number) => {
   const { apiClient } = useApiClient();
 
   return useQuery<TExercise>({
     queryKey: ["exercises", exerciseId],
     queryFn: () => apiClient<TExercise>(`/exercises/${exerciseId}`),
+    enabled: !!exerciseId,
     staleTime: 60 * 60 * 1000,
     gcTime: 24 * 60 * 60 * 1000,
   });
@@ -69,12 +71,13 @@ export const useInfiniteExercises = ({
   });
 };
 
-export const useExerciseWorkouts = (exerciseId: number) => {
+export const useExerciseWorkouts = (exerciseId?: number) => {
   const { apiClient } = useApiClient();
 
-  return useQuery<TExerciseWorkouts[]>({
+  return useQuery<TExerciseWorkoutsQuery>({
     queryKey: ["exercises", { exerciseId }, "workouts"],
     queryFn: () =>
-      apiClient<TExerciseWorkouts[]>(`/exercises/${exerciseId}/workouts`),
+      apiClient<TExerciseWorkoutsQuery>(`/exercises/${exerciseId}/workouts`),
+    enabled: !!exerciseId,
   });
 };

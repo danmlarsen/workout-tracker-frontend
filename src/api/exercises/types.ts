@@ -30,6 +30,11 @@ export type TExercisesQueryFilters = {
   equipment?: TEquipment[];
 };
 
+export type TExerciseWorkoutsQuery = {
+  results: TExerciseWorkouts[];
+  nextCursor: number;
+};
+
 export type TExerciseWorkouts = Omit<TWorkout, "workoutExercises"> & {
   workoutSets: TWorkoutSet[];
 };
