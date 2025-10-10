@@ -31,7 +31,7 @@ function Calendar({
       showOutsideDays={showOutsideDays}
       modifiers={modifiers}
       modifiersClassNames={{
-        workout: "bg-slate-600 text-slate-100 rounded-full",
+        workout: "bg-secondary text-secondary-foreground rounded-full",
       }}
       className={cn(
         "bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
@@ -116,7 +116,7 @@ function Calendar({
         range_middle: cn("rounded-none", defaultClassNames.range_middle),
         range_end: cn("rounded-r-md bg-accent", defaultClassNames.range_end),
         today: cn(
-          "bg-slate-100 text-accent-foreground rounded-full",
+          "bg-accent text-accent-foreground rounded-full",
           defaultClassNames.today,
         ),
         outside: cn(

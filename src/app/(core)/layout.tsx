@@ -15,7 +15,7 @@ export default function CoreLayout({
   return (
     <AuthGuard>
       <ActiveWorkoutProvider>
-        <div className="min-h-screen bg-gray-200">
+        <div className="min-h-screen">
           <div className="p-4">
             <div className="mx-auto max-w-lg">{children}</div>
           </div>
