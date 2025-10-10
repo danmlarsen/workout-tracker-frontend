@@ -18,7 +18,10 @@ export default function ExerciseItem({
           <ExerciseAvatar name={exercise.name} />
         </div>
         <div className="text-left">
-          <h2>{exercise.name}</h2>
+          <h2 className="text-lg font-bold">{exercise.name}</h2>
+          <p className="text-muted-foreground text-sm capitalize">
+            {exercise.equipment}
+          </p>
           <div>
             {exercise.muscleGroups.map((muscleGroup, idx) => (
               <span
