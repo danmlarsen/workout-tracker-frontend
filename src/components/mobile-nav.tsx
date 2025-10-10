@@ -17,7 +17,7 @@ export default function MobileNav() {
   return (
     <>
       <div className="h-16" />
-      <nav className="bg-background text-foreground border-background fixed inset-x-0 bottom-0">
+      <nav className="bg-sidebar text-sidebar-foreground border-background fixed inset-x-0 bottom-0">
         <div className="mx-auto grid h-16 max-w-lg">
           <ul className="grid grid-cols-4">
             {navItems.map((navItem) => {
