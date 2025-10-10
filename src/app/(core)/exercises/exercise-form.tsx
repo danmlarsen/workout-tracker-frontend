@@ -20,9 +20,11 @@ import { EQUIPMENT_OPTIONS, MUSCLE_GROUP_OPTIONS } from "@/lib/constants";
 
 const exerciseSchema = z.object({
   name: z.string().min(2, "Exercise name too short (min 2 characters)"),
-  type: z.enum(["reps", "time"]),
-  equipment: z.enum(EQUIPMENT_OPTIONS),
-  muscleGroups: z.array(z.enum(MUSCLE_GROUP_OPTIONS)).min(1),
+  type: z.enum(["reps", "time"], "Invalid type"),
+  equipment: z.enum(EQUIPMENT_OPTIONS, "Invalid equipment"),
+  muscleGroups: z
+    .array(z.enum(MUSCLE_GROUP_OPTIONS))
+    .min(1, "Please pick at least one muscle group"),
 });
 
 export default function ExerciseForm({
@@ -70,6 +72,7 @@ export default function ExerciseForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Target Type</FormLabel>
+              <FormMessage />
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -77,7 +80,7 @@ export default function ExerciseForm({
                   className="flex"
                 >
                   <FormItem>
-                    <FormLabel className="rounded-sm bg-gray-200 p-4 has-checked:bg-blue-500">
+                    <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">
                       <FormControl>
                         <RadioGroupItem value="reps" className="sr-only" />
                       </FormControl>
@@ -85,7 +88,7 @@ export default function ExerciseForm({
                     </FormLabel>
                   </FormItem>
                   <FormItem>
-                    <FormLabel className="rounded-sm bg-gray-200 p-4 has-checked:bg-blue-500">
+                    <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">
                       <FormControl>
                         <RadioGroupItem value="time" className="sr-only" />
                       </FormControl>
@@ -104,6 +107,7 @@ export default function ExerciseForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Equipment</FormLabel>
+              <FormMessage />
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -112,11 +116,11 @@ export default function ExerciseForm({
                 >
                   {EQUIPMENT_OPTIONS.map((item) => (
                     <FormItem key={item}>
-                      <FormLabel className="rounded-sm bg-gray-200 p-4 has-checked:bg-blue-500">
+                      <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">
                         <FormControl>
                           <RadioGroupItem value={item} className="sr-only" />
                         </FormControl>
-                        <span>{item}</span>
+                        <span className="capitalize">{item}</span>
                       </FormLabel>
                     </FormItem>
                   ))}
@@ -132,6 +136,7 @@ export default function ExerciseForm({
           render={() => (
             <FormItem>
               <FormLabel>Muscle Group</FormLabel>
+              <FormMessage />
               <div className="grid grid-cols-2 gap-2">
                 {MUSCLE_GROUP_OPTIONS.map((muscleGroup) => (
                   <FormField
@@ -140,7 +145,7 @@ export default function ExerciseForm({
                     name="muscleGroups"
                     render={({ field }) => (
                       <FormItem key={muscleGroup}>
-                        <FormLabel className="rounded-sm bg-gray-200 p-4 has-checked:bg-blue-500">
+                        <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">
                           <FormControl>
                             <Checkbox
                               checked={field.value?.includes(muscleGroup)}
@@ -159,7 +164,7 @@ export default function ExerciseForm({
                               className="sr-only"
                             />
                           </FormControl>
-                          <span>{muscleGroup}</span>
+                          <span className="capitalize">{muscleGroup}</span>
                         </FormLabel>
                       </FormItem>
                     )}
