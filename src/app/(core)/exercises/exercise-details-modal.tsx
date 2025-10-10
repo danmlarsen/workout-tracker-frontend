@@ -2,6 +2,7 @@ import { type TExercise } from "@/api/exercises/types";
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -21,6 +22,9 @@ export default function ExerciseDetailsModal({
       <DrawerContent className="h-[95dvh]">
         <DrawerHeader>
           <DrawerTitle>{exercise?.name}</DrawerTitle>
+          <DrawerDescription className="sr-only">
+            Exercise workouts history
+          </DrawerDescription>
         </DrawerHeader>
         <ExerciseWorkoutsList exercise={exercise} />
       </DrawerContent>
