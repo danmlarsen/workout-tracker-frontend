@@ -10,6 +10,8 @@ import { type TWorkout } from "@/api/workouts/types";
 import { useState } from "react";
 import { formatDate } from "date-fns";
 import CompleteWorkoutDialog from "./complete-workout-dialog";
+import ExerciseDetailsModal from "../exercises/exercise-details-modal";
+import { TExercise } from "@/api/exercises/types";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -21,6 +23,9 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+
+  const [selectedWorkoutExercise, setSelectedWorkoutExercise] =
+    useState<TExercise | null>(null);
 
   const { mutate: completeWorkout } = useCompleteWorkout();
   const updateWorkoutMutation = useUpdateWorkout(isActiveWorkout);
@@ -51,6 +56,12 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
         onOpenChange={(open) => setIsFinished(open)}
         onConfirm={handleCompleteWorkout}
         incomplete={hasIncompleteSets}
+      />
+
+      <ExerciseDetailsModal
+        exercise={selectedWorkoutExercise}
+        isOpen={!!selectedWorkoutExercise}
+        onOpenChange={() => setSelectedWorkoutExercise(null)}
       />
 
       <div className="space-y-8">
@@ -87,6 +98,9 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
                 workoutExercise={workoutExercise}
                 isEditing={isActiveWorkout || isEditing}
                 isActiveWorkout={isActiveWorkout}
+                onOpenExercise={(exercise) =>
+                  setSelectedWorkoutExercise(exercise)
+                }
               />
             ))}
           </ul>

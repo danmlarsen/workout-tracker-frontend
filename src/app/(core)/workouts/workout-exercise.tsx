@@ -14,17 +14,21 @@ import {
   getPlaceholderWorkoutSet,
 } from "@/lib/utils";
 import { useMemo } from "react";
+import { TExercise } from "@/api/exercises/types";
+import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
 
 type TWorkoutExerciseProps = {
   workoutExercise: TWorkoutExercise;
   isEditing?: boolean;
   isActiveWorkout?: boolean;
+  onOpenExercise: (exercise: TExercise) => void;
 };
 
 export default function WorkoutExercise({
   workoutExercise,
   isEditing = true,
   isActiveWorkout = false,
+  onOpenExercise,
 }: TWorkoutExerciseProps) {
   const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
 
@@ -40,7 +44,18 @@ export default function WorkoutExercise({
 
   return (
     <li className="space-y-4">
-      <h2 className="text-xl font-bold">{workoutExercise.exercise.name}</h2>
+      <div className="flex items-center justify-between">
+        <Button
+          onClick={() => onOpenExercise(workoutExercise.exercise)}
+          variant="ghost"
+        >
+          <h2 className="text-xl font-bold">{workoutExercise.exercise.name}</h2>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="ghost" size="icon">
+          <MoreHorizontalIcon />
+        </Button>
+      </div>
 
       <Table>
         <TableHeader>
