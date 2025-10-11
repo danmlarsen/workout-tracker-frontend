@@ -9,6 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  findBestWorkoutSetWithIndex,
+  getPlaceholderWorkoutSet,
+} from "@/lib/utils";
+import { useMemo } from "react";
 
 type TWorkoutExerciseProps = {
   workoutExercise: TWorkoutExercise;
@@ -23,10 +28,15 @@ export default function WorkoutExercise({
 }: TWorkoutExerciseProps) {
   const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
 
-  const previousSets = workoutExercise.previousWorkoutExercise?.workoutSets;
-  const lastSet = previousSets
-    ? previousSets[previousSets.length - 1]
-    : undefined;
+  const workoutSets = workoutExercise.workoutSets;
+  const previousWorkoutSets =
+    workoutExercise.previousWorkoutExercise?.workoutSets;
+
+  // Find the best performing set from current workout with its index
+  const bestCurrentSetInfo = useMemo(
+    () => findBestWorkoutSetWithIndex(workoutSets),
+    [workoutSets],
+  );
 
   return (
     <li className="space-y-4">
@@ -43,10 +53,15 @@ export default function WorkoutExercise({
           </TableRow>
         </TableHeader>
         <TableBody className="text-center">
-          {workoutExercise.workoutSets.map((workoutSet, index) => {
-            const placeholderSet = previousSets?.[index]
-              ? previousSets?.[index]
-              : lastSet;
+          {workoutSets.map((workoutSet, index) => {
+            const { bestSet, bestSetIndex } = bestCurrentSetInfo;
+            const placeholderSet = getPlaceholderWorkoutSet(
+              index,
+              bestSet,
+              bestSetIndex,
+              previousWorkoutSets,
+            );
+            const previousSet = previousWorkoutSets?.[index];
 
             return (
               <WorkoutSet
@@ -54,7 +69,7 @@ export default function WorkoutExercise({
                 workoutSet={workoutSet}
                 workoutId={workoutExercise.workoutId}
                 isEditing={isEditing}
-                previousSet={previousSets?.[index]}
+                previousSet={previousSet}
                 placeholderSet={placeholderSet}
                 isActiveWorkout={isActiveWorkout}
               />
