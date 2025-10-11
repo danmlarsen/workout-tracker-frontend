@@ -1,3 +1,4 @@
+import ThemeToggle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -9,6 +10,7 @@ export default function SettingsPage() {
       </div>
 
       <Button className="w-full">Account settings</Button>
+      <ThemeToggle />
       <Button asChild className="w-full">
         <Link href="/logout">Logout</Link>
       </Button>
