@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/drawer";
 import { useState } from "react";
 import { useAddWorkoutExercise } from "@/api/workouts/mutations";
-import ExercisesView from "../../exercises/exercises-view";
+import ExercisesView from "../../exercises/exercises-view/exercises-view";
 
 export default function AddExerciseButton({
   workoutId,

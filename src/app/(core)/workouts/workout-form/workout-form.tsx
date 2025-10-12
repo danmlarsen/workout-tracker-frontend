@@ -10,7 +10,7 @@ import { type TWorkout } from "@/api/workouts/types";
 import { useState } from "react";
 import { formatDate } from "date-fns";
 import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
-import ExerciseDetailsModal from "../../exercises/exercise-details-modal";
+import ExerciseDetailsModal from "../../exercises/exercise-details/exercise-details-modal";
 import { TExercise } from "@/api/exercises/types";
 
 type TWorkoutFormProps = {

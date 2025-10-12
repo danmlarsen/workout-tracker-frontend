@@ -5,7 +5,7 @@ import { TExercise, type TExercisesQueryFilters } from "@/api/exercises/types";
 import InfiniteScroll from "react-infinite-scroller";
 import ExerciseItem from "./exercise-item";
 import { useState } from "react";
-import ExerciseDetailsModal from "./exercise-details-modal";
+import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
 
 export default function ExercisesList({
   filters,

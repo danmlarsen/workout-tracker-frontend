@@ -1,5 +1,5 @@
-import AddNewExerciseButton from "./add-new-exercise-button";
-import ExercisesView from "./exercises-view";
+import AddNewExerciseButton from "./exercise-form/add-new-exercise-button";
+import ExercisesView from "./exercises-view/exercises-view";
 
 export default function ExercisesPage() {
   return (
