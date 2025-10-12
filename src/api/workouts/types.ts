@@ -13,6 +13,8 @@ export type TWorkout = {
   completedAt: string | null;
   userId: number;
   workoutExercises: TWorkoutExercise[];
+  status: "DRAFT" | "ACTIVE" | "COMPLETED";
+  notes: string | null;
 };
 
 export type TWorkoutExercise = {
@@ -25,6 +27,7 @@ export type TWorkoutExercise = {
   workoutSets: TWorkoutSet[];
   exerciseOrder: number;
   previousWorkoutExercise?: TWorkoutExercise;
+  notes: string | null;
 };
 
 export type TWorkoutSet = {
@@ -37,6 +40,7 @@ export type TWorkoutSet = {
   weight: number | null;
   duration: number | null;
   setNumber: number;
+  notes: string | null;
 };
 
 export type TWorkoutSetDto = {
