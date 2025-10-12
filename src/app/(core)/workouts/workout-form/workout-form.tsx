@@ -9,8 +9,8 @@ import Timer from "@/components/ui/timer";
 import { type TWorkout } from "@/api/workouts/types";
 import { useState } from "react";
 import { formatDate } from "date-fns";
-import CompleteWorkoutDialog from "./complete-workout-dialog";
-import ExerciseDetailsModal from "../exercises/exercise-details-modal";
+import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
+import ExerciseDetailsModal from "../../exercises/exercise-details-modal";
 import { TExercise } from "@/api/exercises/types";
 
 type TWorkoutFormProps = {

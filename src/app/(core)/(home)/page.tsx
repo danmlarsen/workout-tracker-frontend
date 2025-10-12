@@ -1,4 +1,4 @@
-import NewWorkoutButton from "../workouts/new-workout-button";
+import NewWorkoutButton from "../workouts/workout-active/new-workout-button";
 import LifetimeWorkoutsStats from "./lifetime-workouts-stats";
 
 export default function HomePage() {

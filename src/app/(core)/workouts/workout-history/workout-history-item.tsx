@@ -23,7 +23,7 @@ import {
 } from "date-fns";
 import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu";
 import { useState } from "react";
-import WorkoutModal from "./workout-modal";
+import WorkoutModal from "../workout-form/workout-modal";
 import { Button } from "@/components/ui/button";
 import {
   CheckCircleIcon,

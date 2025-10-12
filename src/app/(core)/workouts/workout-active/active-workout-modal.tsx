@@ -6,8 +6,8 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-} from "../../../components/ui/drawer";
-import WorkoutForm from "@/app/(core)/workouts/workout-form";
+} from "../../../../components/ui/drawer";
+import WorkoutForm from "@/app/(core)/workouts/workout-form/workout-form";
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/ui/timer";
 import DeleteActiveWorkoutDialog from "./delete-active-workout-dialog";

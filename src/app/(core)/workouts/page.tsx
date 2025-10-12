@@ -1,4 +1,4 @@
-import WorkoutHistory from "./workout-history";
+import WorkoutHistory from "./workout-history/workout-history";
 
 export default function HistoryPage() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import AuthGuard from "@/api/auth/auth-guard";
-import ActiveWorkoutModal from "@/app/(core)/workouts/active-workout-modal";
+import ActiveWorkoutModal from "@/app/(core)/workouts/workout-active/active-workout-modal";
 import MobileNav from "@/components/mobile-nav";
 import { ActiveWorkoutProvider } from "@/context/active-workout-context";
 
