@@ -10,8 +10,9 @@ import { type TWorkout } from "@/api/workouts/types";
 import { useState } from "react";
 import { formatDate } from "date-fns";
 import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
-import ExerciseDetailsModal from "../../exercises/exercise-details/exercise-details-modal";
 import { TExercise } from "@/api/exercises/types";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import ExerciseWorkoutsList from "../../exercises/exercise-details/exercise-workouts-list";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -58,10 +59,10 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
         incomplete={hasIncompleteSets}
       />
 
-      <ExerciseDetailsModal
-        exercise={selectedWorkoutExercise}
+      <ResponsiveModal
         isOpen={!!selectedWorkoutExercise}
         onOpenChange={() => setSelectedWorkoutExercise(null)}
+        content={<ExerciseWorkoutsList exercise={selectedWorkoutExercise} />}
       />
 
       <div className="space-y-8">

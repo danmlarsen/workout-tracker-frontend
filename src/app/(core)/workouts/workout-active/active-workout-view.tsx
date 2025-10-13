@@ -1,43 +1,30 @@
 import { useActiveWorkout } from "@/api/workouts/queries";
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from "../../../../components/ui/drawer";
 import WorkoutForm from "@/app/(core)/workouts/workout-form/workout-form";
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/ui/timer";
 import DeleteActiveWorkoutDialog from "./delete-active-workout-dialog";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
 
-export default function ActiveWorkoutModal() {
+export default function ActiveWorkoutView() {
   const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
   const { data: activeWorkout } = useActiveWorkout();
 
   return (
     <>
-      <Drawer open={activeWorkoutOpen} onOpenChange={setActiveWorkoutOpen}>
-        <DrawerContent className="h-[95dvh]">
-          <DrawerHeader>
-            <DrawerTitle className="sr-only">
-              {activeWorkout?.title}
-            </DrawerTitle>
-            <DrawerDescription className="sr-only">
-              Current active workout
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="overflow-y-auto px-4 pb-6">
-            {activeWorkout && (
-              <WorkoutForm
-                workout={activeWorkout}
-                onSuccess={() => setActiveWorkoutOpen(false)}
-              />
-            )}
-          </div>
-        </DrawerContent>
-      </Drawer>
+      <ResponsiveModal
+        isOpen={activeWorkoutOpen}
+        onOpenChange={setActiveWorkoutOpen}
+        content={
+          activeWorkout ? (
+            <WorkoutForm
+              workout={activeWorkout}
+              onSuccess={() => setActiveWorkoutOpen(false)}
+            />
+          ) : null
+        }
+        title="Active Workout"
+      />
 
       {activeWorkout && (
         <>

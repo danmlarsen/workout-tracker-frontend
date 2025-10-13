@@ -5,7 +5,8 @@ import { TExercise, type TExercisesQueryFilters } from "@/api/exercises/types";
 import InfiniteScroll from "react-infinite-scroller";
 import ExerciseItem from "./exercise-item";
 import { useState } from "react";
-import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import ExerciseWorkoutsList from "../exercise-details/exercise-workouts-list";
 
 export default function ExercisesList({
   filters,
@@ -34,11 +35,13 @@ export default function ExercisesList({
 
   return (
     <>
-      <ExerciseDetailsModal
-        exercise={selectedExercise}
+      <ResponsiveModal
         isOpen={!!selectedExercise}
         onOpenChange={() => setSelectedExercise(null)}
+        content={<ExerciseWorkoutsList exercise={selectedExercise} />}
+        title={selectedExercise?.name}
       />
+
       <InfiniteScroll
         initialLoad={false}
         loadMore={() => {

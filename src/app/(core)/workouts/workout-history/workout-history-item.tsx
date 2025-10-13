@@ -23,7 +23,6 @@ import {
 } from "date-fns";
 import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu";
 import { useState } from "react";
-import WorkoutModal from "../workout-form/workout-modal";
 import { Button } from "@/components/ui/button";
 import {
   CheckCircleIcon,
@@ -32,6 +31,8 @@ import {
   WeightIcon,
 } from "lucide-react";
 import { formatBestSet, getBestSetByOneRM } from "@/lib/utils";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import WorkoutForm from "../workout-form/workout-form";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -70,11 +71,13 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
 
   return (
     <>
-      <WorkoutModal
-        workout={workout}
+      <ResponsiveModal
         isOpen={modalIsOpen}
-        onOpenChange={(newState) => setModalIsOpen(newState)}
+        onOpenChange={setModalIsOpen}
+        content={<WorkoutForm workout={workout} />}
+        title={workout.title}
       />
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

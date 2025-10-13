@@ -1,7 +1,7 @@
 "use client";
 
 import AuthGuard from "@/api/auth/auth-guard";
-import ActiveWorkoutModal from "@/app/(core)/workouts/workout-active/active-workout-modal";
+import ActiveWorkoutView from "@/app/(core)/workouts/workout-active/active-workout-view";
 import MobileNav from "@/components/mobile-nav";
 import { ActiveWorkoutProvider } from "@/context/active-workout-context";
 
@@ -20,7 +20,7 @@ export default function CoreLayout({
             <div className="mx-auto max-w-lg">{children}</div>
           </div>
 
-          <ActiveWorkoutModal />
+          <ActiveWorkoutView />
           <MobileNav />
         </div>
         <ReactQueryDevtools />
