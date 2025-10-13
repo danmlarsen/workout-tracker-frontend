@@ -16,6 +16,7 @@ import {
 import { useMemo } from "react";
 import { TExercise } from "@/api/exercises/types";
 import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
+import WorkoutExerciseOptionsButton from "./workout-exercise-options-button";
 
 type TWorkoutExerciseProps = {
   workoutExercise: TWorkoutExercise;
@@ -52,9 +53,10 @@ export default function WorkoutExercise({
           <h2 className="text-xl font-bold">{workoutExercise.exercise.name}</h2>
           <ChevronRightIcon />
         </Button>
-        <Button variant="ghost" size="icon">
-          <MoreHorizontalIcon />
-        </Button>
+        <WorkoutExerciseOptionsButton
+          workoutExercise={workoutExercise}
+          isActiveWorkout={isActiveWorkout}
+        />
       </div>
 
       <Table>
