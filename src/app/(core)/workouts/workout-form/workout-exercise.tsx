@@ -15,7 +15,7 @@ import {
 } from "@/lib/utils";
 import { useMemo } from "react";
 import { TExercise } from "@/api/exercises/types";
-import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 import WorkoutExerciseOptionsButton from "./workout-exercise-options-button";
 
 type TWorkoutExerciseProps = {
