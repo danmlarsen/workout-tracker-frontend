@@ -4,6 +4,7 @@ import {
   type TWorkoutSetDto,
   type TUpdateWorkoutDto,
   type TWorkout,
+  TUpdateWorkoutExerciseDto,
 } from "./types";
 
 export function useCreateActiveWorkout() {
@@ -116,6 +117,41 @@ export function useAddWorkoutExercise(isActiveWorkout?: boolean) {
           exerciseId,
         }),
       }),
+    onSuccess: () => {
+      if (isActiveWorkout) {
+        queryClient.invalidateQueries({
+          queryKey: ["activeWorkout"],
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ["workouts"],
+        });
+      }
+    },
+  });
+}
+
+export function useUpdateWorkoutExercise(isActiveWorkout?: boolean) {
+  const { apiClient } = useApiClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      workoutId,
+      workoutExerciseId,
+      data,
+    }: {
+      workoutId: number;
+      workoutExerciseId: number;
+      data: TUpdateWorkoutExerciseDto;
+    }) =>
+      apiClient<void>(
+        `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(data),
+        },
+      ),
     onSuccess: () => {
       if (isActiveWorkout) {
         queryClient.invalidateQueries({

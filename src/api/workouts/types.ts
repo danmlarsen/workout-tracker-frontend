@@ -64,3 +64,7 @@ export type TWorkoutCalendarData = {
   workoutDates: string[];
   totalWorkouts: number;
 };
+
+export type TUpdateWorkoutExerciseDto = {
+  notes?: string;
+};

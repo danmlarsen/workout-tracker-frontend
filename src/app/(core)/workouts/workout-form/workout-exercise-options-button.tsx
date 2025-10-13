@@ -37,6 +37,7 @@ export default function WorkoutExerciseOptionsButton({
                 workoutExerciseId: workoutExercise.id,
               })
             }
+            variant="ghost"
           >
             Remove Exercise
           </Button>
