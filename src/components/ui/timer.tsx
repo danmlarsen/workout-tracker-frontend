@@ -17,7 +17,7 @@ const formatTime = (milliseconds: number): string => {
 };
 
 export default function Timer({
-  workout: { createdAt, pauseDuration, isPaused },
+  workout: { createdAt, pauseDuration, isPaused, lastPauseStartTime },
   isButton = false,
 }: {
   workout: TWorkout;
@@ -40,8 +40,15 @@ export default function Timer({
     const calculateElapsed = () => {
       const now = Date.now();
       const start = new Date(createdAt).getTime();
-      const total = now - start - pauseDuration;
-      return Math.max(0, total);
+
+      if (isPaused && lastPauseStartTime) {
+        // When paused, calculate time up to when pause started
+        const pauseStart = new Date(lastPauseStartTime).getTime();
+        return Math.max(0, pauseStart - start - pauseDuration);
+      } else {
+        // When running, calculate current elapsed time
+        return Math.max(0, now - start - pauseDuration);
+      }
     };
 
     setElapsedTime(calculateElapsed());
@@ -57,7 +64,7 @@ export default function Timer({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [createdAt, isPaused, pauseDuration]);
+  }, [createdAt, isPaused, pauseDuration, lastPauseStartTime]);
 
   if (isButton) {
     return (

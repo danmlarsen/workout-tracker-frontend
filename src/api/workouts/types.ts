@@ -17,6 +17,7 @@ export type TWorkout = {
   notes: string | null;
   isPaused: boolean;
   pauseDuration: number;
+  lastPauseStartTime: string | null;
 };
 
 export type TWorkoutExercise = {
