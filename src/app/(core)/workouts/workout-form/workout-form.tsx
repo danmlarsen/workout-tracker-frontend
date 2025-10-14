@@ -69,7 +69,7 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
         <div className="flex items-center justify-between">
           {isActiveWorkout ? (
             <>
-              <Timer workout={workout} />
+              <Timer workout={workout} isButton={true} />
               <Button onClick={() => setIsFinished(true)}>Finish</Button>
             </>
           ) : (

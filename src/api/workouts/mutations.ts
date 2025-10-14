@@ -266,3 +266,37 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
     },
   });
 }
+
+export function usePauseActiveWorkout() {
+  const { apiClient } = useApiClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () =>
+      apiClient<TWorkout>(`/workouts/active/pause`, {
+        method: "PATCH",
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["activeWorkout"],
+      });
+    },
+  });
+}
+
+export function useResumeActiveWorkout() {
+  const { apiClient } = useApiClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () =>
+      apiClient<TWorkout>(`/workouts/active/resume`, {
+        method: "PATCH",
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["activeWorkout"],
+      });
+    },
+  });
+}

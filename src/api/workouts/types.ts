@@ -15,6 +15,8 @@ export type TWorkout = {
   workoutExercises: TWorkoutExercise[];
   status: "DRAFT" | "ACTIVE" | "COMPLETED";
   notes: string | null;
+  isPaused: boolean;
+  pauseDuration: number;
 };
 
 export type TWorkoutExercise = {
