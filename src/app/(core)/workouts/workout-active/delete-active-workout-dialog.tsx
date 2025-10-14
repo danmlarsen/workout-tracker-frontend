@@ -9,21 +9,21 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { XIcon } from "lucide-react";
-import { useState } from "react";
+import { useActiveWorkoutContext } from "@/context/active-workout-context";
 
-export default function DeleteActiveWorkoutDialog() {
-  const [isOpen, setIsOpen] = useState(false);
-
+export default function DeleteActiveWorkoutDialog({
+  isOpen,
+  onOpenChanged,
+}: {
+  isOpen: boolean;
+  onOpenChanged: (newState: boolean) => void;
+}) {
   const { mutate: deleteActiveWorkoutMutation } = useDeleteActiveWorkout();
+  const { setActiveWorkoutOpen } = useActiveWorkoutContext();
 
   return (
-    <Dialog open={isOpen} onOpenChange={(newValue) => setIsOpen(newValue)}>
-      <DialogTrigger>
-        <XIcon />
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onOpenChanged}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Discard workout?</DialogTitle>
@@ -35,8 +35,9 @@ export default function DeleteActiveWorkoutDialog() {
           <Button
             variant="destructive"
             onClick={() => {
+              setActiveWorkoutOpen(false);
               deleteActiveWorkoutMutation();
-              setIsOpen(false);
+              onOpenChanged(false);
             }}
           >
             Delete

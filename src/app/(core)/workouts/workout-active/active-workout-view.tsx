@@ -5,10 +5,13 @@ import { Button } from "@/components/ui/button";
 import Timer from "@/components/ui/timer";
 import DeleteActiveWorkoutDialog from "./delete-active-workout-dialog";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import { useState } from "react";
+import { XIcon } from "lucide-react";
 
 export default function ActiveWorkoutView() {
   const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
   const { data: activeWorkout } = useActiveWorkout();
+  const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
 
   return (
     <>
@@ -28,10 +31,19 @@ export default function ActiveWorkoutView() {
 
       {activeWorkout && (
         <>
+          <DeleteActiveWorkoutDialog
+            isOpen={deleteWorkoutOpen}
+            onOpenChanged={setDeleteWorkoutOpen}
+          />
           <div className="h-16" />
           <div className="bg-sidebar text-sidebar-foreground fixed inset-x-0 bottom-16 grid h-16 translate-y-[1px] grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4">
             <div className="flex items-center justify-start">
-              <DeleteActiveWorkoutDialog />
+              <Button
+                onClick={() => setDeleteWorkoutOpen(true)}
+                variant="ghost"
+              >
+                <XIcon />
+              </Button>
             </div>
             <div className="flex flex-col items-center">
               <div>{activeWorkout.title}</div>

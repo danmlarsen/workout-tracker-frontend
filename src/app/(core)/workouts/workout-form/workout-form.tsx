@@ -13,6 +13,7 @@ import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
 import { TExercise } from "@/api/exercises/types";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import ExerciseWorkoutsList from "../../exercises/exercise-details/exercise-workouts-list";
+import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -24,6 +25,7 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
 
   const [selectedWorkoutExercise, setSelectedWorkoutExercise] =
     useState<TExercise | null>(null);
@@ -57,6 +59,11 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
         onOpenChange={(open) => setIsFinished(open)}
         onConfirm={handleCompleteWorkout}
         incomplete={hasIncompleteSets}
+      />
+
+      <DeleteActiveWorkoutDialog
+        isOpen={deleteWorkoutOpen}
+        onOpenChanged={setDeleteWorkoutOpen}
       />
 
       <ResponsiveModal
@@ -111,6 +118,15 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
             workoutId={workout.id}
             isActiveWorkout={isActiveWorkout}
           />
+        )}
+        {isActiveWorkout && (
+          <Button
+            onClick={() => setDeleteWorkoutOpen(true)}
+            className="w-full"
+            variant="destructive"
+          >
+            Discard Workout
+          </Button>
         )}
       </div>
     </>
