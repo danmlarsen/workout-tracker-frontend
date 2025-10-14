@@ -41,7 +41,7 @@ export function ResponsiveModal({
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <div className="overflow-y-auto">{content}</div>
+          <div className="overflow-y-auto pt-6">{content}</div>
         </DialogContent>
       </Dialog>
     );
