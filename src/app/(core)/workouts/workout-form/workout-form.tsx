@@ -100,7 +100,15 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
           )}
         </div>
 
-        <WorkoutNotes workout={workout} />
+        <WorkoutNotes
+          notes={workout.notes}
+          onUpdate={(notes) =>
+            updateWorkoutMutation.mutate({
+              workoutId: workout.id,
+              data: { notes },
+            })
+          }
+        />
 
         {workout.workoutExercises && workout.workoutExercises.length > 0 && (
           <ul className="space-y-4">

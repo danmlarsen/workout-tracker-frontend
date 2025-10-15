@@ -1,55 +1,49 @@
 "use client";
 
-import { useUpdateWorkout } from "@/api/workouts/mutations";
-import { TWorkout } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import { PencilIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import WorkoutNotesDialog from "./workout-notes-dialog";
 import WorkoutNotesDeleteDialog from "./workout-notes-delete-dialog";
 
-export default function WorkoutNotes({ workout }: { workout: TWorkout }) {
-  const [workoutNotesOpen, setWorkoutNotesOpen] = useState(false);
+export default function WorkoutNotes({
+  notes,
+  onUpdate,
+}: {
+  notes: string | null;
+  onUpdate: (notes: string) => void;
+}) {
+  const [notesOpen, setNotesOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const isActiveWorkout = workout.status === "ACTIVE";
-
-  const updateWorkoutMutation = useUpdateWorkout(isActiveWorkout);
-
-  function handleUpdateWorkoutNotes(notes: string) {
-    updateWorkoutMutation.mutate({
-      workoutId: workout.id,
-      data: { notes },
-    });
+  function handleUpdateNotes(notes: string) {
+    onUpdate(notes);
   }
 
-  function handleDeleteWorkoutNotes() {
+  function handleDeleteNotes() {
     setDeleteDialogOpen(false);
-    updateWorkoutMutation.mutate({
-      workoutId: workout.id,
-      data: { notes: "" },
-    });
+    onUpdate("");
   }
 
   return (
     <>
       <WorkoutNotesDialog
-        key={`${workoutNotesOpen}-${workout.notes}`}
-        isOpen={workoutNotesOpen}
-        onOpenChange={setWorkoutNotesOpen}
-        notes={workout.notes}
-        onConfirm={handleUpdateWorkoutNotes}
+        key={`${notesOpen}-${notes}`}
+        isOpen={notesOpen}
+        onOpenChange={setNotesOpen}
+        notes={notes}
+        onConfirm={handleUpdateNotes}
       />
 
       <WorkoutNotesDeleteDialog
         isOpen={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        onConfirm={handleDeleteWorkoutNotes}
+        onConfirm={handleDeleteNotes}
       />
 
-      {!workout.notes && (
+      {!notes && (
         <Button
-          onClick={() => setWorkoutNotesOpen(true)}
+          onClick={() => setNotesOpen(true)}
           className="text-muted-foreground flex w-full items-center justify-start gap-2"
           variant="ghost"
         >
@@ -58,11 +52,11 @@ export default function WorkoutNotes({ workout }: { workout: TWorkout }) {
         </Button>
       )}
 
-      {workout.notes && (
+      {notes && (
         <div>
-          <p className="break-words whitespace-pre-wrap">{workout.notes}</p>
+          <p className="break-words whitespace-pre-wrap">{notes}</p>
           <div className="flex items-center gap-2">
-            <Button onClick={() => setWorkoutNotesOpen(true)} variant="ghost">
+            <Button onClick={() => setNotesOpen(true)} variant="ghost">
               <PencilIcon />
               Edit
             </Button>
