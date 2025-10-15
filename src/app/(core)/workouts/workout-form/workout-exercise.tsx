@@ -1,6 +1,9 @@
 import { type TWorkoutExercise } from "@/api/workouts/types";
 import WorkoutSet from "./workout-set";
-import { useAddWorkoutSet } from "@/api/workouts/mutations";
+import {
+  useAddWorkoutSet,
+  useUpdateWorkoutExercise,
+} from "@/api/workouts/mutations";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -17,6 +20,7 @@ import { useMemo } from "react";
 import { TExercise } from "@/api/exercises/types";
 import { ChevronRightIcon } from "lucide-react";
 import WorkoutExerciseOptionsButton from "./workout-exercise-options-button";
+import WorkoutNotes from "./workout-notes";
 
 type TWorkoutExerciseProps = {
   workoutExercise: TWorkoutExercise;
@@ -32,6 +36,7 @@ export default function WorkoutExercise({
   onOpenExercise,
 }: TWorkoutExerciseProps) {
   const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
+  const updateWorkoutExercise = useUpdateWorkoutExercise(isActiveWorkout);
 
   const workoutSets = workoutExercise.workoutSets;
   const previousWorkoutSets =
@@ -58,6 +63,19 @@ export default function WorkoutExercise({
           isActiveWorkout={isActiveWorkout}
         />
       </div>
+
+      <WorkoutNotes
+        notes={workoutExercise.notes}
+        onUpdate={(notes) =>
+          updateWorkoutExercise.mutate({
+            workoutId: workoutExercise.workoutId,
+            workoutExerciseId: workoutExercise.id,
+            data: {
+              notes,
+            },
+          })
+        }
+      />
 
       <Table>
         <TableHeader>
