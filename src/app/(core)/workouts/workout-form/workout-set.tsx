@@ -6,6 +6,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import WorkoutSetOptionsButton from "./workout-set-options-button";
 
 const parseToNumberOrNull = (value: string): number | null => {
   if (value.trim() === "") return null;
@@ -113,7 +114,13 @@ export default function WorkoutSet({
         workoutSet.completedAt && "bg-accent hover:bg-accent/75",
       )}
     >
-      <TableCell>{workoutSet.setNumber}</TableCell>
+      <TableCell>
+        <WorkoutSetOptionsButton
+          workoutId={workoutId}
+          workoutSet={workoutSet}
+          isActiveWorkout={isActiveWorkout}
+        />
+      </TableCell>
       <TableCell>
         {previousSet ? `${previousSet.weight} x ${previousSet.reps}` : "-"}
       </TableCell>

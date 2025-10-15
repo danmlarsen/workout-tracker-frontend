@@ -267,6 +267,40 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
   });
 }
 
+export function useDeleteWorkoutSet(isActiveWorkout?: boolean) {
+  const { apiClient } = useApiClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      workoutId,
+      workoutExerciseId,
+      setId,
+    }: {
+      workoutId: number;
+      workoutExerciseId: number;
+      setId: number;
+    }) =>
+      apiClient<void>(
+        `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}/sets/${setId}`,
+        {
+          method: "DELETE",
+        },
+      ),
+    onSuccess: () => {
+      if (isActiveWorkout) {
+        queryClient.invalidateQueries({
+          queryKey: ["activeWorkout"],
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ["workouts"],
+        });
+      }
+    },
+  });
+}
+
 export function usePauseActiveWorkout() {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
