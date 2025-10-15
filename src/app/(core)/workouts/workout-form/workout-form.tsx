@@ -14,8 +14,7 @@ import { TExercise } from "@/api/exercises/types";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import ExerciseWorkoutsList from "../../exercises/exercise-details/exercise-workouts-list";
 import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
-import { PencilIcon } from "lucide-react";
-import WorkoutNotesDialog from "./workout-notes-dialog";
+import WorkoutNotes from "./workout-notes";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -23,12 +22,11 @@ type TWorkoutFormProps = {
 };
 
 export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
-  const isActiveWorkout = !workout.completedAt;
+  const isActiveWorkout = workout.status === "ACTIVE";
 
   const [isEditing, setIsEditing] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
-  const [workoutNotesOpen, setWorkoutNotesOpen] = useState(false);
 
   const [selectedWorkoutExercise, setSelectedWorkoutExercise] =
     useState<TExercise | null>(null);
@@ -55,13 +53,6 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
     });
   }
 
-  function handleUpdateWorkoutNotes(notes: string) {
-    updateWorkoutMutation.mutate({
-      workoutId: workout.id,
-      data: { notes },
-    });
-  }
-
   return (
     <>
       <CompleteWorkoutDialog
@@ -80,13 +71,6 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
         isOpen={!!selectedWorkoutExercise}
         onOpenChange={() => setSelectedWorkoutExercise(null)}
         content={<ExerciseWorkoutsList exercise={selectedWorkoutExercise} />}
-      />
-
-      <WorkoutNotesDialog
-        isOpen={workoutNotesOpen}
-        onOpenChange={(open) => setWorkoutNotesOpen(open)}
-        notes={workout.notes}
-        onConfirm={handleUpdateWorkoutNotes}
       />
 
       <div className="space-y-8">
@@ -116,17 +100,7 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
           )}
         </div>
 
-        {!workout.notes && (
-          <Button
-            onClick={() => setWorkoutNotesOpen(true)}
-            className="text-muted-foreground flex w-full items-center justify-start gap-2"
-            variant="ghost"
-          >
-            <PencilIcon />
-            <p>Add notes here</p>
-          </Button>
-        )}
-        {!!workout.notes && <p>{workout.notes}</p>}
+        <WorkoutNotes workout={workout} />
 
         {workout.workoutExercises && workout.workoutExercises.length > 0 && (
           <ul className="space-y-4">

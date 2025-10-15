@@ -9,8 +9,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import z from "zod";
+
+const notesSchema = z.object({
+  notes: z.string().max(200),
+});
 
 export default function WorkoutNotesDialog({
   notes,
@@ -23,10 +36,15 @@ export default function WorkoutNotesDialog({
   onOpenChange: (newState: boolean) => void;
   onConfirm: (newNotes: string) => void;
 }) {
-  const [newNotes, setNewNotes] = useState(notes || "");
+  const form = useForm<z.infer<typeof notesSchema>>({
+    resolver: zodResolver(notesSchema),
+    defaultValues: {
+      notes: notes || "",
+    },
+  });
 
-  function handleConfirm() {
-    onConfirm(newNotes);
+  function handleSubmit(data: z.infer<typeof notesSchema>) {
+    onConfirm(data.notes);
     onOpenChange(false);
   }
 
@@ -36,18 +54,30 @@ export default function WorkoutNotesDialog({
         <DialogHeader>
           <DialogTitle>Workout Note</DialogTitle>
         </DialogHeader>
-        <div>
-          <Textarea
-            value={newNotes}
-            onChange={(e) => setNewNotes(e.target.value)}
-            placeholder="Please enter your notes here..."
-            className="w-full"
-          />
-        </div>
-        <DialogFooter className="grid grid-cols-2">
-          <DialogClose>Cancel</DialogClose>
-          <Button onClick={handleConfirm}>OK</Button>
-        </DialogFooter>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <FormField
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="sr-only">Notes</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder="Please enter your notes here..."
+                      className="w-full"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <DialogFooter className="mt-4 grid grid-cols-2">
+              <DialogClose>Cancel</DialogClose>
+              <Button type="submit">OK</Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
