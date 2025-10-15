@@ -14,9 +14,11 @@ import { MoreHorizontalIcon } from "lucide-react";
 export default function WorkoutExerciseOptionsButton({
   workoutExercise,
   isActiveWorkout,
+  onOpenNotes,
 }: {
   workoutExercise: TWorkoutExercise;
   isActiveWorkout: boolean;
+  onOpenNotes: () => void;
 }) {
   const deleteMutation = useDeleteWorkoutExercise(isActiveWorkout);
 
@@ -28,7 +30,11 @@ export default function WorkoutExerciseOptionsButton({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>Add Exercise Notes</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Button onClick={onOpenNotes} variant="ghost">
+            Add Exercise Notes
+          </Button>
+        </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Button
             onClick={() =>

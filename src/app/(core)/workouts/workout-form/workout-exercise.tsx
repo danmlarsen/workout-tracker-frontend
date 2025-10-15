@@ -16,7 +16,7 @@ import {
   findBestWorkoutSetWithIndex,
   getPlaceholderWorkoutSet,
 } from "@/lib/utils";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { TExercise } from "@/api/exercises/types";
 import { ChevronRightIcon } from "lucide-react";
 import WorkoutExerciseOptionsButton from "./workout-exercise-options-button";
@@ -35,6 +35,8 @@ export default function WorkoutExercise({
   isActiveWorkout = false,
   onOpenExercise,
 }: TWorkoutExerciseProps) {
+  const [notesOpen, setNotesOpen] = useState(false);
+
   const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
   const updateWorkoutExercise = useUpdateWorkoutExercise(isActiveWorkout);
 
@@ -61,11 +63,14 @@ export default function WorkoutExercise({
         <WorkoutExerciseOptionsButton
           workoutExercise={workoutExercise}
           isActiveWorkout={isActiveWorkout}
+          onOpenNotes={() => setNotesOpen(true)}
         />
       </div>
 
       <WorkoutNotes
         notes={workoutExercise.notes}
+        notesOpen={notesOpen}
+        onNotesOpenChange={setNotesOpen}
         onUpdate={(notes) =>
           updateWorkoutExercise.mutate({
             workoutId: workoutExercise.workoutId,

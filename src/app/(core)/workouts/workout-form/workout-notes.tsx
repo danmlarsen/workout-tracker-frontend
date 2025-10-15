@@ -8,12 +8,17 @@ import WorkoutNotesDeleteDialog from "./workout-notes-delete-dialog";
 
 export default function WorkoutNotes({
   notes,
+  notesOpen,
+  onNotesOpenChange,
   onUpdate,
+  showPlaceholder = false,
 }: {
   notes: string | null;
+  notesOpen: boolean;
+  onNotesOpenChange: (open: boolean) => void;
   onUpdate: (notes: string) => void;
+  showPlaceholder?: boolean;
 }) {
-  const [notesOpen, setNotesOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   function handleUpdateNotes(notes: string) {
@@ -30,7 +35,7 @@ export default function WorkoutNotes({
       <WorkoutNotesDialog
         key={`${notesOpen}-${notes}`}
         isOpen={notesOpen}
-        onOpenChange={setNotesOpen}
+        onOpenChange={onNotesOpenChange}
         notes={notes}
         onConfirm={handleUpdateNotes}
       />
@@ -41,9 +46,9 @@ export default function WorkoutNotes({
         onConfirm={handleDeleteNotes}
       />
 
-      {!notes && (
+      {!notes && showPlaceholder && (
         <Button
-          onClick={() => setNotesOpen(true)}
+          onClick={() => onNotesOpenChange(true)}
           className="text-muted-foreground flex w-full items-center justify-start gap-2"
           variant="ghost"
         >
@@ -56,7 +61,7 @@ export default function WorkoutNotes({
         <div>
           <p className="break-words whitespace-pre-wrap">{notes}</p>
           <div className="flex items-center gap-2">
-            <Button onClick={() => setNotesOpen(true)} variant="ghost">
+            <Button onClick={() => onNotesOpenChange(true)} variant="ghost">
               <PencilIcon />
               Edit
             </Button>

@@ -26,6 +26,7 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [workoutNotesOpen, setWorkoutNotesOpen] = useState(false);
   const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
 
   const [selectedWorkoutExercise, setSelectedWorkoutExercise] =
@@ -102,12 +103,15 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
 
         <WorkoutNotes
           notes={workout.notes}
+          notesOpen={workoutNotesOpen}
+          onNotesOpenChange={setWorkoutNotesOpen}
           onUpdate={(notes) =>
             updateWorkoutMutation.mutate({
               workoutId: workout.id,
               data: { notes },
             })
           }
+          showPlaceholder
         />
 
         {workout.workoutExercises && workout.workoutExercises.length > 0 && (
