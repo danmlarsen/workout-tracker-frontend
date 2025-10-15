@@ -15,6 +15,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +23,7 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 const notesSchema = z.object({
-  notes: z.string().max(200),
+  notes: z.string().max(200, "Max 200 characters"),
 });
 
 export default function WorkoutNotesDialog({
@@ -62,6 +63,7 @@ export default function WorkoutNotesDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="sr-only">Notes</FormLabel>
+                  <FormMessage />
                   <FormControl>
                     <Textarea
                       {...field}
