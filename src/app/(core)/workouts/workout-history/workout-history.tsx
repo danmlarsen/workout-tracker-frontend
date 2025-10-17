@@ -3,7 +3,7 @@
 import { useCompletedWorkouts, useWorkoutStats } from "@/api/workouts/queries";
 import WorkoutHistoryItem from "./workout-history-item";
 import InfiniteScroll from "react-infinite-scroller";
-import WorkoutCalendar from "./workout-calendar";
+import WorkoutHistoryCalendar from "./workout-history-calendar";
 import { useState } from "react";
 
 export default function WorkoutHistory() {
@@ -16,7 +16,7 @@ export default function WorkoutHistory() {
 
   return (
     <>
-      <WorkoutCalendar
+      <WorkoutHistoryCalendar
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />

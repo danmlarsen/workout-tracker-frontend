@@ -1,9 +1,9 @@
 "use client";
 
 import { useWorkoutCalendar } from "@/api/workouts/queries";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/workout-calendar";
 
-export default function WorkoutCalendar({
+export default function WorkoutHistoryCalendar({
   selectedDate,
   setSelectedDate,
 }: {
