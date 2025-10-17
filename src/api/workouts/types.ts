@@ -44,6 +44,7 @@ export type TWorkoutSet = {
   duration: number | null;
   setNumber: number;
   notes: string | null;
+  type: "normal" | "warmup";
 };
 
 export type TWorkoutSetDto = {
@@ -51,6 +52,7 @@ export type TWorkoutSetDto = {
   weight?: number | null;
   duration?: number | null;
   completed?: boolean;
+  type?: "normal" | "warmup";
 };
 
 export type TUpdateWorkoutDto = {

@@ -1,6 +1,9 @@
 "use client";
 
-import { useDeleteWorkoutSet } from "@/api/workouts/mutations";
+import {
+  useDeleteWorkoutSet,
+  useUpdateWorkoutSet,
+} from "@/api/workouts/mutations";
 import { TWorkoutSet } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +22,7 @@ export default function WorkoutSetOptionsButton({
   workoutId: number;
   isActiveWorkout: boolean;
 }) {
+  const updateWorkoutSet = useUpdateWorkoutSet(isActiveWorkout);
   const deleteWorkoutSet = useDeleteWorkoutSet(isActiveWorkout);
 
   return (
@@ -29,6 +33,44 @@ export default function WorkoutSetOptionsButton({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
+        {workoutSet.type !== "normal" && (
+          <DropdownMenuItem asChild>
+            <Button
+              onClick={() =>
+                updateWorkoutSet.mutate({
+                  workoutId,
+                  workoutExerciseId: workoutSet.workoutExerciseId,
+                  setId: workoutSet.id,
+                  data: {
+                    type: "normal",
+                  },
+                })
+              }
+              variant="ghost"
+            >
+              Work Set
+            </Button>
+          </DropdownMenuItem>
+        )}
+        {workoutSet.type !== "warmup" && (
+          <DropdownMenuItem asChild>
+            <Button
+              onClick={() =>
+                updateWorkoutSet.mutate({
+                  workoutId,
+                  workoutExerciseId: workoutSet.workoutExerciseId,
+                  setId: workoutSet.id,
+                  data: {
+                    type: "warmup",
+                  },
+                })
+              }
+              variant="ghost"
+            >
+              Warmup Set
+            </Button>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem asChild>
           <Button
             onClick={() =>
