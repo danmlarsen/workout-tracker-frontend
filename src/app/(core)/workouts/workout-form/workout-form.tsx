@@ -25,15 +25,16 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
   const isActiveWorkout = workout.status === "ACTIVE";
 
   const [isEditing, setIsEditing] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
+  const [completeWorkoutDialogOpen, setCompleteWorkoutDialogOpen] =
+    useState(false);
   const [workoutNotesOpen, setWorkoutNotesOpen] = useState(false);
   const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
 
   const [selectedWorkoutExercise, setSelectedWorkoutExercise] =
     useState<TExercise | null>(null);
 
-  const { mutate: completeWorkout } = useCompleteWorkout();
-  const updateWorkoutMutation = useUpdateWorkout(isActiveWorkout);
+  const completeWorkout = useCompleteWorkout();
+  const updateWorkout = useUpdateWorkout(isActiveWorkout);
 
   const hasIncompleteSets =
     workout.workoutExercises?.filter(
@@ -44,11 +45,11 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
 
   function handleCompleteWorkout() {
     onSuccess?.();
-    completeWorkout(workout.id);
+    completeWorkout.mutate(workout.id);
   }
 
   function handleUpdateWorkoutName(newTitle: string) {
-    updateWorkoutMutation.mutate({
+    updateWorkout.mutate({
       workoutId: workout.id,
       data: { title: newTitle },
     });
@@ -57,8 +58,8 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
   return (
     <>
       <CompleteWorkoutDialog
-        open={isFinished}
-        onOpenChange={(open) => setIsFinished(open)}
+        open={completeWorkoutDialogOpen}
+        onOpenChange={(open) => setCompleteWorkoutDialogOpen(open)}
         onConfirm={handleCompleteWorkout}
         incomplete={hasIncompleteSets}
       />
@@ -79,7 +80,9 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
           {isActiveWorkout ? (
             <>
               <Timer workout={workout} isButton={true} />
-              <Button onClick={() => setIsFinished(true)}>Finish</Button>
+              <Button onClick={() => setCompleteWorkoutDialogOpen(true)}>
+                Finish
+              </Button>
             </>
           ) : (
             <>
@@ -106,7 +109,7 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
           notesOpen={workoutNotesOpen}
           onNotesOpenChange={setWorkoutNotesOpen}
           onUpdate={(notes) =>
-            updateWorkoutMutation.mutate({
+            updateWorkout.mutate({
               workoutId: workout.id,
               data: { notes },
             })
