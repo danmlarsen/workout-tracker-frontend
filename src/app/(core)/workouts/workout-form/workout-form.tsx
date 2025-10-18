@@ -8,7 +8,6 @@ import EditWorkoutNameButton from "./edit-workout-name-button";
 import Timer from "@/components/ui/timer";
 import { type TWorkout } from "@/api/workouts/types";
 import { useState } from "react";
-import { formatDate } from "date-fns";
 import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
 import { TExercise } from "@/api/exercises/types";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
@@ -60,15 +59,19 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
     });
   }
 
-  function handleUpdateWorkoutDate(startedDate: Date, duration = 3600) {
+  function handleUpdateWorkoutDate(startedDate: Date) {
     const startedAt = startedDate.toISOString();
-    const completedAt = new Date(
-      startedDate.getTime() + duration * 1000,
-    ).toISOString();
 
     updateWorkout.mutate({
       workoutId: workout.id,
-      data: { startedAt, completedAt },
+      data: { startedAt },
+    });
+  }
+
+  function handleUpdateWorkoutDuration(duration: number) {
+    updateWorkout.mutate({
+      workoutId: workout.id,
+      data: { activeDuration: duration },
     });
   }
 
@@ -105,9 +108,7 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
             <>
               <DurationInput
                 workout={workout}
-                onDurationChanged={(duration) =>
-                  handleUpdateWorkoutDate(new Date(workout.startedAt), duration)
-                }
+                onDurationChanged={handleUpdateWorkoutDuration}
               />
               <Button onClick={() => setIsEditing((curState) => !curState)}>
                 {isEditing ? "Done" : "Edit"}

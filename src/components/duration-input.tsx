@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Label } from "./ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
-import { formatTime } from "@/lib/utils";
 import { Input } from "./ui/input";
 import { TWorkout } from "@/api/workouts/types";
 
@@ -28,15 +27,7 @@ export default function DurationInput({
   onDurationChanged: (duration: number) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const [duration, setDuration] = useState(() =>
-    workout.completedAt && workout.startedAt
-      ? Math.floor(
-          (new Date(workout.completedAt).getTime() -
-            new Date(workout.startedAt).getTime()) /
-            1000,
-        )
-      : 0,
-  );
+  const [duration, setDuration] = useState(workout.activeDuration);
 
   function handleOpenChange(open: boolean) {
     if (!open) {
@@ -53,7 +44,7 @@ export default function DurationInput({
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <Button>{formatTime(duration * 1000)}</Button>
+        <Button>{secondsToTimeString(duration)}</Button>
       </PopoverTrigger>
       <PopoverContent>
         <Label htmlFor="time-picker">Duration</Label>

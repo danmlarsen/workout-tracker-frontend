@@ -11,7 +11,6 @@ export type TWorkout = {
   createdAt: string;
   updatedAt: string;
   startedAt: string;
-  completedAt: string | null;
   userId: number;
   workoutExercises: TWorkoutExercise[];
   status: "DRAFT" | "ACTIVE" | "COMPLETED";
@@ -19,6 +18,7 @@ export type TWorkout = {
   isPaused: boolean;
   pauseDuration: number;
   lastPauseStartTime: string | null;
+  activeDuration: number;
 };
 
 export type TWorkoutExercise = {
@@ -60,7 +60,7 @@ export type TUpdateWorkoutDto = {
   title?: string | null;
   notes?: string | null;
   startedAt?: string;
-  completedAt?: string;
+  activeDuration?: number;
 };
 
 export type TWorkoutStats = {
