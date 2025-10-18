@@ -59,6 +59,8 @@ export type TWorkoutSetDto = {
 export type TUpdateWorkoutDto = {
   title?: string | null;
   notes?: string | null;
+  startedAt?: string;
+  completedAt?: string;
 };
 
 export type TWorkoutStats = {

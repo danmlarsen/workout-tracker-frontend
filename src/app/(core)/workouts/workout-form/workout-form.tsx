@@ -16,6 +16,8 @@ import ExerciseWorkoutsList from "../../exercises/exercise-details/exercise-work
 import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
 import WorkoutNotes from "./workout-notes";
 import { parseWorkoutTitle } from "@/lib/utils";
+import DatePicker from "@/components/date-picker";
+import DurationInput from "@/components/duration-input";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -58,6 +60,18 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
     });
   }
 
+  function handleUpdateWorkoutDate(startedDate: Date, duration = 3600) {
+    const startedAt = startedDate.toISOString();
+    const completedAt = new Date(
+      startedDate.getTime() + duration * 1000,
+    ).toISOString();
+
+    updateWorkout.mutate({
+      workoutId: workout.id,
+      data: { startedAt, completedAt },
+    });
+  }
+
   return (
     <>
       <CompleteWorkoutDialog
@@ -89,7 +103,12 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
             </>
           ) : (
             <>
-              <p>{formatDate(workout.completedAt!, "EEEE PP")}</p>
+              <DurationInput
+                workout={workout}
+                onDurationChanged={(duration) =>
+                  handleUpdateWorkoutDate(new Date(workout.startedAt), duration)
+                }
+              />
               <Button onClick={() => setIsEditing((curState) => !curState)}>
                 {isEditing ? "Done" : "Edit"}
               </Button>
@@ -106,6 +125,13 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
             />
           )}
         </div>
+
+        {!isActiveWorkout && (
+          <DatePicker
+            date={new Date(workout.startedAt)}
+            onDateChanged={(date) => handleUpdateWorkoutDate(date)}
+          />
+        )}
 
         <WorkoutNotes
           notes={workout.notes}
