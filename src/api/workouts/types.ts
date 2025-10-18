@@ -10,6 +10,7 @@ export type TWorkout = {
   title?: string;
   createdAt: string;
   updatedAt: string;
+  startedAt: string;
   completedAt: string | null;
   userId: number;
   workoutExercises: TWorkoutExercise[];

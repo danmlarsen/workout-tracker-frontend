@@ -41,7 +41,7 @@ import WorkoutForm from "../workout-form/workout-form";
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const { id, createdAt, workoutExercises, completedAt } = workout;
+  const { id, startedAt, workoutExercises, completedAt } = workout;
 
   const workoutTitle = parseWorkoutTitle(workout);
 
@@ -49,7 +49,7 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
     ? format(
         addSeconds(
           startOfDay(new Date()),
-          differenceInSeconds(new Date(completedAt), new Date(createdAt)),
+          differenceInSeconds(new Date(completedAt), new Date(startedAt)),
         ),
         "HH:mm:ss",
       )
@@ -99,7 +99,7 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
               <WorkoutHistoryItemDropdownMenu workoutId={id} />
             </div>
           </div>
-          <CardDescription>{formatDate(createdAt, "EEEE PP")}</CardDescription>
+          <CardDescription>{formatDate(startedAt, "EEEE PP")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between gap-4 text-sm">

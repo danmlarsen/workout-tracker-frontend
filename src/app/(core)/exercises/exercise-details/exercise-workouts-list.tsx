@@ -34,7 +34,7 @@ export default function ExerciseWorkoutsList({
                 <CardHeader>
                   <CardTitle>{workout.title}</CardTitle>
                   <CardDescription>
-                    {formatDate(workout.createdAt, "EEEE PP")}
+                    {formatDate(workout.startedAt, "EEEE PP")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

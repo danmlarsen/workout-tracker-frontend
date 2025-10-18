@@ -151,7 +151,7 @@ export function getPlaceholderWorkoutSet(
 export function parseWorkoutTitle(workout: TWorkout) {
   return workout.title
     ? workout.title
-    : new Date(workout.createdAt).toLocaleDateString("en-US", {
+    : new Date(workout.startedAt).toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
       }) + " Workout";
