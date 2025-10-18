@@ -7,6 +7,7 @@ import DeleteActiveWorkoutDialog from "./delete-active-workout-dialog";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { useState } from "react";
 import { XIcon } from "lucide-react";
+import { parseWorkoutTitle } from "@/lib/utils";
 
 export default function ActiveWorkoutView() {
   const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
@@ -46,7 +47,7 @@ export default function ActiveWorkoutView() {
               </Button>
             </div>
             <div className="flex flex-col items-center">
-              <div>{activeWorkout.title}</div>
+              <div>{parseWorkoutTitle(activeWorkout)}</div>
               <div>
                 <Timer workout={activeWorkout} />
               </div>
