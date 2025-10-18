@@ -6,6 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { TWorkout } from "@/api/workouts/types";
+import { formatTimeFromMs } from "@/lib/utils";
 
 function secondsToTimeString(seconds: number): string {
   const hours = Math.floor(seconds / 3600);
@@ -38,13 +39,14 @@ export default function DurationInput({
 
   function handleDurationChange(newDuration: string) {
     const parsedDuration = timeStringToSeconds(newDuration);
-    setDuration(parsedDuration);
+    const MAX_SECONDS = 43200;
+    setDuration(Math.min(parsedDuration, MAX_SECONDS));
   }
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <Button>{secondsToTimeString(duration)}</Button>
+        <Button>{formatTimeFromMs(duration * 1000)}</Button>
       </PopoverTrigger>
       <PopoverContent>
         <Label htmlFor="time-picker">Duration</Label>

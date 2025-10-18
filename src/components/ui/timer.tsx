@@ -6,7 +6,7 @@ import {
   usePauseActiveWorkout,
   useResumeActiveWorkout,
 } from "@/api/workouts/mutations";
-import { formatTime } from "@/lib/utils";
+import { formatTimeFromMs } from "@/lib/utils";
 
 export default function Timer({
   workout: { startedAt, pauseDuration, isPaused, lastPauseStartTime },
@@ -67,10 +67,10 @@ export default function Timer({
       >
         {isPaused && <PlayIcon size={16} />}
         {!isPaused && <PauseIcon size={16} />}
-        {formatTime(elapsedTime)}
+        {formatTimeFromMs(elapsedTime)}
       </Button>
     );
   }
 
-  return <div>{formatTime(elapsedTime)}</div>;
+  return <div>{formatTimeFromMs(elapsedTime)}</div>;
 }

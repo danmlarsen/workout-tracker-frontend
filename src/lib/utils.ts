@@ -157,7 +157,7 @@ export function parseWorkoutTitle(workout: TWorkout) {
       }) + " Workout";
 }
 
-export const formatTime = (milliseconds: number): string => {
+export const formatTimeFromMs = (milliseconds: number): string => {
   const totalSeconds = Math.floor(milliseconds / 1000);
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
