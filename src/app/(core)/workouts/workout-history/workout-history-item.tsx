@@ -30,14 +30,20 @@ import {
   MaximizeIcon,
   WeightIcon,
 } from "lucide-react";
-import { formatBestSet, getBestSetByOneRM } from "@/lib/utils";
+import {
+  formatBestSet,
+  getBestSetByOneRM,
+  parseWorkoutTitle,
+} from "@/lib/utils";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import WorkoutForm from "../workout-form/workout-form";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const { id, title, createdAt, workoutExercises, completedAt } = workout;
+  const { id, createdAt, workoutExercises, completedAt } = workout;
+
+  const workoutTitle = parseWorkoutTitle(workout);
 
   const workoutDuration = completedAt
     ? format(
@@ -81,7 +87,7 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>{title}</CardTitle>
+            <CardTitle>{workoutTitle}</CardTitle>
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"

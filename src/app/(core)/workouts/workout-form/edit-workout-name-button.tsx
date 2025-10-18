@@ -1,23 +1,45 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { TWorkout } from "@/api/workouts/types";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { parseWorkoutTitle } from "@/lib/utils";
+import { useState } from "react";
 
-export default function EditWorkoutNameButton({ workoutName, handleEdit }: { workoutName: string; handleEdit: (newWorkoutName: string) => void }) {
+export default function EditWorkoutNameButton({
+  workout,
+  handleEdit,
+}: {
+  workout: TWorkout;
+  handleEdit: (newWorkoutName?: string) => void;
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [newWorkoutName, setNewWorkoutName] = useState(workoutName);
+  const [newWorkoutName, setNewWorkoutName] = useState(workout.title);
+
+  const placeholderTitle = parseWorkoutTitle(workout);
 
   return (
-    <Dialog open={isOpen} onOpenChange={newState => setIsOpen(newState)}>
+    <Dialog open={isOpen} onOpenChange={(newState) => setIsOpen(newState)}>
       <DialogTrigger>Edit name</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit workout</DialogTitle>
         </DialogHeader>
         <div>
-          <Input onChange={e => setNewWorkoutName(e.target.value)} value={newWorkoutName} />
+          <Input
+            onChange={(e) => setNewWorkoutName(e.target.value)}
+            value={newWorkoutName}
+            placeholder={placeholderTitle}
+          />
         </div>
         <DialogFooter>
           <DialogClose>Cancel</DialogClose>

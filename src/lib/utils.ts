@@ -1,4 +1,4 @@
-import { TWorkoutSet } from "@/api/workouts/types";
+import { TWorkout, TWorkoutSet } from "@/api/workouts/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -146,4 +146,13 @@ export function getPlaceholderWorkoutSet(
   }
 
   return undefined;
+}
+
+export function parseWorkoutTitle(workout: TWorkout) {
+  return workout.title
+    ? workout.title
+    : new Date(workout.createdAt).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+      }) + " Workout";
 }

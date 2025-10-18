@@ -7,7 +7,7 @@ export type TWorkoutsQuery = {
 
 export type TWorkout = {
   id: number;
-  title: string;
+  title?: string;
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
@@ -56,8 +56,8 @@ export type TWorkoutSetDto = {
 };
 
 export type TUpdateWorkoutDto = {
-  title?: string;
-  notes?: string;
+  title?: string | null;
+  notes?: string | null;
 };
 
 export type TWorkoutStats = {

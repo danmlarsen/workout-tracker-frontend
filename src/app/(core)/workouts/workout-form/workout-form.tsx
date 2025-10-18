@@ -15,6 +15,7 @@ import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import ExerciseWorkoutsList from "../../exercises/exercise-details/exercise-workouts-list";
 import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
 import WorkoutNotes from "./workout-notes";
+import { parseWorkoutTitle } from "@/lib/utils";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -43,15 +44,17 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
         0,
     ).length > 0;
 
+  const workoutTitle = parseWorkoutTitle(workout);
+
   function handleCompleteWorkout() {
     onSuccess?.();
     completeWorkout.mutate(workout.id);
   }
 
-  function handleUpdateWorkoutName(newTitle: string) {
+  function handleUpdateWorkoutName(newTitle?: string) {
     updateWorkout.mutate({
       workoutId: workout.id,
-      data: { title: newTitle },
+      data: { title: newTitle || null },
     });
   }
 
@@ -95,10 +98,10 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
         </div>
 
         <div className="flex items-center justify-between">
-          <h1>{workout.title}</h1>
+          <h1>{workoutTitle}</h1>
           {(isActiveWorkout || isEditing) && (
             <EditWorkoutNameButton
-              workoutName={workout.title}
+              workout={workout}
               handleEdit={handleUpdateWorkoutName}
             />
           )}
