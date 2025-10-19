@@ -151,11 +151,18 @@ export function getPlaceholderWorkoutSet(
 export function parseWorkoutTitle(workout: TWorkout) {
   return workout.title
     ? workout.title
-    : new Date(workout.startedAt).toLocaleDateString("en-US", {
+    : new Date(workout.startedAt).toLocaleDateString(undefined, {
         month: "long",
         day: "numeric",
       }) + " Workout";
 }
+
+export const formatTime = (seconds: number): string => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+  return `${hours ? `${hours.toString().padStart(2, "0")}:` : ""}${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+};
 
 export const formatTimeFromMs = (milliseconds: number): string => {
   const totalSeconds = Math.floor(milliseconds / 1000);
@@ -165,3 +172,16 @@ export const formatTimeFromMs = (milliseconds: number): string => {
 
   return `${hours ? `${hours.toString().padStart(2, "0")}:` : ""}${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 };
+
+export function getDayRangeUTC(date = new Date()) {
+  const start = new Date(date);
+  start.setHours(0, 0, 0, 0); // local start of day
+
+  const end = new Date(date);
+  end.setHours(23, 59, 59, 999); // local end of day
+
+  return {
+    from: start.toISOString(),
+    to: end.toISOString(),
+  };
+}

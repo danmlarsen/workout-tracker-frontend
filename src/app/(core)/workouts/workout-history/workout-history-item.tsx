@@ -14,13 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  addSeconds,
-  differenceInSeconds,
-  format,
-  formatDate,
-  startOfDay,
-} from "date-fns";
+import { formatDate } from "date-fns";
 import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -32,6 +26,7 @@ import {
 } from "lucide-react";
 import {
   formatBestSet,
+  formatTime,
   getBestSetByOneRM,
   parseWorkoutTitle,
 } from "@/lib/utils";
@@ -41,18 +36,12 @@ import WorkoutForm from "../workout-form/workout-form";
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const { id, startedAt, workoutExercises, completedAt } = workout;
+  const { id, startedAt, workoutExercises } = workout;
 
   const workoutTitle = parseWorkoutTitle(workout);
 
-  const workoutDuration = completedAt
-    ? format(
-        addSeconds(
-          startOfDay(new Date()),
-          differenceInSeconds(new Date(completedAt), new Date(startedAt)),
-        ),
-        "HH:mm:ss",
-      )
+  const workoutDuration = workout.activeDuration
+    ? formatTime(workout.activeDuration)
     : null;
 
   const totalWeight = workout.workoutExercises.reduce(

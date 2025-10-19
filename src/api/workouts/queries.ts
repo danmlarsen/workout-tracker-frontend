@@ -6,6 +6,7 @@ import {
   type TWorkout,
   type TWorkoutsQuery,
 } from "./types";
+import { getDayRangeUTC } from "@/lib/utils";
 
 export function useWorkouts() {
   const { apiClient } = useApiClient();
@@ -19,19 +20,18 @@ export function useWorkouts() {
 export function useCompletedWorkouts(selectedDate?: Date) {
   const { apiClient } = useApiClient();
 
-  const dateString = selectedDate
-    ? selectedDate.toLocaleDateString("en-CA")
-    : undefined;
+  const dateObject = selectedDate ? getDayRangeUTC(selectedDate) : undefined;
 
   return useInfiniteQuery<TWorkoutsQuery>({
-    queryKey: dateString ? ["workouts", dateString] : ["workouts"],
+    queryKey: dateObject ? ["workouts", dateObject] : ["workouts"],
     queryFn: ({ pageParam = undefined }) => {
       const searchParams = new URLSearchParams();
       if (pageParam) {
         searchParams.set("cursor", String(pageParam));
       }
-      if (dateString) {
-        searchParams.set("date", dateString);
+      if (dateObject) {
+        searchParams.set("from", dateObject.from);
+        searchParams.set("to", dateObject.to);
       }
       const queryString = searchParams.toString();
 
