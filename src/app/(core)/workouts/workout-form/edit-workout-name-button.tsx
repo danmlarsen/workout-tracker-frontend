@@ -12,7 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { parseWorkoutTitle } from "@/lib/utils";
 import { useState } from "react";
 
 export default function EditWorkoutNameButton({
@@ -23,9 +22,13 @@ export default function EditWorkoutNameButton({
   handleEdit: (newWorkoutName?: string) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [newWorkoutName, setNewWorkoutName] = useState(workout.title);
+  const [newWorkoutName, setNewWorkoutName] = useState(workout.title || "");
 
-  const placeholderTitle = parseWorkoutTitle(workout);
+  const placeholderTitle =
+    new Date(workout.startedAt).toLocaleDateString(undefined, {
+      month: "long",
+      day: "numeric",
+    }) + " Workout";
 
   return (
     <Dialog open={isOpen} onOpenChange={(newState) => setIsOpen(newState)}>
