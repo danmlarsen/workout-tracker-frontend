@@ -13,6 +13,7 @@ import WorkoutForm from "../workout-form/workout-form";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function AddWorkoutButton() {
+  const [open, setOpen] = useState(false);
   const [workoutId, setWorkoutId] = useState<number | undefined>();
 
   const queryClient = useQueryClient();
@@ -25,15 +26,16 @@ export default function AddWorkoutButton() {
     createWorkout.mutate(undefined, {
       onSuccess: (workout) => {
         setWorkoutId(workout.id);
+        setOpen(true);
       },
     });
   }
 
-  function handleCloseModal() {
+  function handleOpenChange() {
+    setOpen(false);
     if (workout.data && workout.data.status === "DRAFT") {
       deleteWorkout.mutate(workout.data.id);
     }
-    setWorkoutId(undefined);
   }
 
   function handleSaveWorkout() {
@@ -43,7 +45,7 @@ export default function AddWorkoutButton() {
         // queryClient.setQueryData(["workouts", { id }], (oldData) =>
         //   oldData ? { ...oldData, status: "COMPLETED" } : oldData,
         // );
-        setWorkoutId(undefined);
+        setOpen(false);
       },
     });
   }
@@ -52,7 +54,7 @@ export default function AddWorkoutButton() {
     if (!workout.data) return;
     deleteWorkout.mutate(workout.data.id, {
       onSuccess: () => {
-        setWorkoutId(undefined);
+        setOpen(false);
       },
     });
   }
@@ -61,8 +63,8 @@ export default function AddWorkoutButton() {
     <>
       {workout.data && (
         <ResponsiveModal
-          isOpen={!!workoutId}
-          onOpenChange={handleCloseModal}
+          isOpen={open}
+          onOpenChange={handleOpenChange}
           content={
             <WorkoutForm
               workout={workout.data}
