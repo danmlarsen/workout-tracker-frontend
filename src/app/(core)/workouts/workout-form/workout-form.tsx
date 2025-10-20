@@ -21,12 +21,16 @@ import DurationInput from "@/components/duration-input";
 type TWorkoutFormProps = {
   workout: TWorkout;
   onSuccess?: () => void;
+  onClose?: () => void;
 };
 
-export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
+export default function WorkoutForm({
+  workout,
+  onSuccess,
+  onClose,
+}: TWorkoutFormProps) {
   const isActiveWorkout = workout.status === "ACTIVE";
 
-  const [isEditing, setIsEditing] = useState(false);
   const [completeWorkoutDialogOpen, setCompleteWorkoutDialogOpen] =
     useState(false);
   const [workoutNotesOpen, setWorkoutNotesOpen] = useState(false);
@@ -110,21 +114,19 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
                 workout={workout}
                 onDurationChanged={handleUpdateWorkoutDuration}
               />
-              <Button onClick={() => setIsEditing((curState) => !curState)}>
-                {isEditing ? "Done" : "Edit"}
-              </Button>
+              <Button onClick={() => onClose?.()}>Close</Button>
             </>
           )}
         </div>
 
         <div className="flex items-center justify-between">
           <h1>{workoutTitle}</h1>
-          {(isActiveWorkout || isEditing) && (
+          {
             <EditWorkoutNameButton
               workout={workout}
               handleEdit={handleUpdateWorkoutName}
             />
-          )}
+          }
         </div>
 
         {!isActiveWorkout && (
@@ -153,7 +155,6 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
               <WorkoutExercise
                 key={workoutExercise.id}
                 workoutExercise={workoutExercise}
-                isEditing={isActiveWorkout || isEditing}
                 isActiveWorkout={isActiveWorkout}
                 onOpenExercise={(exercise) =>
                   setSelectedWorkoutExercise(exercise)
@@ -162,12 +163,12 @@ export default function WorkoutForm({ workout, onSuccess }: TWorkoutFormProps) {
             ))}
           </ul>
         )}
-        {(isActiveWorkout || isEditing) && (
+        {
           <AddExerciseButton
             workoutId={workout.id}
             isActiveWorkout={isActiveWorkout}
           />
-        )}
+        }
         {isActiveWorkout && (
           <Button
             onClick={() => setDeleteWorkoutOpen(true)}

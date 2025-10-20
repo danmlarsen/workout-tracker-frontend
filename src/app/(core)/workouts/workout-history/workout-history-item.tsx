@@ -69,8 +69,14 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
       <ResponsiveModal
         isOpen={modalIsOpen}
         onOpenChange={setModalIsOpen}
-        content={<WorkoutForm workout={workout} />}
+        content={
+          <WorkoutForm
+            workout={workout}
+            onClose={() => setModalIsOpen(false)}
+          />
+        }
         title={workout.title}
+        description={`Edit workout ${workout.title}`}
       />
 
       <Card>

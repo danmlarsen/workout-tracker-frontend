@@ -17,7 +17,6 @@ const parseToNumberOrNull = (value: string): number | null => {
 type TWorkoutSetProps = {
   workoutSet: TWorkoutSet;
   workoutId: number;
-  isEditing?: boolean;
   isActiveWorkout?: boolean;
   previousSet?: TWorkoutSet;
   placeholderSet?: Partial<TWorkoutSet>;
@@ -26,7 +25,6 @@ type TWorkoutSetProps = {
 export default function WorkoutSet({
   workoutSet,
   workoutId,
-  isEditing = true,
   isActiveWorkout = false,
   previousSet,
   placeholderSet,
@@ -133,7 +131,7 @@ export default function WorkoutSet({
           value={weight}
           onChange={(e) => handleWeightChange(e.target.value)}
           onBlur={handleWeightBlur}
-          disabled={!isEditing || !!workoutSet.completedAt}
+          disabled={!!workoutSet.completedAt}
         />
       </TableCell>
       <TableCell>
@@ -145,7 +143,7 @@ export default function WorkoutSet({
           value={reps}
           onChange={(e) => handleRepsChange(e.target.value)}
           onBlur={handleRepsBlur}
-          disabled={!isEditing || !!workoutSet.completedAt}
+          disabled={!!workoutSet.completedAt}
         />
       </TableCell>
       <TableCell>
@@ -153,7 +151,6 @@ export default function WorkoutSet({
           className="size-8 rounded-full"
           checked={!!workoutSet.completedAt}
           onCheckedChange={(checked) => handleCheckedChange(!!checked)}
-          disabled={!isEditing}
         />
       </TableCell>
     </TableRow>

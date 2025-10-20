@@ -31,7 +31,6 @@ type TWorkoutExerciseProps = {
 
 export default function WorkoutExercise({
   workoutExercise,
-  isEditing = true,
   isActiveWorkout = false,
   onOpenExercise,
 }: TWorkoutExerciseProps) {
@@ -108,7 +107,6 @@ export default function WorkoutExercise({
                 key={workoutSet.id}
                 workoutSet={workoutSet}
                 workoutId={workoutExercise.workoutId}
-                isEditing={isEditing}
                 previousSet={previousSet}
                 placeholderSet={placeholderSet}
                 isActiveWorkout={isActiveWorkout}
@@ -118,19 +116,17 @@ export default function WorkoutExercise({
         </TableBody>
       </Table>
 
-      {isEditing && (
-        <Button
-          onClick={() =>
-            addWorkoutSet({
-              workoutId: workoutExercise.workoutId,
-              workoutExerciseId: workoutExercise.id,
-            })
-          }
-          className="w-full"
-        >
-          + Add set
-        </Button>
-      )}
+      <Button
+        onClick={() =>
+          addWorkoutSet({
+            workoutId: workoutExercise.workoutId,
+            workoutExerciseId: workoutExercise.id,
+          })
+        }
+        className="w-full"
+      >
+        + Add set
+      </Button>
     </li>
   );
 }
