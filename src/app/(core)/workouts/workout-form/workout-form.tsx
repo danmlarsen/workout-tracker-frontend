@@ -101,20 +101,35 @@ export default function WorkoutForm({
 
       <div className="space-y-8">
         <div className="flex items-center justify-between">
-          {isActiveWorkout ? (
+          {workout.status === "ACTIVE" && (
             <>
               <Timer workout={workout} isButton={true} />
               <Button onClick={() => setCompleteWorkoutDialogOpen(true)}>
                 Finish
               </Button>
             </>
-          ) : (
+          )}
+
+          {workout.status === "COMPLETED" && (
             <>
               <DurationInput
                 workout={workout}
                 onDurationChanged={handleUpdateWorkoutDuration}
               />
               <Button onClick={() => onClose?.()}>Close</Button>
+            </>
+          )}
+
+          {workout.status === "DRAFT" && (
+            <>
+              <DurationInput
+                workout={workout}
+                onDurationChanged={handleUpdateWorkoutDuration}
+              />
+              <div className="flex gap-2">
+                <Button onClick={() => onClose?.()}>Discard</Button>
+                <Button onClick={() => onSuccess?.()}>Save</Button>
+              </div>
             </>
           )}
         </div>

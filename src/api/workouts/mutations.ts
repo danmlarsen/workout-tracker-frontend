@@ -53,6 +53,21 @@ export function useCompleteWorkout() {
   });
 }
 
+export function useCompleteDraftWorkout() {
+  const { apiClient } = useApiClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (workoutId: number) =>
+      apiClient<TWorkout>(`/workouts/${workoutId}/complete`, {
+        method: "POST",
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    },
+  });
+}
+
 export function useDeleteActiveWorkout() {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
