@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { ChevronDownIcon } from "lucide-react";
 import { Calendar } from "./ui/workout-calendar";
+import { useWorkoutCalendar } from "@/api/workouts/queries";
 
 export default function DatePicker({
   date,
@@ -14,6 +15,14 @@ export default function DatePicker({
   onDateChanged: (date: Date) => void;
 }) {
   const [open, setOpen] = useState(false);
+
+  const currentDate = date || new Date();
+
+  const { data: calendarData } = useWorkoutCalendar(currentDate.getFullYear());
+
+  const workoutDates = calendarData
+    ? calendarData.workoutDates.map((str) => new Date(str))
+    : [];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -37,6 +46,9 @@ export default function DatePicker({
               onDateChanged(date);
             }
             setOpen(false);
+          }}
+          modifiers={{
+            workout: workoutDates,
           }}
         />
       </PopoverContent>
