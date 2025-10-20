@@ -7,6 +7,21 @@ import {
   TUpdateWorkoutExerciseDto,
 } from "./types";
 
+export function useCreateDraftWorkout() {
+  const { apiClient } = useApiClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () =>
+      apiClient<TWorkout>("/workouts", {
+        method: "POST",
+      }),
+    onSuccess: (newWorkout) => {
+      queryClient.setQueryData(["workouts", { id: newWorkout.id }], newWorkout);
+    },
+  });
+}
+
 export function useCreateActiveWorkout() {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();

@@ -44,12 +44,13 @@ export function useCompletedWorkouts(selectedDate?: Date) {
   });
 }
 
-export function useWorkout(id: number) {
+export function useWorkout(id?: number) {
   const { apiClient } = useApiClient();
 
   return useQuery<TWorkout>({
-    queryKey: ["workouts", id],
+    queryKey: ["workouts", { id }],
     queryFn: () => apiClient<TWorkout>(`/workouts/${id}`),
+    enabled: !!id,
   });
 }
 
