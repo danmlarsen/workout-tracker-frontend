@@ -98,60 +98,69 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between gap-4 text-sm">
-            {workoutDuration && (
+            {!!workoutDuration && (
               <div className="flex items-center gap-2">
                 <ClockIcon size={16} /> <span>{workoutDuration}</span>
               </div>
             )}
-            {totalWeight && (
+            {!!totalWeight && (
               <div className="flex items-center gap-2">
                 <WeightIcon size={16} /> <span>{totalWeight}kg</span>
               </div>
             )}
-            {totalCompletedSets && (
+            {!!totalCompletedSets && (
               <div className="flex items-center gap-2">
                 <CheckCircleIcon size={16} />{" "}
                 <span>{totalCompletedSets} sets</span>
               </div>
             )}
           </div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Exercise</TableHead>
-                <TableHead className="w-8 text-center">Sets</TableHead>
-                <TableHead className="w-30 text-end">Best Set</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {workoutExercises.map((workoutExercise) => {
-                const completedSets = workoutExercise.workoutSets.filter(
-                  (set) => !!set.completedAt && set.reps && set.weight,
-                );
+          {workoutExercises.length === 0 && (
+            <p className="text-muted-foreground text-lg font-medium">
+              No exercises added
+            </p>
+          )}
+          {workoutExercises.length > 0 && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Exercise</TableHead>
+                  <TableHead className="w-8 text-center">Sets</TableHead>
+                  <TableHead className="w-30 text-end">Best Set</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {workoutExercises.map((workoutExercise) => {
+                  const completedSets = workoutExercise.workoutSets.filter(
+                    (set) => !!set.completedAt && set.reps && set.weight,
+                  );
 
-                if (!completedSets) return null;
+                  if (!completedSets) return null;
 
-                const { exercise } = workoutExercise;
-                const bestSet = formatBestSet(getBestSetByOneRM(completedSets));
+                  const { exercise } = workoutExercise;
+                  const bestSet = formatBestSet(
+                    getBestSetByOneRM(completedSets),
+                  );
 
-                const NAME_MAXLENGTH = 20;
+                  const NAME_MAXLENGTH = 20;
 
-                return (
-                  <TableRow key={workoutExercise.id}>
-                    <TableCell>
-                      {exercise.name.length >= NAME_MAXLENGTH
-                        ? `${exercise.name.slice(0, NAME_MAXLENGTH - 3).trim()}...`
-                        : exercise.name}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {completedSets.length}
-                    </TableCell>
-                    <TableCell className="text-end">{bestSet}</TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                  return (
+                    <TableRow key={workoutExercise.id}>
+                      <TableCell>
+                        {exercise.name.length >= NAME_MAXLENGTH
+                          ? `${exercise.name.slice(0, NAME_MAXLENGTH - 3).trim()}...`
+                          : exercise.name}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {completedSets.length}
+                      </TableCell>
+                      <TableCell className="text-end">{bestSet}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </>
