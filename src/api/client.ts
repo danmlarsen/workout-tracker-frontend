@@ -1,23 +1,26 @@
-import { API_URL } from '@/lib/constants';
-import { useAuth } from './auth/auth-context';
+import { API_URL } from "@/lib/constants";
+import { useAuth } from "./auth/auth-context";
 
 export const useApiClient = () => {
   const { accessToken, refresh, logout } = useAuth();
 
-  const apiClient = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
+  const apiClient = async <T>(
+    endpoint: string,
+    options?: RequestInit,
+  ): Promise<T> => {
     const headers = new Headers({
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...options?.headers,
     });
 
     if (accessToken) {
-      headers.set('Authorization', `Bearer ${accessToken}`);
+      headers.set("Authorization", `Bearer ${accessToken}`);
     }
 
     let res = await fetch(`${API_URL}${endpoint}`, {
       ...options,
       headers,
-      credentials: 'include',
+      credentials: "include",
     });
 
     // If token expired, try refresh flow
@@ -29,14 +32,14 @@ export const useApiClient = () => {
           if (accessToken) {
             await logout();
           }
-          throw new Error('No access token after refresh');
+          throw new Error("No access token after refresh");
         }
 
-        headers.set('Authorization', `Bearer ${newToken}`);
+        headers.set("Authorization", `Bearer ${newToken}`);
         res = await fetch(`${API_URL}${endpoint}`, {
           ...options,
           headers,
-          credentials: 'include',
+          credentials: "include",
         });
       } catch (err) {
         if (accessToken) {
@@ -50,7 +53,9 @@ export const useApiClient = () => {
       throw new Error(await res.text());
     }
 
-    return res.json();
+    const data = await res.json();
+
+    return data as T;
   };
 
   return { apiClient };
