@@ -18,15 +18,15 @@ import {
 import { formatDate } from "date-fns";
 
 export default function ExerciseWorkoutsList({
-  exercise,
+  exerciseId,
 }: {
-  exercise: TExercise | null;
+  exerciseId: number;
 }) {
-  const { data, isLoading } = useExerciseWorkouts(exercise?.id);
+  const { data } = useExerciseWorkouts(exerciseId);
 
   return (
     <>
-      {!isLoading && data && data.results.length && (
+      {data && data.results.length > 0 && (
         <ul className="space-y-4 overflow-y-auto px-4 pb-6">
           {data.results.map((workout) => (
             <li key={workout.id}>

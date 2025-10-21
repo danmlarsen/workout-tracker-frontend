@@ -6,7 +6,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import ExerciseItem from "./exercise-item";
 import { useState } from "react";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
-import ExerciseWorkoutsList from "../exercise-details/exercise-workouts-list";
+import ExerciseDetails from "../exercise-details/exercise-details";
 
 export default function ExercisesList({
   filters,
@@ -38,7 +38,11 @@ export default function ExercisesList({
       <ResponsiveModal
         isOpen={!!selectedExercise}
         onOpenChange={() => setSelectedExercise(null)}
-        content={<ExerciseWorkoutsList exercise={selectedExercise} />}
+        content={
+          selectedExercise && (
+            <ExerciseDetails exerciseId={selectedExercise.id} />
+          )
+        }
         title={selectedExercise?.name}
       />
 
