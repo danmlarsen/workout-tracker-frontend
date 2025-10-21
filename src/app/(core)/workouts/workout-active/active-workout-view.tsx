@@ -36,6 +36,7 @@ export default function ActiveWorkoutView() {
             isOpen={deleteWorkoutOpen}
             onOpenChanged={setDeleteWorkoutOpen}
           />
+
           <div className="h-16" />
           <div className="bg-sidebar text-sidebar-foreground fixed inset-x-0 bottom-16 grid h-16 translate-y-[1px] grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4">
             <div className="flex items-center justify-start">

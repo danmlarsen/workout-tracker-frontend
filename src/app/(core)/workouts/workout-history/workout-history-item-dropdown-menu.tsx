@@ -8,8 +8,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontalIcon } from "lucide-react";
-import DeleteWorkoutDialog from "./delete-workout-dialog";
 import { useState } from "react";
+import { useDeleteWorkout } from "@/api/workouts/mutations";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function WorkoutHistoryItemDropdownMenu({
   workoutId,
@@ -17,13 +18,20 @@ export default function WorkoutHistoryItemDropdownMenu({
   workoutId: number;
 }) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const { mutate: deleteWorkoutMutation } = useDeleteWorkout();
 
   return (
     <>
-      <DeleteWorkoutDialog
-        workoutId={workoutId}
+      <ConfirmDialog
         isOpen={deleteDialogOpen}
-        onOpenChange={(newValue) => setDeleteDialogOpen(newValue)}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={() => {
+          deleteWorkoutMutation(workoutId);
+          setDeleteDialogOpen(false);
+        }}
+        title="Delete Workout?"
+        confirmText="Delete"
+        variant="destructive"
       />
 
       <DropdownMenu>
