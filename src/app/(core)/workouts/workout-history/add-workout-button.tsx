@@ -11,7 +11,11 @@ import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { useState } from "react";
 import WorkoutForm from "../workout-form/workout-form";
 
-export default function AddWorkoutButton() {
+export default function AddWorkoutButton({
+  selectedDate,
+}: {
+  selectedDate?: Date;
+}) {
   const [open, setOpen] = useState(false);
   const [workoutId, setWorkoutId] = useState<number | undefined>();
 
@@ -21,12 +25,15 @@ export default function AddWorkoutButton() {
   const workout = useWorkout(workoutId);
 
   function handleAddWorkout() {
-    createWorkout.mutate(undefined, {
-      onSuccess: (workout) => {
-        setWorkoutId(workout.id);
-        setOpen(true);
+    createWorkout.mutate(
+      { startedAt: selectedDate?.toISOString() || undefined },
+      {
+        onSuccess: (workout) => {
+          setWorkoutId(workout.id);
+          setOpen(true);
+        },
       },
-    });
+    );
   }
 
   function handleOpenChange() {

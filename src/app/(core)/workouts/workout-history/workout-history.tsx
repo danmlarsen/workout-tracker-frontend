@@ -28,7 +28,7 @@ export default function WorkoutHistory() {
             ? `(${workoutStats.totalWorkouts})`
             : ""}
         </h2>
-        <AddWorkoutButton />
+        <AddWorkoutButton selectedDate={selectedDate} />
       </div>
       <div className="space-y-4">
         <InfiniteScroll

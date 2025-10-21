@@ -56,6 +56,13 @@ export type TWorkoutSetDto = {
   type?: "normal" | "warmup";
 };
 
+export type TCreateWorkoutDto = {
+  title?: string | null;
+  notes?: string | null;
+  startedAt?: string;
+  activeDuration?: number;
+};
+
 export type TUpdateWorkoutDto = {
   title?: string | null;
   notes?: string | null;

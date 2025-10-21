@@ -5,6 +5,7 @@ import {
   type TUpdateWorkoutDto,
   type TWorkout,
   TUpdateWorkoutExerciseDto,
+  TCreateWorkoutDto,
 } from "./types";
 
 export function useCreateDraftWorkout() {
@@ -12,9 +13,10 @@ export function useCreateDraftWorkout() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () =>
+    mutationFn: (data: TCreateWorkoutDto) =>
       apiClient<TWorkout>("/workouts", {
         method: "POST",
+        body: JSON.stringify(data),
       }),
     onSuccess: (newWorkout) => {
       queryClient.setQueryData(["workouts", { id: newWorkout.id }], newWorkout);
