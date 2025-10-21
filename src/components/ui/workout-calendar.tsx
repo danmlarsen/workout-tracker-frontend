@@ -28,6 +28,7 @@ function Calendar({
 
   return (
     <DayPicker
+      weekStartsOn={1}
       showOutsideDays={showOutsideDays}
       modifiers={modifiers}
       modifiersClassNames={{
