@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { parseWorkoutTitle } from "@/lib/utils";
 import { formatDate } from "date-fns";
 
 export default function ExerciseWorkoutsList({
@@ -33,7 +34,7 @@ export default function ExerciseWorkoutsList({
             <li key={workout.id}>
               <Card>
                 <CardHeader>
-                  <CardTitle>{workout.title}</CardTitle>
+                  <CardTitle>{parseWorkoutTitle(workout)}</CardTitle>
                   <CardDescription>
                     {formatDate(workout.startedAt, "EEEE PP")}
                   </CardDescription>
