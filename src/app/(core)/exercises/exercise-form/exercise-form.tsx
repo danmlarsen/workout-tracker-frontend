@@ -20,9 +20,9 @@ import { EQUIPMENT_OPTIONS, MUSCLE_GROUP_OPTIONS } from "@/lib/constants";
 
 const exerciseSchema = z.object({
   name: z.string().min(2, "Exercise name too short (min 2 characters)"),
-  type: z.enum(["reps", "time"], "Invalid type"),
+  exerciseType: z.enum(["strength", "cardio"], "Invalid type"),
   equipment: z.enum(EQUIPMENT_OPTIONS, "Invalid equipment"),
-  muscleGroups: z
+  targetMuscleGroups: z
     .array(z.enum(MUSCLE_GROUP_OPTIONS))
     .min(1, "Please pick at least one muscle group"),
 });
@@ -36,9 +36,9 @@ export default function ExerciseForm({
     resolver: zodResolver(exerciseSchema),
     defaultValues: {
       name: "",
-      type: "reps",
+      exerciseType: "strength",
       equipment: "barbell",
-      muscleGroups: [],
+      targetMuscleGroups: [],
     },
   });
   const createExerciseMutation = useCreateExercise();
@@ -68,7 +68,7 @@ export default function ExerciseForm({
 
         <FormField
           control={form.control}
-          name="type"
+          name="exerciseType"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Target Type</FormLabel>
@@ -82,17 +82,17 @@ export default function ExerciseForm({
                   <FormItem>
                     <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">
                       <FormControl>
-                        <RadioGroupItem value="reps" className="sr-only" />
+                        <RadioGroupItem value="strength" className="sr-only" />
                       </FormControl>
-                      Reps
+                      Strength
                     </FormLabel>
                   </FormItem>
                   <FormItem>
                     <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">
                       <FormControl>
-                        <RadioGroupItem value="time" className="sr-only" />
+                        <RadioGroupItem value="cardio" className="sr-only" />
                       </FormControl>
-                      Time
+                      Cardio
                     </FormLabel>
                   </FormItem>
                 </RadioGroup>
@@ -132,7 +132,7 @@ export default function ExerciseForm({
 
         <FormField
           control={form.control}
-          name="muscleGroups"
+          name="targetMuscleGroups"
           render={() => (
             <FormItem>
               <FormLabel>Muscle Group</FormLabel>
@@ -142,7 +142,7 @@ export default function ExerciseForm({
                   <FormField
                     key={muscleGroup}
                     control={form.control}
-                    name="muscleGroups"
+                    name="targetMuscleGroups"
                     render={({ field }) => (
                       <FormItem key={muscleGroup}>
                         <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">

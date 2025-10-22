@@ -5,17 +5,20 @@ export type TExercise = {
   id: number;
   name: string;
   userId: number | null;
-  type: string;
-  muscleGroups: string[];
+  exerciseType: string;
+  targetMuscleGroups: string[];
+  secondaryMuscleGroups: string[];
   equipment: string;
-  image: string | null;
+  imageUrls: string[];
+  videoUrls: string[];
   timesUsed: number;
 };
 
-export type TExerciseDto = {
+export type TCreateExerciseDto = {
   name: string;
-  type: string;
-  muscleGroups: string[];
+  exerciseType: string;
+  targetMuscleGroups: string[];
+  secondaryMuscleGroups?: string[];
   equipment: string;
 };
 
@@ -26,7 +29,7 @@ export type TExercisesQuery = {
 
 export type TExercisesQueryFilters = {
   name?: string;
-  muscleGroups?: TMuscleGroup[];
+  targetMuscleGroups?: TMuscleGroup[];
   equipment?: TEquipment[];
 };
 

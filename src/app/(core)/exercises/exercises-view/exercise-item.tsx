@@ -23,13 +23,22 @@ export default function ExerciseItem({
             {exercise.equipment}
           </p>
           <div>
-            {exercise.muscleGroups.map((muscleGroup, idx) => (
+            {exercise.targetMuscleGroups.map((muscleGroup, idx) => (
+              <span
+                key={muscleGroup}
+                className="text-muted-foreground text-xs font-bold capitalize"
+              >
+                {muscleGroup}
+                {idx + 1 !== exercise.targetMuscleGroups.length ? ", " : " "}
+              </span>
+            ))}
+            {exercise.secondaryMuscleGroups.map((muscleGroup, idx) => (
               <span
                 key={muscleGroup}
                 className="text-muted-foreground text-xs capitalize"
               >
+                {", "}
                 {muscleGroup}
-                {idx + 1 !== exercise.muscleGroups.length ? ", " : ""}
               </span>
             ))}
           </div>

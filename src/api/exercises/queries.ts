@@ -49,8 +49,11 @@ export const useInfiniteExercises = ({
         searchParams.set("name", filters.name);
       }
 
-      if (filters?.muscleGroups) {
-        searchParams.set("muscleGroups", filters.muscleGroups.join(","));
+      if (filters?.targetMuscleGroups) {
+        searchParams.set(
+          "targetMuscleGroups",
+          filters.targetMuscleGroups.join(","),
+        );
       }
 
       if (filters?.equipment) {

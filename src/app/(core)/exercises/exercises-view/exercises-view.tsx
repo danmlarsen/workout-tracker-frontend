@@ -26,7 +26,7 @@ export default function ExercisesView({
     if (debouncedName.trim()) result.name = debouncedName.trim();
     if (selectedEquipment.length > 0) result.equipment = selectedEquipment;
     if (selectedMuscleGroups.length > 0)
-      result.muscleGroups = selectedMuscleGroups;
+      result.targetMuscleGroups = selectedMuscleGroups;
 
     return result;
   }, [debouncedName, selectedEquipment, selectedMuscleGroups]);
