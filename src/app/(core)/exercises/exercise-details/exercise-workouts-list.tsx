@@ -1,5 +1,6 @@
+"use client";
+
 import { useExerciseWorkouts } from "@/api/exercises/queries";
-import { TExercise } from "@/api/exercises/types";
 import {
   Card,
   CardContent,

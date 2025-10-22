@@ -5,8 +5,7 @@ import { TExercise, type TExercisesQueryFilters } from "@/api/exercises/types";
 import InfiniteScroll from "react-infinite-scroller";
 import ExerciseItem from "./exercise-item";
 import { useState } from "react";
-import { ResponsiveModal } from "@/components/ui/responsive-modal";
-import ExerciseDetails from "../exercise-details/exercise-details";
+import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
 
 export default function ExercisesList({
   filters,
@@ -15,15 +14,17 @@ export default function ExercisesList({
   filters?: TExercisesQueryFilters;
   onExerciseClick?: (id: number) => void;
 }) {
-  const [selectedExercise, setSelectedExercise] = useState<TExercise | null>(
-    null,
-  );
+  const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState<
+    TExercise | undefined
+  >();
 
   const handleExerciseClick = (exercise: TExercise) => {
     if (onExerciseClick) {
       onExerciseClick(exercise.id);
     } else {
       setSelectedExercise(exercise);
+      setExerciseModalOpen(true);
     }
   };
 
@@ -35,15 +36,10 @@ export default function ExercisesList({
 
   return (
     <>
-      <ResponsiveModal
-        isOpen={!!selectedExercise}
-        onOpenChange={() => setSelectedExercise(null)}
-        content={
-          selectedExercise && (
-            <ExerciseDetails exerciseId={selectedExercise.id} />
-          )
-        }
-        title={selectedExercise?.name}
+      <ExerciseDetailsModal
+        isOpen={exerciseModalOpen}
+        onOpenChange={setExerciseModalOpen}
+        exercise={selectedExercise}
       />
 
       <InfiniteScroll
