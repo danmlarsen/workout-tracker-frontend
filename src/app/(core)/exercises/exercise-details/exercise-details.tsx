@@ -21,11 +21,17 @@ export default function ExerciseDetails({
           <TabsTrigger value="charts">Charts</TabsTrigger>
           <TabsTrigger value="records">Records</TabsTrigger>
         </TabsList>
-        <TabsContent value="workouts">
-          {data && <ExerciseWorkoutsList exerciseId={data.id} />}
-        </TabsContent>
-        <TabsContent value="charts">Charts</TabsContent>
-        <TabsContent value="records">Records</TabsContent>
+        <div className="px-4">
+          <TabsContent value="workouts">
+            {data && <ExerciseWorkoutsList exerciseId={data.id} />}
+          </TabsContent>
+          <TabsContent value="charts">
+            <p className="text-muted-foreground">Charts coming soon..</p>
+          </TabsContent>
+          <TabsContent value="records">
+            <p className="text-muted-foreground">Records coming soon..</p>
+          </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
