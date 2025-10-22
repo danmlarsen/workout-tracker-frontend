@@ -148,7 +148,9 @@ export function getPlaceholderWorkoutSet(
   return undefined;
 }
 
-export function parseWorkoutTitle(workout: TWorkout) {
+export function parseWorkoutTitle(
+  workout: Pick<TWorkout, "title" | "startedAt">,
+) {
   return workout.title
     ? workout.title
     : new Date(workout.startedAt).toLocaleDateString(undefined, {
