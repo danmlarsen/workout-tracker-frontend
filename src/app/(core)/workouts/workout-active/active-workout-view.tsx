@@ -21,10 +21,12 @@ export default function ActiveWorkoutView() {
         onOpenChange={setActiveWorkoutOpen}
         content={
           activeWorkout ? (
-            <WorkoutForm
-              workout={activeWorkout}
-              onSuccess={() => setActiveWorkoutOpen(false)}
-            />
+            <div className="px-4">
+              <WorkoutForm
+                workout={activeWorkout}
+                onSuccess={() => setActiveWorkoutOpen(false)}
+              />
+            </div>
           ) : null
         }
         title="Active Workout"

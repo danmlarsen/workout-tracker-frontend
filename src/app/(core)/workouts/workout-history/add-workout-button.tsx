@@ -68,11 +68,13 @@ export default function AddWorkoutButton({
           isOpen={open}
           onOpenChange={handleOpenChange}
           content={
-            <WorkoutForm
-              workout={workout.data}
-              onClose={handleDiscardWorkout}
-              onSuccess={handleSaveWorkout}
-            />
+            <div className="px-4">
+              <WorkoutForm
+                workout={workout.data}
+                onClose={handleDiscardWorkout}
+                onSuccess={handleSaveWorkout}
+              />
+            </div>
           }
           title="Add workout"
           description=""

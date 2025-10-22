@@ -10,13 +10,12 @@ import { type TWorkout } from "@/api/workouts/types";
 import { useState } from "react";
 import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
 import { TExercise } from "@/api/exercises/types";
-import { ResponsiveModal } from "@/components/ui/responsive-modal";
-import ExerciseWorkoutsList from "../../exercises/exercise-details/exercise-workouts-list";
 import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
 import WorkoutNotes from "./workout-notes";
 import { parseWorkoutTitle } from "@/lib/utils";
 import DatePicker from "@/components/date-picker";
 import DurationInput from "@/components/duration-input";
+import ExerciseDetailsModal from "../../exercises/exercise-details/exercise-details-modal";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -36,8 +35,10 @@ export default function WorkoutForm({
   const [workoutNotesOpen, setWorkoutNotesOpen] = useState(false);
   const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
 
-  const [selectedWorkoutExercise, setSelectedWorkoutExercise] =
-    useState<TExercise | null>(null);
+  const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
+  const [selectedWorkoutExercise, setSelectedWorkoutExercise] = useState<
+    TExercise | undefined
+  >();
 
   const completeWorkout = useCompleteWorkout();
   const updateWorkout = useUpdateWorkout(isActiveWorkout);
@@ -93,10 +94,10 @@ export default function WorkoutForm({
         onOpenChanged={setDeleteWorkoutOpen}
       />
 
-      <ResponsiveModal
-        isOpen={!!selectedWorkoutExercise}
-        onOpenChange={() => setSelectedWorkoutExercise(null)}
-        content={<ExerciseWorkoutsList exercise={selectedWorkoutExercise} />}
+      <ExerciseDetailsModal
+        isOpen={exerciseModalOpen}
+        onOpenChange={setExerciseModalOpen}
+        exercise={selectedWorkoutExercise}
       />
 
       <div className="space-y-8">
@@ -171,9 +172,10 @@ export default function WorkoutForm({
                 key={workoutExercise.id}
                 workoutExercise={workoutExercise}
                 isActiveWorkout={isActiveWorkout}
-                onOpenExercise={(exercise) =>
-                  setSelectedWorkoutExercise(exercise)
-                }
+                onOpenExercise={(exercise) => {
+                  setSelectedWorkoutExercise(exercise);
+                  setExerciseModalOpen(true);
+                }}
               />
             ))}
           </ul>

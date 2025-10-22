@@ -53,7 +53,7 @@ export function ResponsiveModal({
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          <div className="overflow-y-auto px-4 pb-6">{content}</div>
+          <div className="overflow-y-auto pb-6">{content}</div>
         </DrawerContent>
       </Drawer>
     );

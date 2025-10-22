@@ -70,10 +70,12 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
         isOpen={modalIsOpen}
         onOpenChange={setModalIsOpen}
         content={
-          <WorkoutForm
-            workout={workout}
-            onClose={() => setModalIsOpen(false)}
-          />
+          <div className="px-4">
+            <WorkoutForm
+              workout={workout}
+              onClose={() => setModalIsOpen(false)}
+            />
+          </div>
         }
         title={workout.title}
         description={`Edit workout ${workout.title}`}
