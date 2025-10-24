@@ -8,6 +8,11 @@ export default function ExerciseItem({
   exercise: TExercise;
   onExerciseClick: (id: number) => void;
 }) {
+  const muscleGroups = [
+    ...exercise.targetMuscleGroups,
+    ...exercise.secondaryMuscleGroups,
+  ];
+
   return (
     <li key={exercise.id}>
       <button
@@ -23,22 +28,13 @@ export default function ExerciseItem({
             {exercise.equipment}
           </p>
           <div>
-            {exercise.targetMuscleGroups.map((muscleGroup, idx) => (
-              <span
-                key={muscleGroup}
-                className="text-muted-foreground text-xs font-bold capitalize"
-              >
-                {muscleGroup}
-                {idx + 1 !== exercise.targetMuscleGroups.length ? ", " : " "}
-              </span>
-            ))}
-            {exercise.secondaryMuscleGroups.map((muscleGroup, idx) => (
+            {muscleGroups.map((muscleGroup, idx) => (
               <span
                 key={muscleGroup}
                 className="text-muted-foreground text-xs capitalize"
               >
-                {", "}
                 {muscleGroup}
+                {idx + 1 !== muscleGroups.length ? ", " : " "}
               </span>
             ))}
           </div>
