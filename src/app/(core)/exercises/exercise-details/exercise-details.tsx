@@ -3,13 +3,6 @@
 import { useExercise } from "@/api/exercises/queries";
 import ExerciseWorkoutsList from "./exercise-workouts-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 /**
  * Generates YouTube embed URL with Short-optimized parameters
@@ -61,50 +54,44 @@ export default function ExerciseDetails({
 }) {
   const { data } = useExercise(exerciseId);
 
+  const video =
+    data?.videoUrls && data?.videoUrls.length > 0 ? data?.videoUrls[0] : null;
+
   return (
     <div className="space-y-4">
       {data && (
         <>
           <h2 className="text-center text-xl">{data.name}</h2>
-
-          <Carousel>
-            <CarouselContent>
-              {data.videoUrls.map((video) => (
-                <CarouselItem key={video}>
-                  <div className="px-10">
-                    <div className="mx-auto aspect-[9/16] max-w-xs">
-                      <iframe
-                        src={getYouTubeEmbedUrl(video)}
-                        title={`${data.name} - Exercise Demo`}
-                        className="h-full w-full border-0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                      {/* <div className="pointer-events-auto absolute inset-0 touch-pan-x bg-transparent" /> */}
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-
-          <Tabs defaultValue="workouts">
+          <Tabs defaultValue="instructions">
             <TabsList className="w-full rounded-none">
+              <TabsTrigger value="instructions">Instructions</TabsTrigger>
               <TabsTrigger value="workouts">Workouts</TabsTrigger>
               <TabsTrigger value="charts">Charts</TabsTrigger>
-              <TabsTrigger value="records">Records</TabsTrigger>
             </TabsList>
             <div className="px-4">
+              <TabsContent value="instructions">
+                {!!video && (
+                  <div className="mx-auto aspect-[9/16] max-w-lg overflow-hidden rounded-lg">
+                    <iframe
+                      src={getYouTubeEmbedUrl(video)}
+                      title={`${data.name} - Exercise Demo`}
+                      className="h-full w-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+                {!video && (
+                  <p className="text-muted-foreground">
+                    No instructions for this exercise found..
+                  </p>
+                )}
+              </TabsContent>
               <TabsContent value="workouts">
                 {data && <ExerciseWorkoutsList exerciseId={data.id} />}
               </TabsContent>
               <TabsContent value="charts">
                 <p className="text-muted-foreground">Charts coming soon..</p>
-              </TabsContent>
-              <TabsContent value="records">
-                <p className="text-muted-foreground">Records coming soon..</p>
               </TabsContent>
             </div>
           </Tabs>

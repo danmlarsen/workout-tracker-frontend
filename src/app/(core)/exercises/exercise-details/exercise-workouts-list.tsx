@@ -28,7 +28,7 @@ export default function ExerciseWorkoutsList({
 
   return (
     <>
-      {data && data.results.length > 0 && (
+      {data && !!data.results.length && (
         <ul className="space-y-4 overflow-y-auto px-4 pb-6">
           {data.results.map((workout) => (
             <li key={workout.id}>
@@ -63,6 +63,11 @@ export default function ExerciseWorkoutsList({
             </li>
           ))}
         </ul>
+      )}
+      {data && !data.results.length && (
+        <p className="text-muted-foreground">
+          No history for this exercise found..
+        </p>
       )}
     </>
   );
