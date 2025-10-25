@@ -20,7 +20,7 @@ import { EQUIPMENT_OPTIONS, MUSCLE_GROUP_OPTIONS } from "@/lib/constants";
 
 const exerciseSchema = z.object({
   name: z.string().min(2, "Exercise name too short (min 2 characters)"),
-  exerciseType: z.enum(["strength", "cardio"], "Invalid type"),
+  category: z.enum(["strength", "cardio"], "Invalid type"),
   equipment: z.enum(EQUIPMENT_OPTIONS, "Invalid equipment"),
   targetMuscleGroups: z
     .array(z.enum(MUSCLE_GROUP_OPTIONS))
@@ -36,7 +36,7 @@ export default function ExerciseForm({
     resolver: zodResolver(exerciseSchema),
     defaultValues: {
       name: "",
-      exerciseType: "strength",
+      category: "strength",
       equipment: "barbell",
       targetMuscleGroups: [],
     },
@@ -68,7 +68,7 @@ export default function ExerciseForm({
 
         <FormField
           control={form.control}
-          name="exerciseType"
+          name="category"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Target Type</FormLabel>

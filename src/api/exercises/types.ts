@@ -5,10 +5,11 @@ export type TExercise = {
   id: number;
   name: string;
   userId: number | null;
-  exerciseType: string;
+  category: string;
   targetMuscleGroups: string[];
   secondaryMuscleGroups: string[];
   equipment: string;
+  instructions: string | null;
   imageUrls: string[];
   videoUrls: string[];
   timesUsed: number;
@@ -16,7 +17,7 @@ export type TExercise = {
 
 export type TCreateExerciseDto = {
   name: string;
-  exerciseType: string;
+  category: string;
   targetMuscleGroups: string[];
   secondaryMuscleGroups?: string[];
   equipment: string;
