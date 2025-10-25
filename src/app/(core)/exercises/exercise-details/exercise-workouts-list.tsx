@@ -1,6 +1,7 @@
 "use client";
 
 import { useExerciseWorkouts } from "@/api/exercises/queries";
+import { TExercise } from "@/api/exercises/types";
 import {
   Card,
   CardContent,
@@ -20,11 +21,11 @@ import { parseWorkoutTitle } from "@/lib/utils";
 import { formatDate } from "date-fns";
 
 export default function ExerciseWorkoutsList({
-  exerciseId,
+  exercise,
 }: {
-  exerciseId: number;
+  exercise: TExercise;
 }) {
-  const { data } = useExerciseWorkouts(exerciseId);
+  const { data } = useExerciseWorkouts(exercise.id);
 
   return (
     <>
@@ -52,7 +53,14 @@ export default function ExerciseWorkoutsList({
                         <TableRow key={set.id}>
                           <TableCell>{set.setNumber}</TableCell>
                           <TableCell>
-                            {set.weight} kg x {set.reps}
+                            {exercise.category === "strength" && (
+                              <>
+                                {set.weight} kg x {set.reps}
+                              </>
+                            )}
+                            {exercise.category === "cardio" && (
+                              <>{set.duration} Minutes</>
+                            )}
                           </TableCell>
                         </TableRow>
                       ))}

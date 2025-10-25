@@ -27,6 +27,7 @@ import {
 import {
   formatBestSet,
   formatTime,
+  getBestSetByDuration,
   getBestSetByOneRM,
   parseWorkoutTitle,
 } from "@/lib/utils";
@@ -134,14 +135,16 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
               <TableBody>
                 {workoutExercises.map((workoutExercise) => {
                   const completedSets = workoutExercise.workoutSets.filter(
-                    (set) => !!set.completedAt && set.reps && set.weight,
+                    (set) => !!set.completedAt,
                   );
 
                   if (!completedSets) return null;
 
                   const { exercise } = workoutExercise;
                   const bestSet = formatBestSet(
-                    getBestSetByOneRM(completedSets),
+                    exercise.category === "strength"
+                      ? getBestSetByOneRM(completedSets)
+                      : getBestSetByDuration(completedSets),
                   );
 
                   const NAME_MAXLENGTH = 20;

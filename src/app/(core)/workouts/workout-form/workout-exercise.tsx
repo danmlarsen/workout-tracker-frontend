@@ -86,8 +86,18 @@ export default function WorkoutExercise({
           <TableRow>
             <TableHead className="w-10 text-center">Set</TableHead>
             <TableHead className="text-center">Previous</TableHead>
-            <TableHead className="w-20 text-center">kg</TableHead>
-            <TableHead className="w-20 text-center">Reps</TableHead>
+            {workoutExercise.exercise.category === "strength" && (
+              <>
+                <TableHead className="w-20 text-center">kg</TableHead>
+                <TableHead className="w-20 text-center">Reps</TableHead>
+              </>
+            )}
+            {workoutExercise.exercise.category === "cardio" && (
+              <>
+                <TableHead />
+                <TableHead className="w-20 text-center">Minutes</TableHead>
+              </>
+            )}
             <TableHead className="w-10" />
           </TableRow>
         </TableHeader>
@@ -107,6 +117,7 @@ export default function WorkoutExercise({
                 key={workoutSet.id}
                 workoutSet={workoutSet}
                 workoutId={workoutExercise.workoutId}
+                exerciseCategory={workoutExercise.exercise.category}
                 previousSet={previousSet}
                 placeholderSet={placeholderSet}
                 isActiveWorkout={isActiveWorkout}

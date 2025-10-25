@@ -17,6 +17,7 @@ const parseToNumberOrNull = (value: string): number | null => {
 type TWorkoutSetProps = {
   workoutSet: TWorkoutSet;
   workoutId: number;
+  exerciseCategory: "strength" | "cardio";
   isActiveWorkout?: boolean;
   previousSet?: TWorkoutSet;
   placeholderSet?: Partial<TWorkoutSet>;
@@ -25,17 +26,22 @@ type TWorkoutSetProps = {
 export default function WorkoutSet({
   workoutSet,
   workoutId,
+  exerciseCategory,
   isActiveWorkout = false,
   previousSet,
   placeholderSet,
 }: TWorkoutSetProps) {
   const [weight, setWeight] = useState(workoutSet.weight?.toString() || "");
   const [reps, setReps] = useState(workoutSet.reps?.toString() || "");
+  const [duration, setDuration] = useState(
+    workoutSet?.duration?.toString() || "",
+  );
 
   useEffect(() => {
     setWeight(workoutSet.weight?.toString() || "");
     setReps(workoutSet.reps?.toString() || "");
-  }, [workoutSet.weight, workoutSet.reps]);
+    setDuration(workoutSet.duration?.toString() || "");
+  }, [workoutSet.weight, workoutSet.reps, workoutSet.duration]);
 
   const updateWorkoutSetMutation = useUpdateWorkoutSet(isActiveWorkout);
   const updateWorkoutSet = (payload: TWorkoutSetDto) =>
@@ -57,20 +63,37 @@ export default function WorkoutSet({
     updateWorkoutSet({ reps });
   }, 500);
 
+  const debouncedUpdateDuration = useDebouncedCallback(
+    (duration: number | null) => {
+      updateWorkoutSet({ duration });
+    },
+    500,
+  );
+
   function handleCheckedChange(isChecked: boolean) {
     debouncedUpdateWeight.cancel();
     debouncedUpdateReps.cancel();
 
     const numericWeight = parseToNumberOrNull(weight);
     const numericReps = parseToNumberOrNull(reps);
+    const numericDuration = parseToNumberOrNull(duration);
 
     const payload = {
       weight: numericWeight || placeholderSet?.weight || null,
       reps: numericReps || placeholderSet?.reps || null,
+      duration: numericDuration || placeholderSet?.duration || null,
       completed: isChecked,
     };
 
-    if (isChecked && (!payload.weight || !payload.reps)) {
+    if (
+      isChecked &&
+      exerciseCategory === "strength" &&
+      (!payload.weight || !payload.reps)
+    ) {
+      return;
+    }
+
+    if (isChecked && exerciseCategory === "cardio" && !payload.duration) {
       return;
     }
 
@@ -105,6 +128,28 @@ export default function WorkoutSet({
     }
   }
 
+  function handleDurationChange(value: string) {
+    setDuration(value);
+    const numericValue = parseToNumberOrNull(value);
+    debouncedUpdateDuration(numericValue);
+  }
+
+  function handleDurationBlur() {
+    debouncedUpdateDuration.cancel();
+    const numericValue = parseToNumberOrNull(duration);
+    if (numericValue !== workoutSet.duration) {
+      updateWorkoutSet({ duration: numericValue });
+    }
+  }
+
+  let previousSetString = "-";
+  if (exerciseCategory === "strength" && previousSet) {
+    previousSetString = `${previousSet.weight} x ${previousSet.reps}`;
+  }
+  if (exerciseCategory === "cardio" && previousSet) {
+    previousSetString = `${previousSet.duration} Minutes`;
+  }
+
   return (
     <TableRow
       className={cn(
@@ -119,32 +164,46 @@ export default function WorkoutSet({
           isActiveWorkout={isActiveWorkout}
         />
       </TableCell>
+      <TableCell>{previousSetString}</TableCell>
       <TableCell>
-        {previousSet ? `${previousSet.weight} x ${previousSet.reps}` : "-"}
+        {exerciseCategory === "strength" && (
+          <Input
+            type="number"
+            placeholder={
+              placeholderSet?.weight ? placeholderSet.weight.toString() : ""
+            }
+            value={weight}
+            onChange={(e) => handleWeightChange(e.target.value)}
+            onBlur={handleWeightBlur}
+            disabled={!!workoutSet.completedAt}
+          />
+        )}
       </TableCell>
       <TableCell>
-        <Input
-          type="number"
-          placeholder={
-            placeholderSet?.weight ? placeholderSet.weight.toString() : ""
-          }
-          value={weight}
-          onChange={(e) => handleWeightChange(e.target.value)}
-          onBlur={handleWeightBlur}
-          disabled={!!workoutSet.completedAt}
-        />
-      </TableCell>
-      <TableCell>
-        <Input
-          type="number"
-          placeholder={
-            placeholderSet?.reps ? placeholderSet.reps.toString() : ""
-          }
-          value={reps}
-          onChange={(e) => handleRepsChange(e.target.value)}
-          onBlur={handleRepsBlur}
-          disabled={!!workoutSet.completedAt}
-        />
+        {exerciseCategory === "strength" && (
+          <Input
+            type="number"
+            placeholder={
+              placeholderSet?.reps ? placeholderSet.reps.toString() : ""
+            }
+            value={reps}
+            onChange={(e) => handleRepsChange(e.target.value)}
+            onBlur={handleRepsBlur}
+            disabled={!!workoutSet.completedAt}
+          />
+        )}
+        {exerciseCategory === "cardio" && (
+          <Input
+            type="number"
+            placeholder={
+              placeholderSet?.duration ? placeholderSet.duration.toString() : ""
+            }
+            value={duration}
+            onChange={(e) => handleDurationChange(e.target.value)}
+            onBlur={handleDurationBlur}
+            disabled={!!workoutSet.completedAt}
+          />
+        )}
       </TableCell>
       <TableCell>
         <Checkbox

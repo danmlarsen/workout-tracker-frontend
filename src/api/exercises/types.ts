@@ -5,7 +5,7 @@ export type TExercise = {
   id: number;
   name: string;
   userId: number | null;
-  category: string;
+  category: "strength" | "cardio";
   targetMuscleGroups: string[];
   secondaryMuscleGroups: string[];
   equipment: string;

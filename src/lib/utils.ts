@@ -52,8 +52,24 @@ export function getBestSetByOneRM(sets: TWorkoutSet[]): TWorkoutSet | null {
   });
 }
 
+export function getBestSetByDuration(sets: TWorkoutSet[]): TWorkoutSet | null {
+  if (sets.length === 0) return null;
+
+  return sets.reduce((best, current) =>
+    current.duration! > best.duration! ? current : best,
+  );
+}
+
 export function formatBestSet(bestSet: TWorkoutSet | null): string {
-  return bestSet ? `${bestSet.weight} kg x ${bestSet.reps}` : "-";
+  if (bestSet?.reps && bestSet.weight) {
+    return bestSet ? `${bestSet.weight} kg x ${bestSet.reps}` : "-";
+  }
+
+  if (bestSet?.duration) {
+    return `${bestSet.duration} min`;
+  }
+
+  return "";
 }
 
 export function findBestWorkoutSetWithIndex(workoutSets: TWorkoutSet[]): {

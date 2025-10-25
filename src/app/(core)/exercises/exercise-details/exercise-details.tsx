@@ -88,7 +88,7 @@ export default function ExerciseDetails({
                 )}
               </TabsContent>
               <TabsContent value="workouts">
-                {data && <ExerciseWorkoutsList exerciseId={data.id} />}
+                {data && <ExerciseWorkoutsList exercise={data} />}
               </TabsContent>
               <TabsContent value="charts">
                 <p className="text-muted-foreground">Charts coming soon..</p>
