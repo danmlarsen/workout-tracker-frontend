@@ -13,7 +13,10 @@ import WorkoutForm from "../workout-form/workout-form";
 
 export default function AddWorkoutButton({
   selectedDate,
-}: {
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"button"> & {
   selectedDate?: Date;
 }) {
   const [open, setOpen] = useState(false);
@@ -80,8 +83,17 @@ export default function AddWorkoutButton({
           description=""
         />
       )}
-      <Button onClick={handleAddWorkout} disabled={createWorkout.isPending}>
-        {createWorkout.isPending ? "Creating..." : "Add Workout"}
+      <Button
+        className={className}
+        onClick={handleAddWorkout}
+        disabled={createWorkout.isPending}
+        {...props}
+      >
+        {createWorkout.isPending
+          ? "Creating..."
+          : children
+            ? children
+            : "Add Workout"}
       </Button>
     </>
   );

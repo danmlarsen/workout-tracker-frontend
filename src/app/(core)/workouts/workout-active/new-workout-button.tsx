@@ -25,7 +25,7 @@ export default function NewWorkoutButton() {
 
   return (
     <Button onClick={handleClick} className="w-full">
-      {activeWorkout ? "Go to active workout" : "New Workout"}
+      {activeWorkout ? "Go to active workout" : "Start new Workout"}
     </Button>
   );
 }
