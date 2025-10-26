@@ -24,7 +24,7 @@ const exerciseSchema = z.object({
   equipment: z.enum(EQUIPMENT_OPTIONS, "Invalid equipment"),
   targetMuscleGroups: z
     .array(z.enum(MUSCLE_GROUP_OPTIONS))
-    .min(1, "Please pick at least one muscle group"),
+    .min(1, "Please pick at least one target muscle group"),
   secondaryMuscleGroups: z.array(z.enum(MUSCLE_GROUP_OPTIONS)),
 });
 
@@ -73,7 +73,7 @@ export default function ExerciseForm({
           name="category"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Target Type</FormLabel>
+              <FormLabel>Category</FormLabel>
               <FormMessage />
               <FormControl>
                 <RadioGroup
@@ -108,7 +108,7 @@ export default function ExerciseForm({
           name="equipment"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Equipment</FormLabel>
+              <FormLabel>Equipment*</FormLabel>
               <FormMessage />
               <FormControl>
                 <RadioGroup
@@ -137,7 +137,7 @@ export default function ExerciseForm({
           name="targetMuscleGroups"
           render={() => (
             <FormItem>
-              <FormLabel>Muscle Group</FormLabel>
+              <FormLabel>Target Muscle Groups*</FormLabel>
               <FormMessage />
               <div className="grid grid-cols-2 gap-2">
                 {MUSCLE_GROUP_OPTIONS.map((muscleGroup) => (
@@ -145,6 +145,51 @@ export default function ExerciseForm({
                     key={muscleGroup}
                     control={form.control}
                     name="targetMuscleGroups"
+                    render={({ field }) => (
+                      <FormItem key={muscleGroup}>
+                        <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(muscleGroup)}
+                              onCheckedChange={(checked) =>
+                                checked
+                                  ? field.onChange([
+                                      ...field.value,
+                                      muscleGroup,
+                                    ])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== muscleGroup,
+                                      ),
+                                    )
+                              }
+                              className="sr-only"
+                            />
+                          </FormControl>
+                          <span className="capitalize">{muscleGroup}</span>
+                        </FormLabel>
+                      </FormItem>
+                    )}
+                  />
+                ))}
+              </div>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="secondaryMuscleGroups"
+          render={() => (
+            <FormItem>
+              <FormLabel>Secondary Muscle Groups</FormLabel>
+              <FormMessage />
+              <div className="grid grid-cols-2 gap-2">
+                {MUSCLE_GROUP_OPTIONS.map((muscleGroup) => (
+                  <FormField
+                    key={muscleGroup}
+                    control={form.control}
+                    name="secondaryMuscleGroups"
                     render={({ field }) => (
                       <FormItem key={muscleGroup}>
                         <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted rounded-sm p-4">
