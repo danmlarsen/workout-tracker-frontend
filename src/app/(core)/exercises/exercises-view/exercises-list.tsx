@@ -50,6 +50,7 @@ export default function ExercisesList({
           }
         }}
         hasMore={hasNextPage}
+        useWindow={false} // Set to false if used in a drawer/modal
       >
         <ul className="space-y-2">
           {data?.pages.map((group) =>

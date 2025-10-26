@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { useAddWorkoutExercise } from "@/api/workouts/mutations";
 import ExercisesView from "../../exercises/exercises-view/exercises-view";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
 
 export default function AddExerciseButton({
   workoutId,
@@ -24,15 +25,13 @@ export default function AddExerciseButton({
   const mutateWorkoutExercise = useAddWorkoutExercise(isActiveWorkout);
 
   return (
-    <Drawer open={isOpen} onOpenChange={(newState) => setIsOpen(newState)}>
-      <DrawerTrigger asChild>
-        <Button className="w-full">+ Add Exercise</Button>
-      </DrawerTrigger>
-      <DrawerContent className="h-[95dvh]">
-        <DrawerHeader>
-          <DrawerTitle>Add exercise</DrawerTitle>
-        </DrawerHeader>
-        <div className="overflow-y-auto px-4 pb-6">
+    <>
+      <ResponsiveModal
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        title="Add Exercise"
+        className="px-4"
+        content={
           <ExercisesView
             onExerciseClick={(exerciseId) => {
               mutateWorkoutExercise.mutate(
@@ -45,8 +44,11 @@ export default function AddExerciseButton({
               );
             }}
           />
-        </div>
-      </DrawerContent>
-    </Drawer>
+        }
+      />
+      <Button className="w-full" onClick={() => setIsOpen(true)}>
+        + Add Exercise
+      </Button>
+    </>
   );
 }

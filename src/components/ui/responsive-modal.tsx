@@ -15,6 +15,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "./drawer";
+import { cn } from "@/lib/utils";
 
 type TResponsiveModalProps = {
   content: React.ReactNode;
@@ -22,6 +23,7 @@ type TResponsiveModalProps = {
   onOpenChange: (open: boolean) => void;
   title?: string;
   description?: string;
+  className?: string;
 };
 
 export function ResponsiveModal({
@@ -30,6 +32,7 @@ export function ResponsiveModal({
   onOpenChange,
   title,
   description,
+  className,
 }: TResponsiveModalProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -41,7 +44,7 @@ export function ResponsiveModal({
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <div className="overflow-y-auto pt-6">{content}</div>
+          <div className={cn("overflow-y-auto pt-6", className)}>{content}</div>
         </DialogContent>
       </Dialog>
     );
@@ -53,7 +56,7 @@ export function ResponsiveModal({
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          <div className="overflow-y-auto pb-6">{content}</div>
+          <div className={cn("overflow-y-auto pb-6", className)}>{content}</div>
         </DrawerContent>
       </Drawer>
     );
