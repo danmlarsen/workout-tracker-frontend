@@ -1,13 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { useState } from "react";
 import { useAddWorkoutExercise } from "@/api/workouts/mutations";
 import ExercisesView from "../../exercises/exercises-view/exercises-view";
