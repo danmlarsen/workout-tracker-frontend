@@ -25,6 +25,7 @@ const exerciseSchema = z.object({
   targetMuscleGroups: z
     .array(z.enum(MUSCLE_GROUP_OPTIONS))
     .min(1, "Please pick at least one muscle group"),
+  secondaryMuscleGroups: z.array(z.enum(MUSCLE_GROUP_OPTIONS)),
 });
 
 export default function ExerciseForm({
@@ -39,6 +40,7 @@ export default function ExerciseForm({
       category: "strength",
       equipment: "barbell",
       targetMuscleGroups: [],
+      secondaryMuscleGroups: [],
     },
   });
   const createExerciseMutation = useCreateExercise();
