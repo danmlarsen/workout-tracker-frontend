@@ -14,8 +14,10 @@ import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function WorkoutHistoryItemDropdownMenu({
   workoutId,
+  onClickEdit,
 }: {
   workoutId: number;
+  onClickEdit: () => void;
 }) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const { mutate: deleteWorkoutMutation } = useDeleteWorkout();
@@ -41,7 +43,11 @@ export default function WorkoutHistoryItemDropdownMenu({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>Edit Workout</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Button variant="ghost" onClick={onClickEdit}>
+              Edit Workout
+            </Button>
+          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Button variant="ghost" onClick={() => setDeleteDialogOpen(true)}>
               Delete Workout

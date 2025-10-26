@@ -86,16 +86,10 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>{workoutTitle}</CardTitle>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setModalIsOpen(true)}
-              >
-                <MaximizeIcon />
-              </Button>
-              <WorkoutHistoryItemDropdownMenu workoutId={id} />
-            </div>
+            <WorkoutHistoryItemDropdownMenu
+              workoutId={id}
+              onClickEdit={() => setModalIsOpen(true)}
+            />
           </div>
           <CardDescription>{formatDate(startedAt, "EEEE PP")}</CardDescription>
         </CardHeader>
