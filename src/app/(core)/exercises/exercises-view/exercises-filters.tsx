@@ -59,6 +59,13 @@ export default function ExercisesFilters({
         <DropdownMenu>
           <DropdownMenuTrigger>Equipment</DropdownMenuTrigger>
           <DropdownMenuContent>
+            <DropdownMenuCheckboxItem
+              key="All"
+              checked={selectedEquipment.length === 0}
+              onCheckedChange={() => onEquipmentChange([])}
+            >
+              All
+            </DropdownMenuCheckboxItem>
             {EQUIPMENT_OPTIONS.map((equipment) => (
               <DropdownMenuCheckboxItem
                 key={equipment}
@@ -75,6 +82,13 @@ export default function ExercisesFilters({
         <DropdownMenu>
           <DropdownMenuTrigger>Muscle Groups</DropdownMenuTrigger>
           <DropdownMenuContent className="grid grid-cols-2">
+            <DropdownMenuCheckboxItem
+              key="All"
+              checked={selectedMuscleGroups.length === 0}
+              onCheckedChange={() => onMuscleGroupsChange([])}
+            >
+              All
+            </DropdownMenuCheckboxItem>
             {MUSCLE_GROUP_OPTIONS.map((muscleGroup) => (
               <DropdownMenuCheckboxItem
                 key={muscleGroup}
