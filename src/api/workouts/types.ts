@@ -13,7 +13,7 @@ export type TWorkout = {
   startedAt: string;
   userId: number;
   workoutExercises: TWorkoutExercise[];
-  status: "DRAFT" | "ACTIVE" | "COMPLETED";
+  status: TWorkoutStatus;
   notes: string | null;
   isPaused: boolean;
   pauseDuration: number;
@@ -45,7 +45,7 @@ export type TWorkoutSet = {
   duration: number | null;
   setNumber: number;
   notes: string | null;
-  type: "normal" | "warmup";
+  type: TWorkoutSetType;
 };
 
 export type TWorkoutSetDto = {
@@ -53,7 +53,7 @@ export type TWorkoutSetDto = {
   weight?: number | null;
   duration?: number | null;
   completed?: boolean;
-  type?: "normal" | "warmup";
+  type?: TWorkoutSetType;
 };
 
 export type TCreateWorkoutDto = {
@@ -84,3 +84,13 @@ export type TWorkoutCalendarData = {
 export type TUpdateWorkoutExerciseDto = {
   notes?: string;
 };
+
+export type TWorkoutStatus = "DRAFT" | "ACTIVE" | "COMPLETED";
+
+export const WORKOUT_SET_TYPES = [
+  "normal",
+  "warmup",
+  "dropset",
+  "failure",
+] as const;
+export type TWorkoutSetType = (typeof WORKOUT_SET_TYPES)[number];

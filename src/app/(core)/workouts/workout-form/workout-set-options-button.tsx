@@ -4,7 +4,7 @@ import {
   useDeleteWorkoutSet,
   useUpdateWorkoutSet,
 } from "@/api/workouts/mutations";
-import { TWorkoutSet } from "@/api/workouts/types";
+import { TWorkoutSet, WORKOUT_SET_TYPES } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -31,13 +31,19 @@ export default function WorkoutSetOptionsButton({
         <Button variant="outline" className="size-9 px-0 py-0">
           {workoutSet.type === "normal" && workoutSet.setNumber}
           {workoutSet.type === "warmup" && (
-            <span className="text-accent-foreground">W</span>
+            <span className="text-amber-500">W</span>
+          )}
+          {workoutSet.type === "dropset" && (
+            <span className="text-blue-500">D</span>
+          )}
+          {workoutSet.type === "failure" && (
+            <span className="text-red-500">F</span>
           )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {workoutSet.type !== "normal" && (
-          <DropdownMenuItem asChild>
+        {WORKOUT_SET_TYPES.map((type) => (
+          <DropdownMenuItem asChild key={type}>
             <Button
               onClick={() =>
                 updateWorkoutSet.mutate({
@@ -45,35 +51,17 @@ export default function WorkoutSetOptionsButton({
                   workoutExerciseId: workoutSet.workoutExerciseId,
                   setId: workoutSet.id,
                   data: {
-                    type: "normal",
+                    type,
                   },
                 })
               }
               variant="ghost"
+              className="capitalize"
             >
-              Work Set
+              {type} Set
             </Button>
           </DropdownMenuItem>
-        )}
-        {workoutSet.type !== "warmup" && (
-          <DropdownMenuItem asChild>
-            <Button
-              onClick={() =>
-                updateWorkoutSet.mutate({
-                  workoutId,
-                  workoutExerciseId: workoutSet.workoutExerciseId,
-                  setId: workoutSet.id,
-                  data: {
-                    type: "warmup",
-                  },
-                })
-              }
-              variant="ghost"
-            >
-              Warmup Set
-            </Button>
-          </DropdownMenuItem>
-        )}
+        ))}
         <DropdownMenuItem asChild>
           <Button
             onClick={() =>
