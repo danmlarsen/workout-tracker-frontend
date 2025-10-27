@@ -1,11 +1,11 @@
 "use client";
 
 import { useWorkoutWeeklyStats } from "@/api/workouts/queries";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCompactNumber, formatNumber, formatWeight } from "@/lib/utils";
 import { endOfWeek, startOfWeek } from "date-fns";
-import { Calendar1Icon, ChevronRightIcon } from "lucide-react";
+import { Calendar1Icon } from "lucide-react";
+import WeeklyReportButton from "./weekly-report-button";
 
 export default function WeeklyReportStats() {
   const now = new Date();
@@ -31,9 +31,7 @@ export default function WeeklyReportStats() {
             })}
           </span>
         </CardTitle>
-        <Button variant="ghost">
-          <span>Weekly Report</span> <ChevronRightIcon />
-        </Button>
+        <WeeklyReportButton />
       </CardHeader>
       {data && (
         <CardContent className="grid grid-cols-3 text-center">
