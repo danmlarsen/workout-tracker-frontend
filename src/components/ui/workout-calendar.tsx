@@ -217,7 +217,9 @@ function CalendarDayButton({
         {...props}
       />
       {modifiers.today && (
-        <div className="text-accent-foreground text-xs font-medium">Today</div>
+        <div className="text-accent-foreground -translate-y-3 text-xs font-semibold">
+          Today
+        </div>
       )}
     </>
   );
