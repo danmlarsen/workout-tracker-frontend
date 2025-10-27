@@ -1,6 +1,7 @@
 import NewWorkoutButton from "../workouts/workout-active/new-workout-button";
 import AddWorkoutButton from "../workouts/workout-history/add-workout-button";
 import LifetimeWorkoutsStats from "./lifetime-workouts-stats";
+import WeeklyReportStats from "./weekly-report-stats";
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
       <NewWorkoutButton />
       <AddWorkoutButton className="w-full">Add Workout</AddWorkoutButton>
       <LifetimeWorkoutsStats />
+      <WeeklyReportStats />
     </div>
   );
 }

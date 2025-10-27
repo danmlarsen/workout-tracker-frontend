@@ -1,6 +1,9 @@
 "use client";
 
-import { useCompletedWorkouts, useWorkoutStats } from "@/api/workouts/queries";
+import {
+  useCompletedWorkouts,
+  useWorkoutLifetimeStats,
+} from "@/api/workouts/queries";
 import WorkoutHistoryItem from "./workout-history-item";
 import InfiniteScroll from "react-infinite-scroller";
 import WorkoutHistoryCalendar from "./workout-history-calendar";
@@ -13,7 +16,7 @@ export default function WorkoutHistory() {
   const { data, fetchNextPage, hasNextPage, isFetching, isSuccess } =
     useCompletedWorkouts(selectedDate);
 
-  const { data: workoutStats } = useWorkoutStats();
+  const { data: workoutStats } = useWorkoutLifetimeStats();
 
   return (
     <>

@@ -1,20 +1,39 @@
 "use client";
 
-import { useWorkoutLifetimeStats } from "@/api/workouts/queries";
+import { useWorkoutWeeklyStats } from "@/api/workouts/queries";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCompactNumber, formatNumber, formatWeight } from "@/lib/utils";
-import { ClockIcon } from "lucide-react";
+import { endOfWeek, startOfWeek } from "date-fns";
+import { Calendar1Icon, ChevronRightIcon } from "lucide-react";
 
-export default function LifetimeWorkoutsStats() {
-  const { data } = useWorkoutLifetimeStats();
+export default function WeeklyReportStats() {
+  const now = new Date();
+  const from = startOfWeek(now, { weekStartsOn: 1 });
+  const to = endOfWeek(now, { weekStartsOn: 1 });
+
+  const { data } = useWorkoutWeeklyStats(from, to);
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex items-center justify-between">
         <CardTitle className="flex items-center gap-2">
-          <ClockIcon size={16} />
-          <span>Lifetime Workouts</span>
+          <Calendar1Icon size={16} />
+          <span>
+            {from.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            })}{" "}
+            -{" "}
+            {to.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            })}
+          </span>
         </CardTitle>
+        <Button variant="ghost">
+          <span>Weekly Report</span> <ChevronRightIcon />
+        </Button>
       </CardHeader>
       {data && (
         <CardContent className="grid grid-cols-3 text-center">

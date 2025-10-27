@@ -64,12 +64,26 @@ export function useActiveWorkout() {
   });
 }
 
-export function useWorkoutStats() {
+export function useWorkoutLifetimeStats() {
   const { apiClient } = useApiClient();
 
   return useQuery<TWorkoutStats>({
     queryKey: ["workouts", "stats"],
     queryFn: () => apiClient<TWorkoutStats>("/workouts/stats"),
+  });
+}
+
+export function useWorkoutWeeklyStats(from: Date, to: Date) {
+  const { apiClient } = useApiClient();
+
+  const searchParams = new URLSearchParams();
+  searchParams.set("from", from.toISOString());
+  searchParams.set("to", to.toISOString());
+  const queryString = searchParams.toString();
+
+  return useQuery<TWorkoutStats>({
+    queryKey: ["workouts", "stats", { from, to }],
+    queryFn: () => apiClient<TWorkoutStats>(`/workouts/stats?${queryString}`),
   });
 }
 
