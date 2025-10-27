@@ -28,8 +28,11 @@ export default function WorkoutSetOptionsButton({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm">
-          {workoutSet.setNumber}
+        <Button variant="outline" className="size-9 px-0 py-0">
+          {workoutSet.type === "normal" && workoutSet.setNumber}
+          {workoutSet.type === "warmup" && (
+            <span className="text-accent-foreground">W</span>
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
