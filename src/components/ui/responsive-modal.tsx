@@ -16,6 +16,13 @@ import {
   DrawerTitle,
 } from "./drawer";
 import { cn } from "@/lib/utils";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "./sheet";
 
 type TResponsiveModalProps = {
   content: React.ReactNode;
@@ -37,16 +44,27 @@ export function ResponsiveModal({
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
+    // return (
+    //   <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    //     <DialogContent className="flex max-h-[60vh] flex-col">
+    //       <DialogHeader className="sr-only">
+    //         <DialogTitle>{title}</DialogTitle>
+    //         <DialogDescription>{description}</DialogDescription>
+    //       </DialogHeader>
+    //       <div className={cn("overflow-y-auto pt-6", className)}>{content}</div>
+    //     </DialogContent>
+    //   </Dialog>
+    // );
     return (
-      <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="flex max-h-[60vh] flex-col">
-          <DialogHeader className="sr-only">
-            <DialogTitle>{title}</DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
-          </DialogHeader>
+      <Sheet open={isOpen} onOpenChange={onOpenChange}>
+        <SheetContent className="sm:max-w-lg">
+          <SheetHeader>
+            <SheetTitle>{title}</SheetTitle>
+            <SheetDescription>{description}</SheetDescription>
+          </SheetHeader>
           <div className={cn("overflow-y-auto pt-6", className)}>{content}</div>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     );
   } else {
     return (
