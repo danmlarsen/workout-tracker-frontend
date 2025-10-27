@@ -62,10 +62,10 @@ export default function ExerciseDetails({
       {data && (
         <>
           <h2 className="text-center text-xl">{data.name}</h2>
-          <Tabs defaultValue="instructions">
+          <Tabs defaultValue="workouts">
             <TabsList className="w-full rounded-none">
-              <TabsTrigger value="instructions">Instructions</TabsTrigger>
               <TabsTrigger value="workouts">Workouts</TabsTrigger>
+              <TabsTrigger value="instructions">Instructions</TabsTrigger>
               <TabsTrigger value="charts">Charts</TabsTrigger>
             </TabsList>
             <div className="px-4">
