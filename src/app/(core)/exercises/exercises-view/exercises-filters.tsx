@@ -61,7 +61,7 @@ export default function ExercisesFilters({
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Muscle Groups</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="grid w-[100dvw] grid-cols-2">
+          <DropdownMenuContent className="grid w-[100dvw] grid-cols-2 sm:max-w-md">
             <DropdownMenuCheckboxItem
               key="All"
               checked={selectedMuscleGroups.length === 0}
@@ -89,7 +89,7 @@ export default function ExercisesFilters({
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Equipment</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[100dvw]">
+          <DropdownMenuContent className="w-[100dvw] sm:max-w-xs">
             <DropdownMenuCheckboxItem
               key="All"
               checked={selectedEquipment.length === 0}
