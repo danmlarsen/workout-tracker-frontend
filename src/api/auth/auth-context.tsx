@@ -2,19 +2,7 @@ import { API_URL } from "@/lib/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type LoginResult = {
-  success: boolean;
-  statusCode?: number;
-  message?: string;
-};
-
-export type RegisterResult = {
-  success: boolean;
-  statusCode?: number;
-  message?: string;
-};
-
-export type ConfirmEmailResult = {
+export type AuthResult = {
   success: boolean;
   statusCode?: number;
   message?: string;
@@ -28,9 +16,10 @@ export type AuthContextType = {
   loginWithCredentials: (
     email: string,
     password: string,
-  ) => Promise<LoginResult>;
-  register: (email: string, password: string) => Promise<RegisterResult>;
-  confirmEmail: (token: string) => Promise<ConfirmEmailResult>;
+  ) => Promise<AuthResult>;
+  register: (email: string, password: string) => Promise<AuthResult>;
+  confirmEmail: (token: string) => Promise<AuthResult>;
+  resendEmailConfirmation: (email: string) => Promise<AuthResult>;
   logout: () => Promise<void>;
   refresh: () => Promise<string | null>;
 };
@@ -88,7 +77,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const register = async (
     email: string,
     password: string,
-  ): Promise<RegisterResult> => {
+  ): Promise<AuthResult> => {
     try {
       const res = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
@@ -129,6 +118,35 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           success: false,
           statusCode: parsedResponse?.statusCode,
           message: parsedResponse?.message || "Unable to confirm email",
+        };
+      }
+
+      return await res.json();
+    } catch {
+      return {
+        success: false,
+        message: "Network error. Please try again",
+      };
+    }
+  };
+
+  const resendEmailConfirmation = async (email: string) => {
+    try {
+      const res = await fetch(`${API_URL}/auth/resend-confirmation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const parsedResponse = await res.json();
+        return {
+          success: false,
+          statusCode: parsedResponse?.statusCode,
+          message:
+            parsedResponse?.message || "Unable to resend confirmation email",
         };
       }
 
@@ -208,6 +226,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         loginWithCredentials,
         register,
         confirmEmail,
+        resendEmailConfirmation,
         logout,
         refresh,
       }}

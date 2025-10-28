@@ -45,10 +45,10 @@ export default function ConfirmEmailPage() {
           setState("success");
           setMessage(result.message || "Email confirmed successfully!");
 
-          // Redirect to login after 3 seconds
+          // Redirect to login after 5 seconds
           setTimeout(() => {
             router.push("/login");
-          }, 3000);
+          }, 5000);
         } else {
           setState("error");
           setMessage(result.message || "Failed to confirm email");
