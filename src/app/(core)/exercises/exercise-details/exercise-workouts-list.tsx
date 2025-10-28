@@ -51,7 +51,9 @@ export default function ExerciseWorkoutsList({
                     <TableBody>
                       {workout.workoutSets.map((set) => (
                         <TableRow key={set.id}>
-                          <TableCell>{set.setNumber}</TableCell>
+                          <TableCell>
+                            {set.type === "warmup" ? "W" : set.setNumber}
+                          </TableCell>
                           <TableCell>
                             {exercise.category === "strength" && (
                               <>
