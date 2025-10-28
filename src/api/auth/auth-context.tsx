@@ -14,6 +14,12 @@ export type RegisterResult = {
   message?: string;
 };
 
+export type ConfirmEmailResult = {
+  success: boolean;
+  statusCode?: number;
+  message?: string;
+};
+
 export type AuthContextType = {
   accessToken: string | null;
   isLoggedIn: boolean;
@@ -24,6 +30,7 @@ export type AuthContextType = {
     password: string,
   ) => Promise<LoginResult>;
   register: (email: string, password: string) => Promise<RegisterResult>;
+  confirmEmail: (token: string) => Promise<ConfirmEmailResult>;
   logout: () => Promise<void>;
   refresh: () => Promise<string | null>;
 };
@@ -112,6 +119,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const confirmEmail = async (token: string) => {
+    try {
+      const res = await fetch(`${API_URL}/auth/confirm/${token}`);
+
+      if (!res.ok) {
+        const parsedResponse = await res.json();
+        return {
+          success: false,
+          statusCode: parsedResponse?.statusCode,
+          message: parsedResponse?.message || "Unable to confirm email",
+        };
+      }
+
+      return await res.json();
+    } catch {
+      return {
+        success: false,
+        message: "Network error. Please try again",
+      };
+    }
+  };
+
   const logout = async () => {
     if (accessToken) {
       try {
@@ -178,6 +207,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         loginWithCredentials,
         register,
+        confirmEmail,
         logout,
         refresh,
       }}

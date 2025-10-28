@@ -1,8 +1,13 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import LoginForm from './login-form';
-import AuthGuard from '@/api/auth/auth-guard';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import LoginForm from "./login-form";
+import AuthGuard from "@/api/auth/auth-guard";
+import Link from "next/link";
 
 export default function LoginPage() {
   return (
@@ -14,9 +19,9 @@ export default function LoginPage() {
         <CardContent>
           <LoginForm />
         </CardContent>
-        <CardFooter className="flex items-center gap-2 justify-center">
+        <CardFooter className="flex items-center justify-center gap-2">
           <span>Need to create an account?</span>
-          <Link href="/register" className="underline font-bold">
+          <Link href="/register" className="font-bold underline">
             Register
           </Link>
         </CardFooter>
