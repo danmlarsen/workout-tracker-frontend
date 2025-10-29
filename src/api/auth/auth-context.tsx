@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 export type AuthResult = {
   success: boolean;
   statusCode?: number;
+  code?: string;
   message?: string;
 };
 
@@ -57,6 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return {
           success: false,
           message: parsedResponse?.message || "Invalid credentials",
+          code: parsedResponse?.code,
         };
       }
 

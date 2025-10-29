@@ -110,7 +110,7 @@ export default function RegisterForm() {
             <FormMessage>{form.formState.errors.root.message}</FormMessage>
           )}
 
-          <Button type="submit" size="lg" className="w-full">
+          <Button type="submit" className="w-full">
             Register
           </Button>
         </fieldset>

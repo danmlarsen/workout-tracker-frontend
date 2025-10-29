@@ -84,7 +84,7 @@ export default function ConfirmEmailPage() {
             </div>
             <p className="mb-4 text-center text-gray-800">{message}</p>
             <p className="mb-4 text-center text-sm text-gray-600">
-              Redirecting to login in 3 seconds...
+              Redirecting to login in 5 seconds...
             </p>
             <Button onClick={() => router.push("/login")} className="w-full">
               Go to Login
@@ -108,7 +108,7 @@ export default function ConfirmEmailPage() {
                 Try Registering Again
               </Button>
               <Button
-                onClick={() => router.push("/resend-confirmation")}
+                onClick={() => router.push("/resend-email-confirmation")}
                 className="w-full"
               >
                 Resend Confirmation Email
