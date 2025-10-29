@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
@@ -36,10 +39,24 @@ export default function ResendEmailConfirmation() {
     },
   });
 
+  const router = useRouter();
+
+  const [emailSent, setEmailSent] = useState(false);
+
   async function handleSubmit(data: z.infer<typeof schema>) {
     const response = await resendEmailConfirmation(data.email);
 
-    console.log(response);
+    setEmailSent(true);
+
+    setTimeout(() => {
+      setEmailSent(false);
+    }, 1000 * 30);
+
+    if (response.success) {
+      router.push(`/register?success=true&email=${data.email}`);
+    } else {
+      console.error(response.message);
+    }
   }
 
   return (
@@ -69,13 +86,18 @@ export default function ResendEmailConfirmation() {
                   )}
                 />
 
-                <Button type="submit" className="w-full">
-                  Send
+                <Button type="submit" className="w-full" disabled={emailSent}>
+                  {emailSent ? "Email Sent" : "Send"}
                 </Button>
               </fieldset>
             </form>
           </Form>
         </CardContent>
+        <CardFooter className="flex items-center justify-center gap-2">
+          <Button asChild variant="outline" className="w-full">
+            <Link href="/login">Go back to Login</Link>
+          </Button>
+        </CardFooter>
       </Card>
     </AuthGuard>
   );

@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { passwordSchema } from "@/validation/passwordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z, { email } from "zod";
 
@@ -45,7 +46,7 @@ export default function RegisterForm() {
     const response = await register(data.email, data.password);
 
     if (response.success) {
-      router.push("/login");
+      router.push(`/register?success=true&email=${data.email}`);
     } else {
       if (response.statusCode === 409) {
         form.setError("email", {
