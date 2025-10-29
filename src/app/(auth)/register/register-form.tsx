@@ -14,9 +14,8 @@ import { Input } from "@/components/ui/input";
 import { passwordSchema } from "@/validation/passwordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import z, { email } from "zod";
+import z from "zod";
 
 const registerSchema = z
   .object({

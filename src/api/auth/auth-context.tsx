@@ -1,7 +1,6 @@
 import { API_URL } from "@/lib/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
-import { success } from "zod";
 
 export type AuthResult = {
   success: boolean;
@@ -23,7 +22,7 @@ export type AuthContextType = {
   confirmEmail: (token: string) => Promise<AuthResult>;
   resendEmailConfirmation: (email: string) => Promise<AuthResult>;
   requestPasswordReset: (email: string) => Promise<AuthResult>;
-  changePassword: (token: string, password: string) => Promise<AuthResult>;
+  resetPassword: (token: string, password: string) => Promise<AuthResult>;
   logout: () => Promise<void>;
   refresh: () => Promise<string | null>;
 };
@@ -193,7 +192,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const changePassword = async (token: string, password: string) => {
+  const resetPassword = async (token: string, password: string) => {
     try {
       const res = await fetch(`${API_URL}/auth/password-reset/${token}`, {
         method: "POST",
@@ -290,7 +289,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         confirmEmail,
         resendEmailConfirmation,
         requestPasswordReset,
-        changePassword,
+        resetPassword,
         logout,
         refresh,
       }}

@@ -19,11 +19,22 @@ export default function LoginPage() {
         <CardContent>
           <LoginForm />
         </CardContent>
-        <CardFooter className="flex items-center justify-center gap-2">
-          <span>Need to create an account?</span>
-          <Link href="/register" className="font-bold underline">
-            Register
-          </Link>
+        <CardFooter className="flex flex-col items-center justify-center gap-2">
+          <div>
+            <span>Need to create an account?</span>{" "}
+            <Link href="/register" className="font-bold underline">
+              Register
+            </Link>
+          </div>
+          <div>
+            <span>Forgot password?</span>{" "}
+            <Link
+              href="/request-password-reset"
+              className="font-bold underline"
+            >
+              Reset my password
+            </Link>
+          </div>
         </CardFooter>
       </Card>
     </AuthGuard>
