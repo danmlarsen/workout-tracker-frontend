@@ -1,6 +1,7 @@
 import { API_URL } from "@/lib/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
+import { success } from "zod";
 
 export type AuthResult = {
   success: boolean;
@@ -21,6 +22,8 @@ export type AuthContextType = {
   register: (email: string, password: string) => Promise<AuthResult>;
   confirmEmail: (token: string) => Promise<AuthResult>;
   resendEmailConfirmation: (email: string) => Promise<AuthResult>;
+  requestPasswordReset: (email: string) => Promise<AuthResult>;
+  changePassword: (token: string, password: string) => Promise<AuthResult>;
   logout: () => Promise<void>;
   refresh: () => Promise<string | null>;
 };
@@ -161,6 +164,63 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const requestPasswordReset = async (email: string) => {
+    try {
+      const res = await fetch(`${API_URL}/auth/request-password-reset`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const parsedResponse = await res.json();
+        return {
+          success: false,
+          statusCode: parsedResponse?.statusCode,
+          message:
+            parsedResponse?.message || "Unable to request password reset",
+        };
+      }
+
+      return await res.json();
+    } catch {
+      return {
+        success: false,
+        message: "Network error. Please try again",
+      };
+    }
+  };
+
+  const changePassword = async (token: string, password: string) => {
+    try {
+      const res = await fetch(`${API_URL}/auth/password-reset/${token}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (!res.ok) {
+        const parsedResponse = await res.json();
+        return {
+          success: false,
+          statusCode: parsedResponse?.statusCode,
+          message: parsedResponse?.message || "Unable to reset password",
+        };
+      }
+
+      return await res.json();
+    } catch {
+      return {
+        success: false,
+        message: "Network error. Please try again",
+      };
+    }
+  };
+
   const logout = async () => {
     if (accessToken) {
       try {
@@ -229,6 +289,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         register,
         confirmEmail,
         resendEmailConfirmation,
+        requestPasswordReset,
+        changePassword,
         logout,
         refresh,
       }}
