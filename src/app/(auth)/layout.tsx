@@ -7,7 +7,7 @@ export default function AuthLayout({
 }) {
   return (
     <div>
-      <div className="mx-auto grid min-h-screen place-items-center px-6 py-4">
+      <div className="mx-auto grid min-h-screen place-items-center p-4">
         {children}
       </div>
     </div>
