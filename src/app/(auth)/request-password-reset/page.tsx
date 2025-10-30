@@ -51,7 +51,7 @@ export default function ResetPasswordPage() {
           </CardHeader>
           <CardContent>
             If you have an account with us you will receive a password reset
-            email at: <strong>{form.getValues("email")}</strong>
+            email at: <strong>{form.getValues("email").toLowerCase()}</strong>
           </CardContent>
         </Card>
       </AuthGuard>
