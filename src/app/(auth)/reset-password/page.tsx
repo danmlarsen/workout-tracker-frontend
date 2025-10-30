@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { passwordSchema } from "@/validation/passwordSchema";
+import { changePasswordSchema } from "@/validation/changePasswordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -21,19 +21,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
-const updatePasswordSchema = z
-  .object({
-    newPassword: passwordSchema,
-    newPasswordConfirm: z.string(),
-  })
-  .refine((data) => data.newPassword === data.newPasswordConfirm, {
-    message: "Passwords dont match",
-    path: ["newPasswordConfirm"],
-  });
-
 export default function ResetPasswordPage() {
-  const form = useForm<z.infer<typeof updatePasswordSchema>>({
-    resolver: zodResolver(updatePasswordSchema),
+  const form = useForm<z.infer<typeof changePasswordSchema>>({
+    resolver: zodResolver(changePasswordSchema),
     defaultValues: {
       newPassword: "",
       newPasswordConfirm: "",
@@ -47,7 +37,7 @@ export default function ResetPasswordPage() {
 
   const token = searchParams.get("token");
 
-  async function handleSubmit(data: z.infer<typeof updatePasswordSchema>) {
+  async function handleSubmit(data: z.infer<typeof changePasswordSchema>) {
     if (!token) {
       form.setError("root", {
         type: "custom",
