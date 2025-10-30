@@ -2,6 +2,7 @@ import ThemeToggle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ChangePasswordForm from "./change-password-form";
+import DeleteAccountForm from "./delete-account-form";
 
 export default function SettingsPage() {
   return (
@@ -15,9 +16,10 @@ export default function SettingsPage() {
       <Button asChild className="w-full">
         <Link href="/logout">Logout</Link>
       </Button>
-      <Button variant="destructive" className="w-full">
+      {/* <Button variant="destructive" className="w-full">
         Delete account
-      </Button>
+      </Button> */}
+      <DeleteAccountForm />
     </div>
   );
 }
