@@ -55,7 +55,10 @@ export default function ResendEmailConfirmation() {
     if (response.success) {
       router.push(`/register?success=true&email=${data.email}`);
     } else {
-      console.error(response.message);
+      form.setError("root", {
+        type: "custom",
+        message: response.message,
+      });
     }
   }
 
@@ -85,6 +88,12 @@ export default function ResendEmailConfirmation() {
                     </FormItem>
                   )}
                 />
+
+                {form.formState.errors.root?.message && (
+                  <FormMessage>
+                    {form.formState.errors.root.message}
+                  </FormMessage>
+                )}
 
                 <Button type="submit" className="w-full" disabled={emailSent}>
                   {emailSent ? "Email Sent" : "Send"}
