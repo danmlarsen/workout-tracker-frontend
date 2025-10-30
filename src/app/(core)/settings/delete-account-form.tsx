@@ -4,13 +4,6 @@ import { useAuth } from "@/api/auth/auth-context";
 import { useDeleteAccount } from "@/api/user/mutations";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -54,42 +47,32 @@ export default function DeleteAccountForm() {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Delete Account</CardTitle>
-        <CardDescription>
-          Enter password to confirm account deletion
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <fieldset className="space-y-4">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="password" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <fieldset className="space-y-4">
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              {form.formState.errors.root?.message && (
-                <FormMessage>{form.formState.errors.root.message}</FormMessage>
-              )}
+          {form.formState.errors.root?.message && (
+            <FormMessage>{form.formState.errors.root.message}</FormMessage>
+          )}
 
-              <Button type="submit" variant="destructive">
-                Delete Account
-              </Button>
-            </fieldset>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+          <Button type="submit" variant="destructive">
+            Delete Account
+          </Button>
+        </fieldset>
+      </form>
+    </Form>
   );
 }
