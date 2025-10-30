@@ -19,6 +19,10 @@ export type AuthContextType = {
     password: string,
   ) => Promise<AuthResult>;
   register: (email: string, password: string) => Promise<AuthResult>;
+  changePassword: (
+    currentPassword: string,
+    newPassword: string,
+  ) => Promise<AuthResult>;
   confirmEmail: (token: string) => Promise<AuthResult>;
   resendEmailConfirmation: (email: string) => Promise<AuthResult>;
   requestPasswordReset: (email: string) => Promise<AuthResult>;
@@ -104,6 +108,40 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return {
         success: true,
       };
+    } catch {
+      return {
+        success: false,
+        message: "Network error. Please try again",
+      };
+    }
+  };
+
+  const changePassword = async (
+    currentPassword: string,
+    newPassword: string,
+  ) => {
+    if (!accessToken) return;
+
+    try {
+      const res = await fetch(`${API_URL}/auth/change-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+
+      if (!res.ok) {
+        const parsedResponse = await res.json();
+        return {
+          success: false,
+          statusCode: parsedResponse?.statusCode,
+          message: parsedResponse?.message || "Unable to change password",
+        };
+      }
+
+      return await res.json();
     } catch {
       return {
         success: false,
@@ -286,6 +324,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         loginWithCredentials,
         register,
+        changePassword,
         confirmEmail,
         resendEmailConfirmation,
         requestPasswordReset,
