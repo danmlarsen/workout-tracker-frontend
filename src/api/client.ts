@@ -1,6 +1,17 @@
 import { API_URL } from "@/lib/constants";
 import { useAuth } from "./auth/auth-context";
 
+class ApiError extends Error {
+  statusCode: number;
+  error?: string;
+
+  constructor(data: { statusCode: number; message: string; error?: string }) {
+    super(data.message);
+    this.statusCode = data.statusCode;
+    this.error = data.error;
+  }
+}
+
 export const useApiClient = () => {
   const { accessToken, refresh, logout } = useAuth();
 
@@ -50,7 +61,8 @@ export const useApiClient = () => {
     }
 
     if (!res.ok) {
-      throw new Error(await res.text());
+      const errorData = await res.json();
+      throw new ApiError(errorData);
     }
 
     const data = await res.json();
