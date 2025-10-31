@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Workout Tracker App",
+  title: "NextLift - Workout Tracker",
   description: "Workout Tracker App",
 };
 
