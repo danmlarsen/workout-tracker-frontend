@@ -1,30 +1,29 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { ChevronRightIcon } from "lucide-react";
+import { useState } from "react";
 
 export default function WeeklyReportButton() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="ghost">
-          <span>Weekly Report</span> <ChevronRightIcon />
-        </Button>
-      </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-md">
-        <SheetHeader>
-          <SheetTitle>Weekly Report</SheetTitle>
-        </SheetHeader>
-        <div className="px-4">
-          <p className="text-muted-foreground">Weekly Report coming soon..</p>
-        </div>
-      </SheetContent>
-    </Sheet>
+    <>
+      <ResponsiveModal
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        title="Weekly Report"
+        content={
+          <div className="px-4 text-center">
+            <p className="text-muted-foreground text-xl">
+              Weekly Report coming soon..
+            </p>
+          </div>
+        }
+      />
+      <Button variant="ghost" onClick={() => setIsOpen(true)}>
+        <span>Weekly Report</span> <ChevronRightIcon />
+      </Button>
+    </>
   );
 }
