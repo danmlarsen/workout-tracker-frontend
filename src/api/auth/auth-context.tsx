@@ -1,3 +1,5 @@
+import Logo from "@/components/logo";
+import { Spinner } from "@/components/ui/spinner";
 import { API_URL } from "@/lib/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -307,9 +309,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <p className="text-gray-600">Loading...</p>
+      <div className="mx-auto grid min-h-dvh px-4">
+        <div className="flex justify-center py-10">
+          <Logo />
+        </div>
+        <div className="fixed inset-0 grid place-items-center">
+          <Spinner className="size-16" />
         </div>
       </div>
     );
