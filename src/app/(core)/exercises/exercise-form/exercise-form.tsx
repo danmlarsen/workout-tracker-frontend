@@ -48,8 +48,6 @@ export default function ExerciseForm({
   const createExerciseMutation = useCreateExercise();
 
   async function handleSubmit(data: z.infer<typeof exerciseSchema>) {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-
     createExerciseMutation.mutate(data, {
       onSuccess: () => {
         toast.success(`Exercise: ${data.name} has been created`);
