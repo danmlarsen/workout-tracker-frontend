@@ -17,13 +17,7 @@ import {
 import { formatDate } from "date-fns";
 import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  CheckCircleIcon,
-  ClockIcon,
-  MaximizeIcon,
-  WeightIcon,
-} from "lucide-react";
+import { CheckCircleIcon, ClockIcon, WeightIcon } from "lucide-react";
 import {
   formatBestSet,
   formatTime,
@@ -33,6 +27,7 @@ import {
 } from "@/lib/utils";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import WorkoutForm from "../workout-form/workout-form";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -163,5 +158,13 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
         </CardContent>
       </Card>
     </>
+  );
+}
+
+export function WorkoutHistoryItemSkeleton() {
+  return (
+    <li>
+      <Skeleton className="bg-card h-[200px] rounded-xl" />
+    </li>
   );
 }

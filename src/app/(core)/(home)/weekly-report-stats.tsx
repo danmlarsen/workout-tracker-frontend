@@ -6,13 +6,18 @@ import { formatCompactNumber, formatNumber, formatWeight } from "@/lib/utils";
 import { endOfWeek, startOfWeek } from "date-fns";
 import { Calendar1Icon } from "lucide-react";
 import WeeklyReportButton from "./weekly-report-button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function WeeklyReportStats() {
   const now = new Date();
   const from = startOfWeek(now, { weekStartsOn: 1 });
   const to = endOfWeek(now, { weekStartsOn: 1 });
 
-  const { data } = useWorkoutWeeklyStats(from, to);
+  const { data, isFetching, isSuccess } = useWorkoutWeeklyStats(from, to);
+
+  if (isFetching) {
+    return <Skeleton className="bg-card h-[175px] rounded-xl" />;
+  }
 
   return (
     <Card>
@@ -33,7 +38,7 @@ export default function WeeklyReportStats() {
         </CardTitle>
         <WeeklyReportButton />
       </CardHeader>
-      {data && (
+      {isSuccess && (
         <CardContent className="grid grid-cols-3 text-center">
           <div className="flex flex-col items-center justify-center">
             <p className="text-3xl font-bold">

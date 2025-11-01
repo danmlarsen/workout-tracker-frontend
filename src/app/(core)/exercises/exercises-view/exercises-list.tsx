@@ -3,7 +3,7 @@
 import { useInfiniteExercises } from "@/api/exercises/queries";
 import { TExercise, type TExercisesQueryFilters } from "@/api/exercises/types";
 import InfiniteScroll from "react-infinite-scroller";
-import ExerciseItem from "./exercise-item";
+import ExerciseItem, { ExerciseItemSkeleton } from "./exercise-item";
 import { useState } from "react";
 import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
 
@@ -28,11 +28,10 @@ export default function ExercisesList({
     }
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteExercises(
-    {
+  const { data, fetchNextPage, hasNextPage, isFetching, isSuccess } =
+    useInfiniteExercises({
       filters,
-    },
-  );
+    });
 
   return (
     <>
@@ -53,15 +52,20 @@ export default function ExercisesList({
         useWindow={!onExerciseClick} // Set to false if used in a drawer/modal
       >
         <ul>
-          {data?.pages.map((group) =>
-            group.results.map((exercise) => (
-              <ExerciseItem
-                key={exercise.id}
-                exercise={exercise}
-                onExerciseClick={() => handleExerciseClick(exercise)}
-              />
-            )),
-          )}
+          {isFetching &&
+            Array.from({ length: 20 }).map((_, index) => (
+              <ExerciseItemSkeleton key={index} />
+            ))}
+          {isSuccess &&
+            data.pages.map((group) =>
+              group.results.map((exercise) => (
+                <ExerciseItem
+                  key={exercise.id}
+                  exercise={exercise}
+                  onExerciseClick={() => handleExerciseClick(exercise)}
+                />
+              )),
+            )}
         </ul>
       </InfiniteScroll>
     </>

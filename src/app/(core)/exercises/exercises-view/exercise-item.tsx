@@ -1,5 +1,6 @@
 import { TExercise } from "@/api/exercises/types";
 import ExerciseAvatar from "@/components/ui/exercise-avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ExerciseItem({
   exercise,
@@ -14,7 +15,7 @@ export default function ExerciseItem({
   ];
 
   return (
-    <li key={exercise.id}>
+    <li>
       <button
         className="grid w-full grid-cols-[50px_1fr_50px] items-center gap-4 py-4"
         onClick={() => onExerciseClick(exercise.id)}
@@ -41,6 +42,15 @@ export default function ExerciseItem({
         </div>
         <div>{exercise.timesUsed} times</div>
       </button>
+    </li>
+  );
+}
+
+export function ExerciseItemSkeleton() {
+  return (
+    <li className="grid h-26 w-full grid-cols-[75px_1fr] gap-2 py-4">
+      <Skeleton className="bg-card rounded-xl" />
+      <Skeleton className="bg-card rounded-xl" />
     </li>
   );
 }

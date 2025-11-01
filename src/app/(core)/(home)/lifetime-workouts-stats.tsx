@@ -2,11 +2,16 @@
 
 import { useWorkoutLifetimeStats } from "@/api/workouts/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { formatCompactNumber, formatNumber, formatWeight } from "@/lib/utils";
 import { ClockIcon } from "lucide-react";
 
 export default function LifetimeWorkoutsStats() {
-  const { data } = useWorkoutLifetimeStats();
+  const { data, isFetching, isSuccess } = useWorkoutLifetimeStats();
+
+  if (isFetching) {
+    return <Skeleton className="bg-card h-[150px] rounded-xl" />;
+  }
 
   return (
     <Card>
@@ -16,7 +21,7 @@ export default function LifetimeWorkoutsStats() {
           <span>Lifetime Workouts</span>
         </CardTitle>
       </CardHeader>
-      {data && (
+      {isSuccess && (
         <CardContent className="grid grid-cols-3 text-center">
           <div className="flex flex-col items-center justify-center">
             <p className="text-3xl font-bold">

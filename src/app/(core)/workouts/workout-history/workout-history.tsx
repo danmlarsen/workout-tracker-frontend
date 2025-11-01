@@ -4,7 +4,9 @@ import {
   useCompletedWorkouts,
   useWorkoutLifetimeStats,
 } from "@/api/workouts/queries";
-import WorkoutHistoryItem from "./workout-history-item";
+import WorkoutHistoryItem, {
+  WorkoutHistoryItemSkeleton,
+} from "./workout-history-item";
 import InfiniteScroll from "react-infinite-scroller";
 import WorkoutHistoryCalendar from "./workout-history-calendar";
 import { useState } from "react";
@@ -43,15 +45,18 @@ export default function WorkoutHistory() {
           }}
           hasMore={hasNextPage}
         >
-          {isSuccess && (
-            <ul className="space-y-6">
-              {data.pages.map((group) =>
+          <ul className="space-y-6">
+            {isFetching &&
+              Array.from({ length: 10 }).map((_, index) => (
+                <WorkoutHistoryItemSkeleton key={index} />
+              ))}
+            {isSuccess &&
+              data.pages.map((group) =>
                 group.results.map((workout) => (
                   <WorkoutHistoryItem key={workout.id} workout={workout} />
                 )),
               )}
-            </ul>
-          )}
+          </ul>
         </InfiniteScroll>
       </div>
     </>
