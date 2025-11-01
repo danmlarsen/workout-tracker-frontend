@@ -59,7 +59,12 @@ export default function ExerciseForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <fieldset className="space-y-6" disabled={form.formState.isSubmitting}>
+        <fieldset
+          className="space-y-6"
+          disabled={
+            form.formState.isSubmitting || createExerciseMutation.isPending
+          }
+        >
           <FormField
             control={form.control}
             name="name"
@@ -232,7 +237,8 @@ export default function ExerciseForm({
           />
 
           <Button type="submit" className="w-full">
-            {form.formState.isSubmitting && <Spinner />}
+            {form.formState.isSubmitting ||
+              (createExerciseMutation.isPending && <Spinner />)}
             Create Exercise
           </Button>
         </fieldset>
