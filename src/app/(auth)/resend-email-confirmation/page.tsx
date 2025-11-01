@@ -82,7 +82,7 @@ export default function ResendEmailConfirmation() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input {...field} type="email" />
+                        <Input {...field} type="email" autoComplete="email" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

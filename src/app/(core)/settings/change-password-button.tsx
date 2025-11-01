@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -26,6 +27,9 @@ export default function ChangePasswordButton({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Change Password</DialogTitle>
+          <DialogDescription>
+            Enter your current password and a new password
+          </DialogDescription>
         </DialogHeader>
         <ChangePasswordForm onSuccess={() => setIsOpen(false)} />
       </DialogContent>

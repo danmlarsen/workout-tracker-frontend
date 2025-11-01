@@ -91,7 +91,11 @@ export default function ResetPasswordPage() {
                     <FormItem>
                       <FormLabel>New Password</FormLabel>
                       <FormControl>
-                        <Input {...field} type="password" />
+                        <Input
+                          {...field}
+                          type="password"
+                          autoComplete="new-password"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -104,7 +108,11 @@ export default function ResetPasswordPage() {
                     <FormItem>
                       <FormLabel>New Password Confirm</FormLabel>
                       <FormControl>
-                        <Input {...field} type="password" />
+                        <Input
+                          {...field}
+                          type="password"
+                          autoComplete="new-password"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

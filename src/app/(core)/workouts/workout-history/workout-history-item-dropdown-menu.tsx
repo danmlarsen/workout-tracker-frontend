@@ -24,9 +24,12 @@ export default function WorkoutHistoryItemDropdownMenu({
   const { mutate: deleteWorkoutMutation } = useDeleteWorkout();
 
   function handleDelete() {
-    deleteWorkoutMutation(workoutId);
+    deleteWorkoutMutation(workoutId, {
+      onSuccess: () => {
+        toast.success(`Successfully deleted workout`);
+      },
+    });
     setDeleteDialogOpen(false);
-    toast.success(`Successfully deleted workout`);
   }
 
   return (

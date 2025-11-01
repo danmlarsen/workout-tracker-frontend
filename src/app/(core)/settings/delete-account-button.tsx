@@ -26,7 +26,10 @@ export default function DeleteAccountButton({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete Account</DialogTitle>
-          <DialogDescription>Enter your password to confirm</DialogDescription>
+          <DialogDescription>
+            Are you sure you want to delete your account? <br />
+            This action cannot be undone.
+          </DialogDescription>
         </DialogHeader>
         <DeleteAccountForm />
         <DialogClose asChild>

@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -54,6 +55,9 @@ export default function WorkoutNotesDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Workout Note</DialogTitle>
+          <DialogDescription>
+            You can add notes to your workout to remember important details.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
