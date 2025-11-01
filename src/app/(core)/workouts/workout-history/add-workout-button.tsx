@@ -91,7 +91,7 @@ export default function AddWorkoutButton({
         disabled={createWorkout.isPending}
         {...props}
       >
-        {createWorkout.isPending && <Spinner className="absolute size-8" />}
+        {createWorkout.isPending && <Spinner />}
         {children ? children : "Add Workout"}
       </Button>
     </>

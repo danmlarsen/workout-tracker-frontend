@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useActiveWorkout } from "@/api/workouts/queries";
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
 import { useCreateActiveWorkout } from "@/api/workouts/mutations";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function NewWorkoutButton() {
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();
@@ -24,7 +25,12 @@ export default function NewWorkoutButton() {
   }
 
   return (
-    <Button onClick={handleClick} className="w-full">
+    <Button
+      onClick={handleClick}
+      className="w-full"
+      disabled={createWorkoutQuery.isPending}
+    >
+      {createWorkoutQuery.isPending && <Spinner />}
       {activeWorkout ? "Go to active workout" : "Start new Workout"}
     </Button>
   );
