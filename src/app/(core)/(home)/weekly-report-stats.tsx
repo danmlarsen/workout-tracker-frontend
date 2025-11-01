@@ -16,7 +16,7 @@ export default function WeeklyReportStats() {
   const { data, isFetching, isSuccess } = useWorkoutWeeklyStats(from, to);
 
   if (isFetching) {
-    return <Skeleton className="bg-card h-[175px] rounded-xl" />;
+    return <Skeleton className="h-[175px] rounded-xl" />;
   }
 
   return (

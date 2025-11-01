@@ -49,8 +49,8 @@ export default function ExerciseItem({
 export function ExerciseItemSkeleton() {
   return (
     <li className="grid h-26 w-full grid-cols-[75px_1fr] gap-2 py-4">
-      <Skeleton className="bg-card rounded-xl" />
-      <Skeleton className="bg-card rounded-xl" />
+      <Skeleton className="rounded-xl" />
+      <Skeleton className="rounded-xl" />
     </li>
   );
 }

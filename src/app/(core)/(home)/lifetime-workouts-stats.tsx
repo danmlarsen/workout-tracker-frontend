@@ -10,7 +10,7 @@ export default function LifetimeWorkoutsStats() {
   const { data, isFetching, isSuccess } = useWorkoutLifetimeStats();
 
   if (isFetching) {
-    return <Skeleton className="bg-card h-[150px] rounded-xl" />;
+    return <Skeleton className="h-[150px] rounded-xl" />;
   }
 
   return (

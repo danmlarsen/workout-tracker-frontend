@@ -164,7 +164,7 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
 export function WorkoutHistoryItemSkeleton() {
   return (
     <li>
-      <Skeleton className="bg-card h-[200px] rounded-xl" />
+      <Skeleton className="h-[200px] rounded-xl" />
     </li>
   );
 }
