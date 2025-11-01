@@ -68,7 +68,7 @@ export default function DeleteAccountForm() {
             <FormMessage>{form.formState.errors.root.message}</FormMessage>
           )}
 
-          <Button type="submit" variant="destructive">
+          <Button type="submit" variant="destructive" className="w-full">
             Delete Account
           </Button>
         </fieldset>

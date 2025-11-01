@@ -98,7 +98,9 @@ export default function ChangePasswordForm() {
             <FormMessage>{form.formState.errors.root.message}</FormMessage>
           )}
 
-          <Button type="submit">Change Password</Button>
+          <Button type="submit" className="w-full">
+            Change Password
+          </Button>
         </fieldset>
       </form>
     </Form>
