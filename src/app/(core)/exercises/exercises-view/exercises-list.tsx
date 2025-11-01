@@ -52,7 +52,7 @@ export default function ExercisesList({
         hasMore={hasNextPage}
         useWindow={!onExerciseClick} // Set to false if used in a drawer/modal
       >
-        <ul className="space-y-2">
+        <ul>
           {data?.pages.map((group) =>
             group.results.map((exercise) => (
               <ExerciseItem
