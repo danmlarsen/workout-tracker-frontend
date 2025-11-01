@@ -30,7 +30,7 @@ export default function ExerciseItem({
           <div>
             {muscleGroups.map((muscleGroup, idx) => (
               <span
-                key={muscleGroup}
+                key={`${muscleGroup}_${idx}`}
                 className="text-muted-foreground text-xs capitalize"
               >
                 {muscleGroup}
