@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { passwordSchema } from "@/validation/passwordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 const schema = z.object({
@@ -35,6 +36,7 @@ export default function DeleteAccountForm() {
   async function handleSubmit(data: z.infer<typeof schema>) {
     deleteAccount.mutate(data.password, {
       onSuccess: () => {
+        toast.success("Successfully deleted your account");
         logout();
       },
       onError: (error) => {

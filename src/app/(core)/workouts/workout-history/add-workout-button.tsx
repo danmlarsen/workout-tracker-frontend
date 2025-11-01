@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { useState } from "react";
 import WorkoutForm from "../workout-form/workout-form";
+import { Spinner } from "@/components/ui/spinner";
+import { cn } from "@/lib/utils";
 
 export default function AddWorkoutButton({
   selectedDate,
@@ -84,16 +86,13 @@ export default function AddWorkoutButton({
         />
       )}
       <Button
-        className={className}
+        className={cn("", className)}
         onClick={handleAddWorkout}
         disabled={createWorkout.isPending}
         {...props}
       >
-        {createWorkout.isPending
-          ? "Creating..."
-          : children
-            ? children
-            : "Add Workout"}
+        {createWorkout.isPending && <Spinner className="absolute size-8" />}
+        {children ? children : "Add Workout"}
       </Button>
     </>
   );

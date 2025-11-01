@@ -11,9 +11,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { changePasswordSchema } from "@/validation/changePasswordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 const schema = z
@@ -22,7 +24,11 @@ const schema = z
   })
   .and(changePasswordSchema);
 
-export default function ChangePasswordForm() {
+export default function ChangePasswordForm({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -41,7 +47,8 @@ export default function ChangePasswordForm() {
     );
 
     if (response.success) {
-      form.reset();
+      toast.success("Password changed successfully");
+      onSuccess?.();
     } else {
       form.setError("root", {
         type: "custom",
@@ -53,7 +60,7 @@ export default function ChangePasswordForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <fieldset className="space-y-4">
+        <fieldset className="space-y-4" disabled={form.formState.isSubmitting}>
           <FormField
             control={form.control}
             name="currentPassword"
@@ -99,6 +106,7 @@ export default function ChangePasswordForm() {
           )}
 
           <Button type="submit" className="w-full">
+            {form.formState.isSubmitting && <Spinner />}
             Change Password
           </Button>
         </fieldset>

@@ -154,7 +154,7 @@ export default function WorkoutSet({
     <TableRow
       className={cn(
         "",
-        workoutSet.completedAt && "bg-accent hover:bg-accent/75",
+        workoutSet.completedAt && "bg-secondary/5 hover:bg-secondary/10",
       )}
     >
       <TableCell>

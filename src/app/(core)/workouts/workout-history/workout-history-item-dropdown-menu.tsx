@@ -11,6 +11,7 @@ import { MoreHorizontalIcon } from "lucide-react";
 import { useState } from "react";
 import { useDeleteWorkout } from "@/api/workouts/mutations";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
+import { toast } from "sonner";
 
 export default function WorkoutHistoryItemDropdownMenu({
   workoutId,
@@ -22,15 +23,18 @@ export default function WorkoutHistoryItemDropdownMenu({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const { mutate: deleteWorkoutMutation } = useDeleteWorkout();
 
+  function handleDelete() {
+    deleteWorkoutMutation(workoutId);
+    setDeleteDialogOpen(false);
+    toast.success(`Successfully deleted workout`);
+  }
+
   return (
     <>
       <ConfirmDialog
         isOpen={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        onConfirm={() => {
-          deleteWorkoutMutation(workoutId);
-          setDeleteDialogOpen(false);
-        }}
+        onConfirm={handleDelete}
         title="Delete Workout?"
         confirmText="Delete"
         variant="destructive"

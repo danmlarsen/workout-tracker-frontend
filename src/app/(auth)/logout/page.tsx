@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { useAuth } from '@/api/auth/auth-context';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useAuth } from "@/api/auth/auth-context";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function LogoutPage() {
   const router = useRouter();
@@ -11,7 +12,8 @@ export default function LogoutPage() {
   useEffect(() => {
     async function handleLogout() {
       await logout();
-      router.push('/login');
+      toast.success("Successfully logged out");
+      router.push("/login");
     }
     handleLogout();
   }, [logout, router]);

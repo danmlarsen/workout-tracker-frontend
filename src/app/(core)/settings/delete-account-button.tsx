@@ -2,6 +2,7 @@
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -28,6 +29,9 @@ export default function DeleteAccountButton({
           <DialogDescription>Enter your password to confirm</DialogDescription>
         </DialogHeader>
         <DeleteAccountForm />
+        <DialogClose asChild>
+          <Button variant="outline">Cancel</Button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );
