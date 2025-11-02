@@ -47,7 +47,7 @@ export default function LoginForm() {
       } else {
         form.setError("root", {
           type: "custom",
-          message: "Invalid email and/or password",
+          message: response.message || "Login failed. Please try again later.",
         });
       }
     }

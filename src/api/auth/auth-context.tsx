@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const parsedResponse = await res.json();
         return {
           success: false,
-          message: parsedResponse?.message || "Invalid credentials",
+          message: parsedResponse?.message || "Login failed",
           code: parsedResponse?.code,
         };
       }
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: "Network error. Please try again.",
+        message: "Network error. Please try again later.",
       };
     }
   };
@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: "Network error. Please try again",
+        message: "Network error. Please try again later.",
       };
     }
   };
@@ -147,7 +147,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: "Network error. Please try again",
+        message: "Network error. Please try again later.",
       };
     }
   };
@@ -169,7 +169,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: "Network error. Please try again",
+        message: "Network error. Please try again later.",
       };
     }
   };
@@ -198,7 +198,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: "Network error. Please try again",
+        message: "Network error. Please try again later.",
       };
     }
   };
@@ -227,7 +227,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: "Network error. Please try again",
+        message: "Network error. Please try again later.",
       };
     }
   };
@@ -255,7 +255,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return {
         success: false,
-        message: "Network error. Please try again",
+        message: "Network error. Please try again later.",
       };
     }
   };
