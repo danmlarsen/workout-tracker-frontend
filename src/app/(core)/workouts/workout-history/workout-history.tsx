@@ -11,6 +11,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import WorkoutHistoryCalendar from "./workout-history-calendar";
 import { useState } from "react";
 import AddWorkoutButton from "./add-workout-button";
+import { DEFAULT_LIST_ITEM_AMOUNT } from "@/lib/constants";
 
 export default function WorkoutHistory() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -53,14 +54,25 @@ export default function WorkoutHistory() {
         >
           <ul className="space-y-6">
             {isFetching &&
-              Array.from({ length: 10 }).map((_, index) => (
-                <WorkoutHistoryItemSkeleton key={`initial-${index}`} />
-              ))}
+              Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map(
+                (_, index) => (
+                  <WorkoutHistoryItemSkeleton key={`initial-${index}`} />
+                ),
+              )}
             {isSuccess &&
               data.pages.map((group) =>
                 group.results.map((workout) => (
                   <WorkoutHistoryItem key={workout.id} workout={workout} />
                 )),
+              )}
+            {isSuccess &&
+              data.pages.length > 0 &&
+              data.pages[0].results.length === 0 && (
+                <p className="text-muted-foreground">
+                  {selectedDate
+                    ? `No workout history found for this date.`
+                    : "No workout history found."}
+                </p>
               )}
             {isFetchingNextPage &&
               Array.from({ length: 10 }).map((_, index) => (
