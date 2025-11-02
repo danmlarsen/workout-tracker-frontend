@@ -23,6 +23,7 @@ export default function WorkoutHistory() {
     isFetching,
     isFetchingNextPage,
     isSuccess,
+    isError,
   } = useCompletedWorkouts(selectedDate);
 
   const { data: workoutStats } = useWorkoutLifetimeStats();
@@ -78,6 +79,12 @@ export default function WorkoutHistory() {
               Array.from({ length: 10 }).map((_, index) => (
                 <WorkoutHistoryItemSkeleton key={`loading-more-${index}`} />
               ))}
+            {isError && (
+              <p className="text-destructive">
+                An unexpected error occurred while loading workouts. Please try
+                again later.
+              </p>
+            )}
           </ul>
         </InfiniteScroll>
       </div>

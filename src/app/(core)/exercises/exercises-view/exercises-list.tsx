@@ -36,6 +36,7 @@ export default function ExercisesList({
     isFetching,
     isFetchingNextPage,
     isSuccess,
+    isError,
   } = useInfiniteExercises({
     filters,
   });
@@ -77,6 +78,12 @@ export default function ExercisesList({
             Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
               <ExerciseItemSkeleton key={`loading-more-${index}`} />
             ))}
+          {isError && (
+            <p className="text-destructive">
+              An unexpected error occurred while loading exercises. Please try
+              again later.
+            </p>
+          )}
         </ul>
       </InfiniteScroll>
     </>
