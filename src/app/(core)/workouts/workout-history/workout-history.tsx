@@ -15,8 +15,14 @@ import AddWorkoutButton from "./add-workout-button";
 export default function WorkoutHistory() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isSuccess } =
-    useCompletedWorkouts(selectedDate);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isSuccess,
+  } = useCompletedWorkouts(selectedDate);
 
   const { data: workoutStats } = useWorkoutLifetimeStats();
 
@@ -48,7 +54,7 @@ export default function WorkoutHistory() {
           <ul className="space-y-6">
             {isFetching &&
               Array.from({ length: 10 }).map((_, index) => (
-                <WorkoutHistoryItemSkeleton key={index} />
+                <WorkoutHistoryItemSkeleton key={`initial-${index}`} />
               ))}
             {isSuccess &&
               data.pages.map((group) =>
@@ -56,6 +62,10 @@ export default function WorkoutHistory() {
                   <WorkoutHistoryItem key={workout.id} workout={workout} />
                 )),
               )}
+            {isFetchingNextPage &&
+              Array.from({ length: 10 }).map((_, index) => (
+                <WorkoutHistoryItemSkeleton key={`loading-more-${index}`} />
+              ))}
           </ul>
         </InfiniteScroll>
       </div>

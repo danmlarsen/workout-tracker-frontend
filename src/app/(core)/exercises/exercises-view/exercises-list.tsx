@@ -28,10 +28,16 @@ export default function ExercisesList({
     }
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isSuccess } =
-    useInfiniteExercises({
-      filters,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isSuccess,
+  } = useInfiniteExercises({
+    filters,
+  });
 
   return (
     <>
@@ -54,7 +60,7 @@ export default function ExercisesList({
         <ul>
           {isFetching &&
             Array.from({ length: 20 }).map((_, index) => (
-              <ExerciseItemSkeleton key={index} />
+              <ExerciseItemSkeleton key={`initial-${index}`} />
             ))}
           {isSuccess &&
             data.pages.map((group) =>
@@ -66,6 +72,10 @@ export default function ExercisesList({
                 />
               )),
             )}
+          {isFetchingNextPage &&
+            Array.from({ length: 10 }).map((_, index) => (
+              <ExerciseItemSkeleton key={`loading-more-${index}`} />
+            ))}
         </ul>
       </InfiniteScroll>
     </>
