@@ -6,6 +6,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import ExerciseItem, { ExerciseItemSkeleton } from "./exercise-item";
 import { useState } from "react";
 import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
+import { DEFAULT_LIST_ITEM_AMOUNT } from "@/lib/constants";
 
 export default function ExercisesList({
   filters,
@@ -59,7 +60,7 @@ export default function ExercisesList({
       >
         <ul>
           {isFetching &&
-            Array.from({ length: 20 }).map((_, index) => (
+            Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
               <ExerciseItemSkeleton key={`initial-${index}`} />
             ))}
           {isSuccess &&
@@ -73,7 +74,7 @@ export default function ExercisesList({
               )),
             )}
           {isFetchingNextPage &&
-            Array.from({ length: 10 }).map((_, index) => (
+            Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
               <ExerciseItemSkeleton key={`loading-more-${index}`} />
             ))}
         </ul>
