@@ -13,7 +13,10 @@ export default function WeeklyReportStats() {
   const from = startOfWeek(now, { weekStartsOn: 1 });
   const to = endOfWeek(now, { weekStartsOn: 1 });
 
-  const { data, isFetching, isSuccess } = useWorkoutWeeklyStats(from, to);
+  const { data, isFetching, isSuccess, isError } = useWorkoutWeeklyStats(
+    from,
+    to,
+  );
 
   if (isFetching) {
     return <Skeleton className="h-[175px] rounded-xl" />;
@@ -61,6 +64,13 @@ export default function WeeklyReportStats() {
             </p>
             <p className="text-muted-foreground">Lifted</p>
           </div>
+        </CardContent>
+      )}
+      {isError && (
+        <CardContent>
+          <p className="text-destructive text-center">
+            Failed to load weekly stats.
+          </p>
         </CardContent>
       )}
     </Card>
