@@ -31,6 +31,7 @@ type TResponsiveModalProps = {
   title?: string;
   description?: string;
   className?: string;
+  scrollParentRef?: React.RefObject<HTMLDivElement | null>;
 };
 
 export function ResponsiveModal({
@@ -40,6 +41,7 @@ export function ResponsiveModal({
   title,
   description,
   className,
+  scrollParentRef,
 }: TResponsiveModalProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -62,7 +64,12 @@ export function ResponsiveModal({
             <SheetTitle>{title}</SheetTitle>
             <SheetDescription>{description}</SheetDescription>
           </SheetHeader>
-          <div className={cn("overflow-y-auto pt-6", className)}>{content}</div>
+          <div
+            className={cn("overflow-y-auto pt-6", className)}
+            ref={scrollParentRef}
+          >
+            {content}
+          </div>
         </SheetContent>
       </Sheet>
     );
@@ -74,7 +81,12 @@ export function ResponsiveModal({
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          <div className={cn("overflow-y-auto pb-6", className)}>{content}</div>
+          <div
+            className={cn("overflow-y-auto pb-6", className)}
+            ref={scrollParentRef}
+          >
+            {content}
+          </div>
         </DrawerContent>
       </Drawer>
     );

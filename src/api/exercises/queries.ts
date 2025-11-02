@@ -73,13 +73,26 @@ export const useInfiniteExercises = ({
   });
 };
 
-export const useExerciseWorkouts = (exerciseId?: number) => {
+export const useInfiniteExerciseWorkouts = (exerciseId?: number) => {
   const { apiClient } = useApiClient();
 
-  return useQuery<TExerciseWorkoutsQuery>({
+  return useInfiniteQuery<TExerciseWorkoutsQuery>({
     queryKey: ["exercises", { exerciseId }, "workouts"],
-    queryFn: () =>
-      apiClient<TExerciseWorkoutsQuery>(`/exercises/${exerciseId}/workouts`),
+    queryFn: ({ pageParam = undefined }) => {
+      const searchParams = new URLSearchParams();
+
+      if (pageParam) {
+        searchParams.set("cursor", String(pageParam));
+      }
+
+      const queryString = searchParams.toString();
+
+      return apiClient<TExerciseWorkoutsQuery>(
+        `/exercises/${exerciseId}/workouts${queryString ? `?${queryString}` : ""}`,
+      );
+    },
+    initialPageParam: undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
     enabled: !!exerciseId,
   });
 };

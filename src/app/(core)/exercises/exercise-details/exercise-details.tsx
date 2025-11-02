@@ -49,8 +49,10 @@ export function getYouTubeThumbnail(
 
 export default function ExerciseDetails({
   exerciseId,
+  scrollParentRef,
 }: {
   exerciseId: number;
+  scrollParentRef?: React.RefObject<HTMLDivElement | null>;
 }) {
   const { data } = useExercise(exerciseId);
 
@@ -88,7 +90,12 @@ export default function ExerciseDetails({
                 )}
               </TabsContent>
               <TabsContent value="workouts">
-                {data && <ExerciseWorkoutsList exercise={data} />}
+                {data && (
+                  <ExerciseWorkoutsList
+                    exercise={data}
+                    scrollParentRef={scrollParentRef}
+                  />
+                )}
               </TabsContent>
               <TabsContent value="charts">
                 <p className="text-muted-foreground">Charts coming soon..</p>
