@@ -5,6 +5,7 @@ import { useActiveWorkout } from "@/api/workouts/queries";
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
 import { useCreateActiveWorkout } from "@/api/workouts/mutations";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "sonner";
 
 export default function NewWorkoutButton() {
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();
@@ -19,6 +20,11 @@ export default function NewWorkoutButton() {
       createWorkoutQuery.mutate(undefined, {
         onSuccess: () => {
           setActiveWorkoutOpen(true);
+        },
+        onError: () => {
+          toast.error(
+            "Failed to create a new workout. This is probably due to a network issue. Please try again later.",
+          );
         },
       });
     }

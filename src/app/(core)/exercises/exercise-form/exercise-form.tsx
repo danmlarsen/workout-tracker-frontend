@@ -53,6 +53,11 @@ export default function ExerciseForm({
         toast.success(`Exercise: ${data.name} has been created`);
         onSuccess?.();
       },
+      onError: () => {
+        toast.error(
+          "Failed to create a new exercise. This is probably due to a network issue. Please try again later.",
+        );
+      },
     });
   }
 

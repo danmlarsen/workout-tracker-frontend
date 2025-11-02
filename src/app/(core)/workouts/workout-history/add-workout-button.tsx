@@ -12,6 +12,7 @@ import { useState } from "react";
 import WorkoutForm from "../workout-form/workout-form";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function AddWorkoutButton({
   selectedDate,
@@ -36,6 +37,11 @@ export default function AddWorkoutButton({
         onSuccess: (workout) => {
           setWorkoutId(workout.id);
           setOpen(true);
+        },
+        onError: () => {
+          toast.error(
+            "Failed to create a new workout. This is probably due to a network issue. Please try again later.",
+          );
         },
       },
     );
