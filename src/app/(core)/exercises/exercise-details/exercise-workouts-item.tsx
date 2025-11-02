@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -63,4 +64,8 @@ export default function ExerciseWorkoutsItem({
       </CardContent>
     </Card>
   );
+}
+
+export function ExerciseWorkoutsItemSkeleton() {
+  return <Skeleton className="h-[300px] rounded-xl" />;
 }
