@@ -136,6 +136,7 @@ export function getPlaceholderWorkoutSet(
   bestCurrentSet: TWorkoutSet | null,
   bestSetIndex: number,
   previousWorkoutSets: TWorkoutSet[] | undefined,
+  currentWorkoutSets?: TWorkoutSet[],
 ): TWorkoutSet | undefined {
   // Only use current workout's best set for subsequent sets
   if (
@@ -159,6 +160,30 @@ export function getPlaceholderWorkoutSet(
       previousWorkoutSets[setIndex] ||
       previousWorkoutSets[previousWorkoutSets.length - 1]
     );
+  }
+
+  // Check for completed sets in current workout exercise
+  if (currentWorkoutSets && currentWorkoutSets.length > 0) {
+    // Filter for completed sets with data (weight/reps or duration)
+    const completedSets = currentWorkoutSets.filter(
+      (set) =>
+        set.completedAt &&
+        ((set.weight && set.reps && set.weight > 0 && set.reps > 0) ||
+          (set.duration && set.duration > 0)),
+    );
+
+    if (completedSets.length > 0) {
+      // Return the most recent completed set, or the set at the same index if it exists
+      const sameIndexSet = completedSets.find(
+        (set) => set.setNumber === setIndex + 1,
+      );
+      if (sameIndexSet) {
+        return sameIndexSet;
+      }
+
+      // Otherwise return the last completed set
+      return completedSets[completedSets.length - 1];
+    }
   }
 
   return undefined;

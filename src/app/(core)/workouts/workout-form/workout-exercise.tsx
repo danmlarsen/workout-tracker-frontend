@@ -109,6 +109,7 @@ export default function WorkoutExercise({
               bestSet,
               bestSetIndex,
               previousWorkoutSets,
+              workoutExercise.workoutSets,
             );
             const previousSet = previousWorkoutSets?.[index];
 
