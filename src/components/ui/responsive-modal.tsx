@@ -2,13 +2,6 @@
 
 import { useMediaQuery } from "@/hooks/use-media-query";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "./dialog";
-import {
   Drawer,
   DrawerContent,
   DrawerDescription,
@@ -46,17 +39,6 @@ export function ResponsiveModal({
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
-    // return (
-    //   <Dialog open={isOpen} onOpenChange={onOpenChange}>
-    //     <DialogContent className="flex max-h-[60vh] flex-col">
-    //       <DialogHeader className="sr-only">
-    //         <DialogTitle>{title}</DialogTitle>
-    //         <DialogDescription>{description}</DialogDescription>
-    //       </DialogHeader>
-    //       <div className={cn("overflow-y-auto pt-6", className)}>{content}</div>
-    //     </DialogContent>
-    //   </Dialog>
-    // );
     return (
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent className="sm:max-w-lg">
@@ -76,7 +58,7 @@ export function ResponsiveModal({
   } else {
     return (
       <Drawer open={isOpen} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[95dvh]">
+        <DrawerContent className="h-[90dvh]">
           <DrawerHeader className="sr-only">
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
