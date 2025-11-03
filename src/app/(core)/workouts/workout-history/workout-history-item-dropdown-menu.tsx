@@ -51,12 +51,20 @@ export default function WorkoutHistoryItemDropdownMenu({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild>
-            <Button variant="ghost" onClick={onClickEdit}>
+            <Button
+              variant="ghost"
+              onClick={onClickEdit}
+              className="w-full justify-start"
+            >
               Edit Workout
             </Button>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Button variant="ghost" onClick={() => setDeleteDialogOpen(true)}>
+            <Button
+              variant="ghost"
+              onClick={() => setDeleteDialogOpen(true)}
+              className="w-full justify-start"
+            >
               Delete Workout
             </Button>
           </DropdownMenuItem>
