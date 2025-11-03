@@ -58,7 +58,7 @@ export function ResponsiveModal({
   } else {
     return (
       <Drawer open={isOpen} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[90dvh]">
+        <DrawerContent className="h-[100dvh]">
           <DrawerHeader className="sr-only">
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
