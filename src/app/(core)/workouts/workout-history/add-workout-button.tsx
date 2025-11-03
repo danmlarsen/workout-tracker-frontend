@@ -13,6 +13,7 @@ import WorkoutForm from "../workout-form/workout-form";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useSearchParamState } from "@/hooks/use-search-param-state";
 
 export default function AddWorkoutButton({
   selectedDate,
@@ -22,7 +23,8 @@ export default function AddWorkoutButton({
 }: React.ComponentProps<"button"> & {
   selectedDate?: Date;
 }) {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const [open, setOpen] = useSearchParamState("add-workout-modal");
   const [workoutId, setWorkoutId] = useState<number | undefined>();
 
   const createWorkout = useCreateDraftWorkout();
