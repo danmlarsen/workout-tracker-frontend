@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParamState } from "@/hooks/use-search-param-state";
 import { createContext, useContext } from "react";
 
 export interface ActiveWorkoutContextValue {
@@ -17,22 +17,9 @@ export const ActiveWorkoutProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const activeWorkoutOpen = searchParams.get("active-workout") === "open";
-
-  const setActiveWorkoutOpen = (open: boolean) => {
-    const params = new URLSearchParams(searchParams);
-    if (open) {
-      params.set("active-workout", "open");
-      router.push(`${pathname}?${params.toString()}`, { scroll: false });
-    } else {
-      params.delete("active-workout");
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-  };
+  const [activeWorkoutOpen, setActiveWorkoutOpen] = useSearchParamState(
+    "active-workout-modal",
+  );
 
   return (
     <ActiveWorkoutContext.Provider
