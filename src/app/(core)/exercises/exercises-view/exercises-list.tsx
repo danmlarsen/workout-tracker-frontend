@@ -7,6 +7,7 @@ import ExerciseItem, { ExerciseItemSkeleton } from "./exercise-item";
 import { useState } from "react";
 import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
 import { DEFAULT_LIST_ITEM_AMOUNT } from "@/lib/constants";
+import { useSearchParamState } from "@/hooks/use-search-param-state";
 
 export default function ExercisesList({
   filters,
@@ -15,7 +16,8 @@ export default function ExercisesList({
   filters?: TExercisesQueryFilters;
   onExerciseClick?: (id: number) => void;
 }) {
-  const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
+  const [exerciseModalOpen, setExerciseModalOpen] =
+    useSearchParamState("exercise-modal");
   const [selectedExercise, setSelectedExercise] = useState<
     TExercise | undefined
   >();

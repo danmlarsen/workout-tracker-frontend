@@ -2,11 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import ExerciseForm from "./exercise-form";
-import { useState } from "react";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import { useSearchParamState } from "@/hooks/use-search-param-state";
 
 export default function AddNewExerciseButton() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useSearchParamState("add-exercise-modal");
 
   return (
     <>
