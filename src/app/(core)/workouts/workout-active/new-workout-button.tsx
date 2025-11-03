@@ -8,10 +8,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 
 export default function NewWorkoutButton() {
-  const { setActiveWorkoutOpen } = useActiveWorkoutContext();
-
   const { data: activeWorkout } = useActiveWorkout();
   const createWorkoutQuery = useCreateActiveWorkout();
+  const { setActiveWorkoutOpen } = useActiveWorkoutContext();
 
   function handleClick() {
     if (activeWorkout) {

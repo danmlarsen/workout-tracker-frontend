@@ -1,5 +1,6 @@
+"use client";
+
 import { useActiveWorkout } from "@/api/workouts/queries";
-import { useActiveWorkoutContext } from "@/context/active-workout-context";
 import WorkoutForm from "@/app/(core)/workouts/workout-form/workout-form";
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/ui/timer";
@@ -8,11 +9,12 @@ import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { useState } from "react";
 import { XIcon } from "lucide-react";
 import { parseWorkoutTitle } from "@/lib/utils";
+import { useActiveWorkoutContext } from "@/context/active-workout-context";
 
 export default function ActiveWorkoutView() {
-  const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
   const { data: activeWorkout } = useActiveWorkout();
   const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
+  const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
 
   return (
     <>
