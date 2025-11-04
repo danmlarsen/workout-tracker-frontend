@@ -4,7 +4,8 @@ import { useAuth } from "@/api/auth/auth-context";
 import AuthGuard from "@/api/auth/auth-guard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Loader2, XCircle } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -15,8 +16,7 @@ export default function ConfirmEmailPage() {
   const router = useRouter();
   const { confirmEmail } = useAuth();
 
-  const [state, setState] = useState<ConfirmationState>("loading");
-  const [message, setMessage] = useState<string>("");
+  const [state, setState] = useState<ConfirmationState>("missing-token");
 
   // Track if confirmation has been attempted to prevent double calls
   const confirmationAttempted = useRef(false);
@@ -26,7 +26,6 @@ export default function ConfirmEmailPage() {
 
     if (!token) {
       setState("missing-token");
-      setMessage("No confirmation token provided");
       return;
     }
 
@@ -43,7 +42,6 @@ export default function ConfirmEmailPage() {
 
         if (result.success) {
           setState("success");
-          setMessage(result.message || "Email confirmed successfully!");
 
           // Redirect to login after 5 seconds
           setTimeout(() => {
@@ -51,11 +49,9 @@ export default function ConfirmEmailPage() {
           }, 5000);
         } else {
           setState("error");
-          setMessage(result.message || "Failed to confirm email");
         }
       } catch {
         setState("error");
-        setMessage("An unexpected error occurred");
       }
     };
 
@@ -67,27 +63,26 @@ export default function ConfirmEmailPage() {
       case "loading":
         return (
           <>
-            <div className="mb-4 flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+            <div className="mb-4 flex items-center justify-center gap-2">
+              <p className="text-muted-foreground text-center">
+                Confirming your email
+              </p>
+              <Loader2 className="text-accent animate-spin" />
             </div>
-            <p className="text-center text-gray-600">
-              Confirming your email...
-            </p>
           </>
         );
 
       case "success":
         return (
           <>
-            <div className="mb-4 flex items-center justify-center">
-              <CheckCircle className="h-8 w-8 text-green-500" />
+            <div className="mb-4 flex items-center justify-center gap-2">
+              <p className="text-muted-foreground text-center">
+                Redirecting to login
+              </p>
+              <Loader2 className="text-accent animate-spin" />
             </div>
-            <p className="mb-4 text-center text-gray-800">{message}</p>
-            <p className="mb-4 text-center text-sm text-gray-600">
-              Redirecting to login in 5 seconds...
-            </p>
-            <Button onClick={() => router.push("/login")} className="w-full">
-              Go to Login
+            <Button className="w-full" asChild>
+              <Link href="/login">Go to Login</Link>
             </Button>
           </>
         );
@@ -95,23 +90,17 @@ export default function ConfirmEmailPage() {
       case "error":
         return (
           <>
-            <div className="mb-4 flex items-center justify-center">
-              <XCircle className="h-8 w-8 text-red-500" />
-            </div>
-            <p className="mb-4 text-center text-gray-800">{message}</p>
+            <p className="text-muted-foreground mb-4 text-center">
+              An unexpected error occurred
+            </p>
             <div className="space-y-2">
-              <Button
-                onClick={() => router.push("/register")}
-                variant="outline"
-                className="w-full"
-              >
-                Try Registering Again
+              <Button className="w-full" asChild>
+                <Link href="/resend-email-confirmation">
+                  Resend Confirmation Email
+                </Link>
               </Button>
-              <Button
-                onClick={() => router.push("/resend-email-confirmation")}
-                className="w-full"
-              >
-                Resend Confirmation Email
+              <Button variant="outline" className="w-full" asChild>
+                <Link href="/register">Go to Registration</Link>
               </Button>
             </div>
           </>
@@ -120,13 +109,19 @@ export default function ConfirmEmailPage() {
       case "missing-token":
         return (
           <>
-            <div className="mb-4 flex items-center justify-center">
-              <XCircle className="h-8 w-8 text-red-500" />
+            <p className="text-muted-foreground mb-4 text-center">
+              Invalid or no token provided
+            </p>
+            <div className="space-y-2">
+              <Button className="w-full" asChild>
+                <Link href="/resend-email-confirmation">
+                  Resend Confirmation Email
+                </Link>
+              </Button>
+              <Button variant="outline" className="w-full" asChild>
+                <Link href="/register">Go to Registration</Link>
+              </Button>
             </div>
-            <p className="mb-4 text-center text-gray-800">{message}</p>
-            <Button onClick={() => router.push("/register")} className="w-full">
-              Go to Registration
-            </Button>
           </>
         );
 
@@ -141,7 +136,7 @@ export default function ConfirmEmailPage() {
         <CardHeader>
           <CardTitle className="text-center">
             {state === "loading" && "Confirming Email"}
-            {state === "success" && "Email Confirmed!"}
+            {state === "success" && "Email Confirmed"}
             {state === "error" && "Confirmation Failed"}
             {state === "missing-token" && "Invalid Link"}
           </CardTitle>
