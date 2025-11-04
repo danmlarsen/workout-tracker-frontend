@@ -107,7 +107,7 @@ function Calendar({
           defaultClassNames.week_number,
         ),
         day: cn(
-          "relative w-full h-full p-0 text-center group/day aspect-square select-none",
+          "relative w-full h-full p-0 my-0.5 text-center group/day aspect-square select-none",
           defaultClassNames.day,
         ),
         range_start: cn(
@@ -214,9 +214,7 @@ function CalendarDayButton({
         {...props}
       />
       {modifiers.today && (
-        <div className="text-muted-foreground -translate-y-3 text-xs font-semibold">
-          Today
-        </div>
+        <div className="text-accent text-xs font-semibold">Today</div>
       )}
     </>
   );
