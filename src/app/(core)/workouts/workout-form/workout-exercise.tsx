@@ -21,20 +21,20 @@ import { TExercise } from "@/api/exercises/types";
 import { ChevronRightIcon } from "lucide-react";
 import WorkoutExerciseOptionsButton from "./workout-exercise-options-button";
 import WorkoutNotes from "./workout-notes";
+import { useWorkoutFormContext } from "./workout-form";
 
 type TWorkoutExerciseProps = {
   workoutExercise: TWorkoutExercise;
-  isEditing?: boolean;
-  isActiveWorkout?: boolean;
   onOpenExercise: (exercise: TExercise) => void;
 };
 
 export default function WorkoutExercise({
   workoutExercise,
-  isActiveWorkout = false,
   onOpenExercise,
 }: TWorkoutExerciseProps) {
   const [notesOpen, setNotesOpen] = useState(false);
+
+  const { isActiveWorkout } = useWorkoutFormContext();
 
   const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
   const updateWorkoutExercise = useUpdateWorkoutExercise(isActiveWorkout);
@@ -117,11 +117,9 @@ export default function WorkoutExercise({
               <WorkoutSet
                 key={workoutSet.id}
                 workoutSet={workoutSet}
-                workoutId={workoutExercise.workoutId}
                 exerciseCategory={workoutExercise.exercise.category}
                 previousSet={previousSet}
                 placeholderSet={placeholderSet}
-                isActiveWorkout={isActiveWorkout}
               />
             );
           })}

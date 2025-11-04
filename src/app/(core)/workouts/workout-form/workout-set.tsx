@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import WorkoutSetOptionsButton from "./workout-set-options-button";
+import { useWorkoutFormContext } from "./workout-form";
 
 const parseToNumberOrNull = (value: string): number | null => {
   if (value.trim() === "") return null;
@@ -16,18 +17,14 @@ const parseToNumberOrNull = (value: string): number | null => {
 
 type TWorkoutSetProps = {
   workoutSet: TWorkoutSet;
-  workoutId: number;
   exerciseCategory: "strength" | "cardio";
-  isActiveWorkout?: boolean;
   previousSet?: TWorkoutSet;
   placeholderSet?: Partial<TWorkoutSet>;
 };
 
 export default function WorkoutSet({
   workoutSet,
-  workoutId,
   exerciseCategory,
-  isActiveWorkout = false,
   previousSet,
   placeholderSet,
 }: TWorkoutSetProps) {
@@ -36,6 +33,10 @@ export default function WorkoutSet({
   const [duration, setDuration] = useState(
     workoutSet?.duration?.toString() || "",
   );
+
+  const { workout, isActiveWorkout } = useWorkoutFormContext();
+
+  const workoutId = workout.id;
 
   useEffect(() => {
     setWeight(workoutSet.weight?.toString() || "");

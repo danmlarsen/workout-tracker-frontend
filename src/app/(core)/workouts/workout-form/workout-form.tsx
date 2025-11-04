@@ -7,7 +7,7 @@ import WorkoutExercise from "./workout-exercise";
 import EditWorkoutNameButton from "./edit-workout-name-button";
 import Timer from "@/components/ui/timer";
 import { type TWorkout } from "@/api/workouts/types";
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
 import { TExercise } from "@/api/exercises/types";
 import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
@@ -22,6 +22,14 @@ type TWorkoutFormProps = {
   onSuccess?: () => void;
   onClose?: () => void;
 };
+
+export type WorkoutFormContextValue = {
+  workout: TWorkout;
+  isActiveWorkout: boolean;
+  isEditing: boolean;
+};
+
+const WorkoutFormContext = createContext<WorkoutFormContextValue | null>(null);
 
 export default function WorkoutForm({
   workout,
@@ -81,7 +89,13 @@ export default function WorkoutForm({
   }
 
   return (
-    <>
+    <WorkoutFormContext.Provider
+      value={{
+        workout,
+        isActiveWorkout,
+        isEditing: true,
+      }}
+    >
       <CompleteWorkoutDialog
         open={completeWorkoutDialogOpen}
         onOpenChange={(open) => setCompleteWorkoutDialogOpen(open)}
@@ -171,7 +185,6 @@ export default function WorkoutForm({
               <WorkoutExercise
                 key={workoutExercise.id}
                 workoutExercise={workoutExercise}
-                isActiveWorkout={isActiveWorkout}
                 onOpenExercise={(exercise) => {
                   setSelectedWorkoutExercise(exercise);
                   setExerciseModalOpen(true);
@@ -196,6 +209,14 @@ export default function WorkoutForm({
           </Button>
         )}
       </div>
-    </>
+    </WorkoutFormContext.Provider>
   );
 }
+
+export const useWorkoutFormContext = () => {
+  const context = useContext(WorkoutFormContext);
+  if (!context) {
+    throw new Error("useWorkoutFormContext must be used within WorkoutForm");
+  }
+  return context;
+};
