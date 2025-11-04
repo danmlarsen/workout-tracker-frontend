@@ -12,6 +12,7 @@ import WorkoutHistoryCalendar from "./workout-history-calendar";
 import { useState } from "react";
 import AddWorkoutButton from "./add-workout-button";
 import { DEFAULT_LIST_ITEM_AMOUNT } from "@/lib/constants";
+import WorkoutModalProvider from "./workout-modal-provider";
 
 export default function WorkoutHistory() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -29,7 +30,7 @@ export default function WorkoutHistory() {
   const { data: workoutStats } = useWorkoutLifetimeStats();
 
   return (
-    <>
+    <WorkoutModalProvider>
       <WorkoutHistoryCalendar
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -88,6 +89,6 @@ export default function WorkoutHistory() {
           </ul>
         </InfiniteScroll>
       </div>
-    </>
+    </WorkoutModalProvider>
   );
 }

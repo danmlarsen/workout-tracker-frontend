@@ -25,6 +25,7 @@ type TResponsiveModalProps = {
   description?: string;
   className?: string;
   scrollParentRef?: React.RefObject<HTMLDivElement | null>;
+  onAnimationEnd?: () => void;
 };
 
 export function ResponsiveModal({
@@ -35,13 +36,14 @@ export function ResponsiveModal({
   description,
   className,
   scrollParentRef,
+  onAnimationEnd,
 }: TResponsiveModalProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
     return (
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
-        <SheetContent className="sm:max-w-lg">
+        <SheetContent className="sm:max-w-lg" onAnimationEnd={onAnimationEnd}>
           <SheetHeader>
             <SheetTitle>{title}</SheetTitle>
             <SheetDescription>{description}</SheetDescription>
@@ -57,7 +59,11 @@ export function ResponsiveModal({
     );
   } else {
     return (
-      <Drawer open={isOpen} onOpenChange={onOpenChange}>
+      <Drawer
+        open={isOpen}
+        onOpenChange={onOpenChange}
+        onAnimationEnd={onAnimationEnd}
+      >
         <DrawerContent className="h-[100dvh]">
           <DrawerHeader className="sr-only">
             <DrawerTitle>{title}</DrawerTitle>

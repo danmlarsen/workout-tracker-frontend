@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/table";
 import { formatDate } from "date-fns";
 import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu";
-import { useState } from "react";
 import { CheckCircleIcon, ClockIcon, WeightIcon } from "lucide-react";
 import {
   formatBestSet,
@@ -25,13 +24,12 @@ import {
   getBestSetByOneRM,
   parseWorkoutTitle,
 } from "@/lib/utils";
-import { ResponsiveModal } from "@/components/ui/responsive-modal";
-import WorkoutForm from "../workout-form/workout-form";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useWorkoutModal } from "./workout-modal-provider";
+import { Button } from "@/components/ui/button";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(true);
+  const { openWorkout } = useWorkoutModal();
 
   const { id, startedAt, workoutExercises } = workout;
 
@@ -63,36 +61,16 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
 
   return (
     <>
-      <ResponsiveModal
-        isOpen={modalIsOpen}
-        onOpenChange={() => {
-          setModalIsOpen(false);
-          setIsEditing(true);
-        }}
-        content={
-          <div className="px-4">
-            <WorkoutForm
-              workout={workout}
-              onClose={() => {
-                setModalIsOpen(false);
-                setIsEditing(true);
-              }}
-              isEditing={isEditing}
-              onToggleEdit={() => setIsEditing(!isEditing)}
-            />
-          </div>
-        }
-        title={workout.title}
-        description={`Edit workout ${workout.title}`}
-      />
-
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>{workoutTitle}</CardTitle>
+            <CardTitle className="sr-only">{workoutTitle}</CardTitle>
+            <button onClick={() => openWorkout(workout, false)}>
+              {workoutTitle}
+            </button>
             <WorkoutHistoryItemDropdownMenu
               workoutId={id}
-              onClickEdit={() => setModalIsOpen(true)}
+              onClickEdit={() => openWorkout(workout)}
             />
           </div>
           <CardDescription>{formatDate(startedAt, "EEEE PP")}</CardDescription>
@@ -117,7 +95,7 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
             )}
           </div>
           {workoutExercises.length === 0 && (
-            <p className="text-muted-foreground text-lg font-medium">
+            <p className="text-muted-foreground py-4 text-center font-medium">
               No exercises added
             </p>
           )}
