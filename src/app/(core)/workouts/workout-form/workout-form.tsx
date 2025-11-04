@@ -21,6 +21,7 @@ type TWorkoutFormProps = {
   workout: TWorkout;
   onSuccess?: () => void;
   onClose?: () => void;
+  onToggleEdit?: () => void;
   isEditing?: boolean;
 };
 
@@ -36,6 +37,7 @@ export default function WorkoutForm({
   workout,
   onSuccess,
   onClose,
+  onToggleEdit,
   isEditing = true,
 }: TWorkoutFormProps) {
   const isActiveWorkout = workout.status === "ACTIVE";
@@ -133,7 +135,12 @@ export default function WorkoutForm({
                 workout={workout}
                 onDurationChanged={handleUpdateWorkoutDuration}
               />
-              <Button onClick={() => onClose?.()}>Close</Button>
+              <div className="flex gap-2">
+                <Button onClick={() => onClose?.()}>Close</Button>
+                <Button onClick={() => onToggleEdit?.()}>
+                  {isEditing ? "Stop Editing" : "Edit"}
+                </Button>
+              </div>
             </>
           )}
 

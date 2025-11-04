@@ -31,6 +31,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
 
   const { id, startedAt, workoutExercises } = workout;
 
@@ -64,12 +65,20 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
     <>
       <ResponsiveModal
         isOpen={modalIsOpen}
-        onOpenChange={setModalIsOpen}
+        onOpenChange={() => {
+          setModalIsOpen(false);
+          setIsEditing(true);
+        }}
         content={
           <div className="px-4">
             <WorkoutForm
               workout={workout}
-              onClose={() => setModalIsOpen(false)}
+              onClose={() => {
+                setModalIsOpen(false);
+                setIsEditing(true);
+              }}
+              isEditing={isEditing}
+              onToggleEdit={() => setIsEditing(!isEditing)}
             />
           </div>
         }
