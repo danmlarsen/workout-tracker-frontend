@@ -21,6 +21,7 @@ type TWorkoutFormProps = {
   workout: TWorkout;
   onSuccess?: () => void;
   onClose?: () => void;
+  isEditing?: boolean;
 };
 
 export type WorkoutFormContextValue = {
@@ -35,6 +36,7 @@ export default function WorkoutForm({
   workout,
   onSuccess,
   onClose,
+  isEditing = true,
 }: TWorkoutFormProps) {
   const isActiveWorkout = workout.status === "ACTIVE";
 
@@ -93,7 +95,7 @@ export default function WorkoutForm({
       value={{
         workout,
         isActiveWorkout,
-        isEditing: true,
+        isEditing,
       }}
     >
       <CompleteWorkoutDialog
@@ -151,15 +153,15 @@ export default function WorkoutForm({
 
         <div className="flex items-center justify-between">
           <h1>{workoutTitle}</h1>
-          {
+          {isEditing && (
             <EditWorkoutNameButton
               workout={workout}
               handleEdit={handleUpdateWorkoutName}
             />
-          }
+          )}
         </div>
 
-        {!isActiveWorkout && (
+        {!isActiveWorkout && isEditing && (
           <DatePicker
             date={new Date(workout.startedAt)}
             onDateChanged={(date) => handleUpdateWorkoutDate(date)}
@@ -193,12 +195,12 @@ export default function WorkoutForm({
             ))}
           </ul>
         )}
-        {
+        {isEditing && (
           <AddExerciseButton
             workoutId={workout.id}
             isActiveWorkout={isActiveWorkout}
           />
-        }
+        )}
         {isActiveWorkout && (
           <Button
             onClick={() => setDeleteWorkoutOpen(true)}

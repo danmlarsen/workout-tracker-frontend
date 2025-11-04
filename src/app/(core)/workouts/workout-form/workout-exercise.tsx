@@ -34,7 +34,7 @@ export default function WorkoutExercise({
 }: TWorkoutExerciseProps) {
   const [notesOpen, setNotesOpen] = useState(false);
 
-  const { isActiveWorkout } = useWorkoutFormContext();
+  const { isActiveWorkout, isEditing } = useWorkoutFormContext();
 
   const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
   const updateWorkoutExercise = useUpdateWorkoutExercise(isActiveWorkout);
@@ -59,11 +59,13 @@ export default function WorkoutExercise({
           <h2 className="text-xl font-bold">{workoutExercise.exercise.name}</h2>
           <ChevronRightIcon />
         </Button>
-        <WorkoutExerciseOptionsButton
-          workoutExercise={workoutExercise}
-          isActiveWorkout={isActiveWorkout}
-          onOpenNotes={() => setNotesOpen(true)}
-        />
+        {isEditing && (
+          <WorkoutExerciseOptionsButton
+            workoutExercise={workoutExercise}
+            isActiveWorkout={isActiveWorkout}
+            onOpenNotes={() => setNotesOpen(true)}
+          />
+        )}
       </div>
 
       <WorkoutNotes
@@ -126,17 +128,19 @@ export default function WorkoutExercise({
         </TableBody>
       </Table>
 
-      <Button
-        onClick={() =>
-          addWorkoutSet({
-            workoutId: workoutExercise.workoutId,
-            workoutExerciseId: workoutExercise.id,
-          })
-        }
-        className="w-full"
-      >
-        + Add set
-      </Button>
+      {isEditing && (
+        <Button
+          onClick={() =>
+            addWorkoutSet({
+              workoutId: workoutExercise.workoutId,
+              workoutExerciseId: workoutExercise.id,
+            })
+          }
+          className="w-full"
+        >
+          + Add set
+        </Button>
+      )}
     </li>
   );
 }

@@ -34,7 +34,7 @@ export default function WorkoutSet({
     workoutSet?.duration?.toString() || "",
   );
 
-  const { workout, isActiveWorkout } = useWorkoutFormContext();
+  const { workout, isActiveWorkout, isEditing } = useWorkoutFormContext();
 
   const workoutId = workout.id;
 
@@ -159,11 +159,7 @@ export default function WorkoutSet({
       )}
     >
       <TableCell>
-        <WorkoutSetOptionsButton
-          workoutId={workoutId}
-          workoutSet={workoutSet}
-          isActiveWorkout={isActiveWorkout}
-        />
+        <WorkoutSetOptionsButton workoutSet={workoutSet} />
       </TableCell>
       <TableCell>{previousSetString}</TableCell>
       <TableCell>
@@ -214,6 +210,7 @@ export default function WorkoutSet({
           className="size-8 rounded-full"
           checked={!!workoutSet.completedAt}
           onCheckedChange={(checked) => handleCheckedChange(!!checked)}
+          disabled={!isEditing}
         />
       </TableCell>
     </TableRow>

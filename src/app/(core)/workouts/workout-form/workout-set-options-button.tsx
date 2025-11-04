@@ -12,23 +12,27 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useWorkoutFormContext } from "./workout-form";
 
 export default function WorkoutSetOptionsButton({
   workoutSet,
-  workoutId,
-  isActiveWorkout,
 }: {
   workoutSet: TWorkoutSet;
-  workoutId: number;
-  isActiveWorkout: boolean;
 }) {
+  const { workout, isActiveWorkout, isEditing } = useWorkoutFormContext();
+  const workoutId = workout.id;
+
   const updateWorkoutSet = useUpdateWorkoutSet(isActiveWorkout);
   const deleteWorkoutSet = useDeleteWorkoutSet(isActiveWorkout);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="size-9 px-0 py-0">
+        <Button
+          variant="outline"
+          className="size-9 px-0 py-0"
+          disabled={!isEditing}
+        >
           {workoutSet.type === "normal" && workoutSet.setNumber}
           {workoutSet.type === "warmup" && (
             <span className="text-amber-500">W</span>

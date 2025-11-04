@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { TWorkout } from "@/api/workouts/types";
 import { formatTimeFromMs } from "@/lib/utils";
+import { useWorkoutFormContext } from "@/app/(core)/workouts/workout-form/workout-form";
 
 function secondsToTimeString(seconds: number): string {
   const hours = Math.floor(seconds / 3600);
@@ -27,6 +28,8 @@ export default function DurationInput({
   workout: TWorkout;
   onDurationChanged: (duration: number) => void;
 }) {
+  const { isEditing } = useWorkoutFormContext();
+
   const [open, setOpen] = useState(false);
   const [duration, setDuration] = useState(workout.activeDuration);
 
@@ -46,7 +49,9 @@ export default function DurationInput({
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <Button>{formatTimeFromMs(duration * 1000)}</Button>
+        <Button disabled={!isEditing}>
+          {formatTimeFromMs(duration * 1000)}
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <Label htmlFor="time-picker">Duration</Label>

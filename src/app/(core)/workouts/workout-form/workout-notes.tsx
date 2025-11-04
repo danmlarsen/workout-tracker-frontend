@@ -5,6 +5,7 @@ import { PencilIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import WorkoutNotesDialog from "./workout-notes-dialog";
 import WorkoutNotesDeleteDialog from "./workout-notes-delete-dialog";
+import { useWorkoutFormContext } from "./workout-form";
 
 export default function WorkoutNotes({
   notes,
@@ -20,6 +21,8 @@ export default function WorkoutNotes({
   showPlaceholder?: boolean;
 }) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const { isEditing } = useWorkoutFormContext();
 
   function handleUpdateNotes(notes: string) {
     onUpdate(notes);
@@ -46,7 +49,7 @@ export default function WorkoutNotes({
         onConfirm={handleDeleteNotes}
       />
 
-      {!notes && showPlaceholder && (
+      {!notes && showPlaceholder && isEditing && (
         <Button
           onClick={() => onNotesOpenChange(true)}
           className="text-muted-foreground flex w-full items-center justify-start gap-2"
@@ -60,16 +63,18 @@ export default function WorkoutNotes({
       {notes && (
         <div>
           <p className="break-words whitespace-pre-wrap">{notes}</p>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => onNotesOpenChange(true)} variant="ghost">
-              <PencilIcon />
-              Edit
-            </Button>
-            <Button onClick={() => setDeleteDialogOpen(true)} variant="ghost">
-              <TrashIcon />
-              Delete
-            </Button>
-          </div>
+          {isEditing && (
+            <div className="flex items-center gap-2">
+              <Button onClick={() => onNotesOpenChange(true)} variant="ghost">
+                <PencilIcon />
+                Edit
+              </Button>
+              <Button onClick={() => setDeleteDialogOpen(true)} variant="ghost">
+                <TrashIcon />
+                Delete
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </>
