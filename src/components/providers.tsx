@@ -9,19 +9,19 @@ import { Toaster } from "./ui/sonner";
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          // enableSystem
-          disableTransitionOnChange
-        >
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        // enableSystem
+        disableTransitionOnChange
+      >
+        <AuthProvider>
           <>
             {children}
             <Toaster position="top-center" />
           </>
-        </ThemeProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
