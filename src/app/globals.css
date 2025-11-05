@@ -57,7 +57,7 @@
   --secondary-foreground: #cfdce7;
   --muted: #647f96;
   --muted-foreground: #2b343c;
-  --accent: #3fb8af;
+  --accent: hsl(176, 49%, 29%);
   --accent-foreground: #f1f2f4;
   --destructive: oklch(0.577 0.245 27.325);
   --border: #e9eef3;

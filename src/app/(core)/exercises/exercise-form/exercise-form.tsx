@@ -98,7 +98,7 @@ export default function ExerciseForm({
                     className="flex"
                   >
                     <FormItem>
-                      <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted text-muted-foreground rounded-sm p-4">
+                      <FormLabel className="dark:bg-input/30 bg-input/5 has-checked:bg-input/15 has-checked:dark:bg-input/75 border-input text-muted-foreground has-checked:text-foreground rounded-sm border p-4 has-checked:ring">
                         <FormControl>
                           <RadioGroupItem
                             value="strength"
@@ -109,7 +109,7 @@ export default function ExerciseForm({
                       </FormLabel>
                     </FormItem>
                     <FormItem>
-                      <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted text-muted-foreground rounded-sm p-4">
+                      <FormLabel className="dark:bg-input/30 bg-input/5 has-checked:bg-input/15 has-checked:dark:bg-input/75 border-input text-muted-foreground has-checked:text-foreground rounded-sm border p-4 has-checked:ring">
                         <FormControl>
                           <RadioGroupItem value="cardio" className="sr-only" />
                         </FormControl>
@@ -137,7 +137,7 @@ export default function ExerciseForm({
                   >
                     {EQUIPMENT_OPTIONS.map((item) => (
                       <FormItem key={item}>
-                        <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted text-muted-foreground rounded-sm p-4">
+                        <FormLabel className="dark:bg-input/30 bg-input/5 has-checked:bg-input/15 has-checked:dark:bg-input/75 border-input text-muted-foreground has-checked:text-foreground rounded-sm border p-4 has-checked:ring">
                           <FormControl>
                             <RadioGroupItem value={item} className="sr-only" />
                           </FormControl>
@@ -166,7 +166,7 @@ export default function ExerciseForm({
                       name="targetMuscleGroups"
                       render={({ field }) => (
                         <FormItem key={muscleGroup}>
-                          <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted text-muted-foreground rounded-sm p-4">
+                          <FormLabel className="dark:bg-input/30 bg-input/5 has-checked:bg-input/15 has-checked:dark:bg-input/75 border-input text-muted-foreground has-checked:text-foreground rounded-sm border p-4 has-checked:ring">
                             <FormControl>
                               <Checkbox
                                 checked={field.value?.includes(muscleGroup)}
@@ -211,7 +211,7 @@ export default function ExerciseForm({
                       name="secondaryMuscleGroups"
                       render={({ field }) => (
                         <FormItem key={muscleGroup}>
-                          <FormLabel className="has-checked:bg-primary has-checked:text-primary-foreground bg-muted text-muted-foreground rounded-sm p-4">
+                          <FormLabel className="dark:bg-input/30 bg-input/5 has-checked:bg-input/15 has-checked:dark:bg-input/75 border-input text-muted-foreground has-checked:text-foreground rounded-sm border p-4 has-checked:ring">
                             <FormControl>
                               <Checkbox
                                 checked={field.value?.includes(muscleGroup)}
