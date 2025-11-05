@@ -41,9 +41,9 @@ export default function ActiveWorkoutView() {
             onOpenChanged={setDeleteWorkoutOpen}
           />
 
-          <div className="h-16" />
-          <div className="bg-sidebar text-sidebar-foreground fixed inset-x-0 bottom-16 grid h-16 translate-y-[1px] grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4">
-            <div className="flex items-center justify-start">
+          <div className="h-16 lg:hidden" />
+          <div className="bg-sidebar text-sidebar-foreground fixed inset-x-0 bottom-16 z-10 grid h-16 translate-y-[1px] grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4 lg:inset-x-auto lg:bottom-0 lg:h-auto lg:w-[300px] lg:grid-cols-2">
+            <div className="flex items-center justify-start lg:row-start-2">
               <Button
                 onClick={() => setDeleteWorkoutOpen(true)}
                 variant="ghost"
@@ -51,7 +51,7 @@ export default function ActiveWorkoutView() {
                 <XIcon />
               </Button>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center lg:col-span-2">
               <div>{parseWorkoutTitle(activeWorkout)}</div>
               <div>
                 <Timer workout={activeWorkout} />
