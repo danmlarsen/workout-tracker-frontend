@@ -42,11 +42,12 @@ export default function ActiveWorkoutView() {
           />
 
           <div className="h-16 lg:hidden" />
-          <div className="bg-sidebar text-sidebar-foreground fixed inset-x-0 bottom-16 z-10 grid h-16 translate-y-[1px] grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4 lg:inset-x-auto lg:bottom-0 lg:h-auto lg:w-[300px] lg:grid-cols-2">
+          <div className="bg-sidebar text-sidebar-foreground fixed inset-x-0 bottom-16 z-10 grid h-16 translate-y-[1px] grid-cols-[80px_auto_80px] items-center rounded-t-lg px-4 lg:inset-x-auto lg:bottom-0 lg:h-auto lg:w-[250px] lg:grid-cols-2">
             <div className="flex items-center justify-start lg:row-start-2">
               <Button
                 onClick={() => setDeleteWorkoutOpen(true)}
-                variant="ghost"
+                variant="secondary"
+                className="text-foreground bg-transparent"
               >
                 <XIcon />
               </Button>
@@ -60,7 +61,6 @@ export default function ActiveWorkoutView() {
             <div className="flex items-center justify-end">
               <Button
                 variant="secondary"
-                size="sm"
                 onClick={() => setActiveWorkoutOpen(true)}
               >
                 Resume
