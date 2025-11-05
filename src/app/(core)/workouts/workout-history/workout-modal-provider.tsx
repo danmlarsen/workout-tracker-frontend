@@ -59,7 +59,7 @@ export default function WorkoutModalProvider({
         onOpenChange={closeWorkout}
         content={
           <div className="px-4">
-            {isLoading && (
+            {workoutId && isLoading && (
               <div className="flex items-center justify-center py-8">
                 <Spinner />
               </div>
