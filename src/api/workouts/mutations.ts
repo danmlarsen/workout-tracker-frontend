@@ -101,11 +101,9 @@ export function useUpdateWorkout(isActiveWorkout?: boolean) {
         method: "PATCH",
         body: JSON.stringify(data),
       }),
-    onSuccess: () => {
+    onSuccess: (updatedWorkout) => {
       if (isActiveWorkout) {
-        queryClient.invalidateQueries({
-          queryKey: ["activeWorkout"],
-        });
+        queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
         queryClient.invalidateQueries({
           queryKey: ["workouts"],
@@ -143,17 +141,15 @@ export function useAddWorkoutExercise(isActiveWorkout?: boolean) {
       workoutId: number;
       exerciseId: number;
     }) =>
-      apiClient<void>(`/workouts/${workoutId}/workoutExercises`, {
+      apiClient<TWorkout>(`/workouts/${workoutId}/workoutExercises`, {
         method: "POST",
         body: JSON.stringify({
           exerciseId,
         }),
       }),
-    onSuccess: () => {
+    onSuccess: (updatedWorkout) => {
       if (isActiveWorkout) {
-        queryClient.invalidateQueries({
-          queryKey: ["activeWorkout"],
-        });
+        queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
         queryClient.invalidateQueries({
           queryKey: ["workouts"],
@@ -177,18 +173,16 @@ export function useUpdateWorkoutExercise(isActiveWorkout?: boolean) {
       workoutExerciseId: number;
       data: TUpdateWorkoutExerciseDto;
     }) =>
-      apiClient<void>(
+      apiClient<TWorkout>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}`,
         {
           method: "PATCH",
           body: JSON.stringify(data),
         },
       ),
-    onSuccess: () => {
+    onSuccess: (updatedWorkout) => {
       if (isActiveWorkout) {
-        queryClient.invalidateQueries({
-          queryKey: ["activeWorkout"],
-        });
+        queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
         queryClient.invalidateQueries({
           queryKey: ["workouts"],
@@ -210,17 +204,15 @@ export function useDeleteWorkoutExercise(isActiveWorkout?: boolean) {
       workoutId: number;
       workoutExerciseId: number;
     }) =>
-      apiClient<void>(
+      apiClient<TWorkout>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}`,
         {
           method: "DELETE",
         },
       ),
-    onSuccess: () => {
+    onSuccess: (updatedWorkout) => {
       if (isActiveWorkout) {
-        queryClient.invalidateQueries({
-          queryKey: ["activeWorkout"],
-        });
+        queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
         queryClient.invalidateQueries({
           queryKey: ["workouts"],
@@ -242,17 +234,15 @@ export function useAddWorkoutSet(isActiveWorkout?: boolean) {
       workoutId: number;
       workoutExerciseId: number;
     }) =>
-      apiClient<void>(
+      apiClient<TWorkout>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}/sets`,
         {
           method: "POST",
         },
       ),
-    onSuccess: () => {
+    onSuccess: (updatedWorkout) => {
       if (isActiveWorkout) {
-        queryClient.invalidateQueries({
-          queryKey: ["activeWorkout"],
-        });
+        queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
         queryClient.invalidateQueries({
           queryKey: ["workouts"],
@@ -278,18 +268,16 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
       setId: number;
       data: TWorkoutSetDto;
     }) =>
-      apiClient<void>(
+      apiClient<TWorkout>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}/sets/${setId}`,
         {
           method: "PATCH",
           body: JSON.stringify(data),
         },
       ),
-    onSuccess: () => {
+    onSuccess: (updatedWorkout) => {
       if (isActiveWorkout) {
-        queryClient.invalidateQueries({
-          queryKey: ["activeWorkout"],
-        });
+        queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
         queryClient.invalidateQueries({
           queryKey: ["workouts"],
@@ -313,17 +301,15 @@ export function useDeleteWorkoutSet(isActiveWorkout?: boolean) {
       workoutExerciseId: number;
       setId: number;
     }) =>
-      apiClient<void>(
+      apiClient<TWorkout>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}/sets/${setId}`,
         {
           method: "DELETE",
         },
       ),
-    onSuccess: () => {
+    onSuccess: (updatedWorkout) => {
       if (isActiveWorkout) {
-        queryClient.invalidateQueries({
-          queryKey: ["activeWorkout"],
-        });
+        queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
         queryClient.invalidateQueries({
           queryKey: ["workouts"],
@@ -342,10 +328,8 @@ export function usePauseActiveWorkout() {
       apiClient<TWorkout>(`/workouts/active/pause`, {
         method: "PATCH",
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["activeWorkout"],
-      });
+    onSuccess: (updatedWorkout) => {
+      queryClient.setQueryData(["activeWorkout"], updatedWorkout);
     },
   });
 }
@@ -359,10 +343,8 @@ export function useResumeActiveWorkout() {
       apiClient<TWorkout>(`/workouts/active/resume`, {
         method: "PATCH",
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["activeWorkout"],
-      });
+    onSuccess: (updatedWorkout) => {
+      queryClient.setQueryData(["activeWorkout"], updatedWorkout);
     },
   });
 }
