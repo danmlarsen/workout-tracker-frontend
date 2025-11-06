@@ -1,12 +1,20 @@
-import z from 'zod';
+import z from "zod";
 
-export const passwordSchema = z.string().min(5, 'Minimum 5 characters');
-// .refine(password => /[A-Z]/.test(password), {
-//   message: 'Add one uppercase',
-// })
-// .refine(password => /[0-9]/.test(password), {
-//   message: 'Add one number',
-// })
-// .refine(password => /[`!@#$%^&*()_\-+=§\[\]{};':"\\|,.<>\/?~ ]/.test(password), {
-//   message: 'Add one special character',
-// });
+export const passwordSchema = z
+  .string()
+  .min(8, "Password must be at least 8 characters long")
+  .refine((password) => /[A-Z]/.test(password), {
+    message: "Password must contain at least one uppercase letter",
+  })
+  .refine((password) => /[a-z]/.test(password), {
+    message: "Password must contain at least one lowercase letter",
+  })
+  .refine((password) => /[0-9]/.test(password), {
+    message: "Password must contain at least one number",
+  })
+  .refine(
+    (password) => /[`!@#$%^&*()_\-+=§\[\]{};':"\\|,.<>\/?~ ]/.test(password),
+    {
+      message: "Password must contain at least one special character",
+    },
+  );
