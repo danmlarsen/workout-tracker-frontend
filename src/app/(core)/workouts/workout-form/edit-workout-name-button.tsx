@@ -33,7 +33,7 @@ export default function EditWorkoutNameButton({
   return (
     <Dialog open={isOpen} onOpenChange={(newState) => setIsOpen(newState)}>
       <DialogTrigger>Edit name</DialogTrigger>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Edit workout</DialogTitle>
         </DialogHeader>

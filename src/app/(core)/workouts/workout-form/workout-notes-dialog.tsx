@@ -52,7 +52,7 @@ export default function WorkoutNotesDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Workout Note</DialogTitle>
           <DialogDescription>
