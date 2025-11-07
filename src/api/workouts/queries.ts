@@ -8,15 +8,6 @@ import {
 } from "./types";
 import { getDayRangeUTC } from "@/lib/utils";
 
-export function useWorkouts() {
-  const { apiClient } = useApiClient();
-
-  return useQuery<TWorkoutsQuery>({
-    queryKey: ["workouts"],
-    queryFn: () => apiClient<TWorkoutsQuery>("/workouts"),
-  });
-}
-
 export function useCompletedWorkouts(selectedDate?: Date) {
   const { apiClient } = useApiClient();
 
@@ -48,7 +39,7 @@ export function useWorkout(id?: number) {
   const { apiClient } = useApiClient();
 
   return useQuery<TWorkout>({
-    queryKey: ["workouts", { id }],
+    queryKey: ["workout", { id }],
     queryFn: () => apiClient<TWorkout>(`/workouts/${id}`),
     enabled: !!id,
   });

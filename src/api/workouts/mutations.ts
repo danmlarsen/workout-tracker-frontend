@@ -19,7 +19,7 @@ export function useCreateDraftWorkout() {
         body: JSON.stringify(data),
       }),
     onSuccess: (newWorkout) => {
-      queryClient.setQueryData(["workouts", { id: newWorkout.id }], newWorkout);
+      queryClient.setQueryData(["workout", { id: newWorkout.id }], newWorkout);
     },
   });
 }
@@ -48,9 +48,10 @@ export function useCompleteWorkout() {
       apiClient<TWorkout>(`/workouts/${workoutId}/complete`, {
         method: "POST",
       }),
-    onSuccess: () => {
+    onSuccess: async (updatedWorkout, workoutId) => {
       queryClient.setQueryData(["activeWorkout"], null);
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+      queryClient.setQueryData(["workout", { id: workoutId }], updatedWorkout);
+      await queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });
 }
@@ -64,8 +65,9 @@ export function useCompleteDraftWorkout() {
       apiClient<TWorkout>(`/workouts/${workoutId}/complete`, {
         method: "POST",
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    onSuccess: async (updatedWorkout, workoutId) => {
+      queryClient.setQueryData(["workout", { id: workoutId }], updatedWorkout);
+      await queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });
 }
@@ -101,11 +103,15 @@ export function useUpdateWorkout(isActiveWorkout?: boolean) {
         method: "PATCH",
         body: JSON.stringify(data),
       }),
-    onSuccess: (updatedWorkout) => {
+    onSuccess: async (updatedWorkout, vars) => {
       if (isActiveWorkout) {
         queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
-        queryClient.invalidateQueries({
+        queryClient.setQueryData(
+          ["workout", { id: vars.workoutId }],
+          updatedWorkout,
+        );
+        await queryClient.invalidateQueries({
           queryKey: ["workouts"],
         });
       }
@@ -122,9 +128,9 @@ export function useDeleteWorkout() {
       apiClient<TWorkout>(`/workouts/${workoutId}`, {
         method: "DELETE",
       }),
-    onSuccess: (_, workoutId) => {
-      queryClient.removeQueries({ queryKey: ["workouts", workoutId] });
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    onSuccess: async (_, workoutId) => {
+      queryClient.removeQueries({ queryKey: ["workout", { id: workoutId }] });
+      await queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });
 }
@@ -147,11 +153,15 @@ export function useAddWorkoutExercise(isActiveWorkout?: boolean) {
           exerciseId,
         }),
       }),
-    onSuccess: (updatedWorkout) => {
+    onSuccess: async (updatedWorkout, vars) => {
       if (isActiveWorkout) {
         queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
-        queryClient.invalidateQueries({
+        queryClient.setQueryData(
+          ["workout", { id: vars.workoutId }],
+          updatedWorkout,
+        );
+        await queryClient.invalidateQueries({
           queryKey: ["workouts"],
         });
       }
@@ -180,11 +190,15 @@ export function useUpdateWorkoutExercise(isActiveWorkout?: boolean) {
           body: JSON.stringify(data),
         },
       ),
-    onSuccess: (updatedWorkout) => {
+    onSuccess: async (updatedWorkout, vars) => {
       if (isActiveWorkout) {
         queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
-        queryClient.invalidateQueries({
+        queryClient.setQueryData(
+          ["workout", { id: vars.workoutId }],
+          updatedWorkout,
+        );
+        await queryClient.invalidateQueries({
           queryKey: ["workouts"],
         });
       }
@@ -210,11 +224,15 @@ export function useDeleteWorkoutExercise(isActiveWorkout?: boolean) {
           method: "DELETE",
         },
       ),
-    onSuccess: (updatedWorkout) => {
+    onSuccess: async (updatedWorkout, vars) => {
       if (isActiveWorkout) {
         queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
-        queryClient.invalidateQueries({
+        queryClient.setQueryData(
+          ["workout", { id: vars.workoutId }],
+          updatedWorkout,
+        );
+        await queryClient.invalidateQueries({
           queryKey: ["workouts"],
         });
       }
@@ -240,11 +258,15 @@ export function useAddWorkoutSet(isActiveWorkout?: boolean) {
           method: "POST",
         },
       ),
-    onSuccess: (updatedWorkout) => {
+    onSuccess: async (updatedWorkout, vars) => {
       if (isActiveWorkout) {
         queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
-        queryClient.invalidateQueries({
+        queryClient.setQueryData(
+          ["workout", { id: vars.workoutId }],
+          updatedWorkout,
+        );
+        await queryClient.invalidateQueries({
           queryKey: ["workouts"],
         });
       }
@@ -275,11 +297,15 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
           body: JSON.stringify(data),
         },
       ),
-    onSuccess: (updatedWorkout) => {
+    onSuccess: async (updatedWorkout, vars) => {
       if (isActiveWorkout) {
         queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
-        queryClient.invalidateQueries({
+        queryClient.setQueryData(
+          ["workout", { id: vars.workoutId }],
+          updatedWorkout,
+        );
+        await queryClient.invalidateQueries({
           queryKey: ["workouts"],
         });
       }
@@ -307,11 +333,15 @@ export function useDeleteWorkoutSet(isActiveWorkout?: boolean) {
           method: "DELETE",
         },
       ),
-    onSuccess: (updatedWorkout) => {
+    onSuccess: async (updatedWorkout, vars) => {
       if (isActiveWorkout) {
         queryClient.setQueryData(["activeWorkout"], updatedWorkout);
       } else {
-        queryClient.invalidateQueries({
+        queryClient.setQueryData(
+          ["workout", { id: vars.workoutId }],
+          updatedWorkout,
+        );
+        await queryClient.invalidateQueries({
           queryKey: ["workouts"],
         });
       }
