@@ -11,9 +11,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { passwordSchema } from "@/validation/passwordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
@@ -40,9 +42,12 @@ export default function RegisterForm() {
 
   const { register } = useAuth();
   const router = useRouter();
+  const [isPending, setIsPending] = useState(false);
 
   async function handleSubmit(data: z.infer<typeof registerSchema>) {
+    setIsPending(true);
     const response = await register(data.email, data.password);
+    setIsPending(false);
 
     if (response.success) {
       router.push(`/register?success=true&email=${data.email}`);
@@ -63,7 +68,10 @@ export default function RegisterForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <fieldset disabled={form.formState.isSubmitting} className="space-y-4">
+        <fieldset
+          disabled={form.formState.isSubmitting || isPending}
+          className="space-y-4"
+        >
           <FormField
             control={form.control}
             name="email"
@@ -120,6 +128,7 @@ export default function RegisterForm() {
 
           <Button type="submit" className="w-full">
             Register
+            {(form.formState.isSubmitting || isPending) && <Spinner />}
           </Button>
         </fieldset>
       </form>
