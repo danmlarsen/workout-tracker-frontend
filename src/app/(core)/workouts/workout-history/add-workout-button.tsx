@@ -23,7 +23,6 @@ export default function AddWorkoutButton({
 }: React.ComponentProps<"button"> & {
   selectedDate?: Date;
 }) {
-  // const [open, setOpen] = useState(false);
   const [open, setOpen] = useSearchParamState("add-workout-modal");
   const [workoutId, setWorkoutId] = useState<number | undefined>();
 

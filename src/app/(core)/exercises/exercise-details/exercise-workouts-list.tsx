@@ -20,6 +20,7 @@ export default function ExerciseWorkoutsList({
     fetchNextPage,
     hasNextPage,
     isFetching,
+    isLoading,
     isFetchingNextPage,
     isSuccess,
   } = useInfiniteExerciseWorkouts(exercise.id);
@@ -37,7 +38,7 @@ export default function ExerciseWorkoutsList({
       getScrollParent={() => scrollParentRef?.current || null}
     >
       <ul className="space-y-4 overflow-y-auto px-4 pb-6">
-        {isFetching &&
+        {isLoading &&
           Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
             <li key={`initial-${index}`}>
               <ExerciseWorkoutsItemSkeleton />

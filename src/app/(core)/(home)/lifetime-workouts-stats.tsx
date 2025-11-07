@@ -7,9 +7,9 @@ import { formatCompactNumber, formatNumber, formatWeight } from "@/lib/utils";
 import { ClockIcon } from "lucide-react";
 
 export default function LifetimeWorkoutsStats() {
-  const { data, isFetching, isSuccess, isError } = useWorkoutLifetimeStats();
+  const { data, isLoading, isSuccess, isError } = useWorkoutLifetimeStats();
 
-  if (isFetching) {
+  if (isLoading) {
     return <Skeleton className="h-[150px] rounded-xl" />;
   }
 

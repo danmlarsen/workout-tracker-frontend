@@ -13,12 +13,12 @@ export default function WeeklyReportStats() {
   const from = startOfWeek(now, { weekStartsOn: 1 });
   const to = endOfWeek(now, { weekStartsOn: 1 });
 
-  const { data, isFetching, isSuccess, isError } = useWorkoutWeeklyStats(
+  const { data, isLoading, isSuccess, isError } = useWorkoutWeeklyStats(
     from,
     to,
   );
 
-  if (isFetching) {
+  if (isLoading) {
     return <Skeleton className="h-[175px] rounded-xl" />;
   }
 

@@ -35,6 +35,7 @@ export default function ExercisesList({
     data,
     fetchNextPage,
     hasNextPage,
+    isLoading,
     isFetching,
     isFetchingNextPage,
     isSuccess,
@@ -62,7 +63,7 @@ export default function ExercisesList({
         useWindow={!onExerciseClick} // Set to false if used in a drawer/modal
       >
         <ul>
-          {isFetching &&
+          {isLoading &&
             Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
               <ExerciseItemSkeleton key={`initial-${index}`} />
             ))}

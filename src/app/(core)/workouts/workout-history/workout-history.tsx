@@ -21,6 +21,7 @@ export default function WorkoutHistory() {
     data,
     fetchNextPage,
     hasNextPage,
+    isLoading,
     isFetching,
     isFetchingNextPage,
     isSuccess,
@@ -55,7 +56,7 @@ export default function WorkoutHistory() {
           hasMore={hasNextPage}
         >
           <ul className="space-y-6">
-            {isFetching &&
+            {isLoading &&
               Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map(
                 (_, index) => (
                   <WorkoutHistoryItemSkeleton key={`initial-${index}`} />

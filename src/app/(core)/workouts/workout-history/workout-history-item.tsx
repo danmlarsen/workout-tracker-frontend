@@ -26,7 +26,6 @@ import {
 } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkoutModal } from "./workout-modal-provider";
-import { Button } from "@/components/ui/button";
 
 export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
   const { openWorkout } = useWorkoutModal();
