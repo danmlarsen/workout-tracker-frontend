@@ -48,7 +48,7 @@ export function ResponsiveModal({
           onAnimationEnd={onAnimationEnd}
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
-          <SheetHeader>
+          <SheetHeader className="sr-only">
             <SheetTitle>{title}</SheetTitle>
             <SheetDescription>{description}</SheetDescription>
           </SheetHeader>

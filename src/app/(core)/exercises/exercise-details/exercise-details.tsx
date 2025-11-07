@@ -84,8 +84,8 @@ export default function ExerciseDetails({
                   </div>
                 )}
                 {!video && (
-                  <p className="text-muted-foreground">
-                    No instructions for this exercise found..
+                  <p className="text-muted-foreground text-center">
+                    No instructions for this exercise found
                   </p>
                 )}
               </TabsContent>
@@ -98,7 +98,9 @@ export default function ExerciseDetails({
                 )}
               </TabsContent>
               <TabsContent value="charts">
-                <p className="text-muted-foreground">Charts coming soon..</p>
+                <p className="text-muted-foreground text-center">
+                  Charts coming soon
+                </p>
               </TabsContent>
             </div>
           </Tabs>
