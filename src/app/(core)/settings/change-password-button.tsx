@@ -24,7 +24,7 @@ export default function ChangePasswordButton({
           Change Password
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Change Password</DialogTitle>
           <DialogDescription>

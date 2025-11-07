@@ -43,7 +43,11 @@ export function ResponsiveModal({
   if (isDesktop) {
     return (
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
-        <SheetContent className="sm:max-w-lg" onAnimationEnd={onAnimationEnd}>
+        <SheetContent
+          className="sm:max-w-lg"
+          onAnimationEnd={onAnimationEnd}
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
           <SheetHeader>
             <SheetTitle>{title}</SheetTitle>
             <SheetDescription>{description}</SheetDescription>
@@ -64,7 +68,10 @@ export function ResponsiveModal({
         onOpenChange={onOpenChange}
         onAnimationEnd={onAnimationEnd}
       >
-        <DrawerContent className="h-[100dvh]">
+        <DrawerContent
+          className="h-[100dvh]"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
           <DrawerHeader className="sr-only">
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>

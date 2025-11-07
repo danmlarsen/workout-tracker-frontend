@@ -23,7 +23,7 @@ export default function DeleteAccountButton({
           Delete Account
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Delete Account</DialogTitle>
           <DialogDescription>
