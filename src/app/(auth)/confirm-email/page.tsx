@@ -43,10 +43,10 @@ export default function ConfirmEmailPage() {
         if (result.success) {
           setState("success");
 
-          // Redirect to login after 5 seconds
+          // Redirect to login after 2 seconds
           setTimeout(() => {
             router.push("/login");
-          }, 5000);
+          }, 2000);
         } else {
           setState("error");
         }
