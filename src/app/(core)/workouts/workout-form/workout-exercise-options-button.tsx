@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeleteWorkoutExercise } from "@/api/workouts/mutations";
+import { useDeleteWorkoutExercise } from "@/api/workouts/workout-exercise-mutations";
 import { TWorkoutExercise } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import {

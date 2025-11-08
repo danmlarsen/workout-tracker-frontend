@@ -1,9 +1,6 @@
 import { type TWorkoutExercise } from "@/api/workouts/types";
 import WorkoutSet from "./workout-set";
-import {
-  useAddWorkoutSet,
-  useUpdateWorkoutExercise,
-} from "@/api/workouts/mutations";
+import { useUpdateWorkoutExercise } from "@/api/workouts/workout-exercise-mutations";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -25,6 +22,7 @@ import WorkoutNotes from "./workout-notes";
 import { useWorkoutFormContext } from "./workout-form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMutationState } from "@tanstack/react-query";
+import { useAddWorkoutSet } from "@/api/workouts/workout-set-mutations";
 
 type TWorkoutExerciseProps = {
   workoutExercise: TWorkoutExercise;

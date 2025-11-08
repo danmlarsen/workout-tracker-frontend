@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontalIcon } from "lucide-react";
 import { useState } from "react";
-import { useDeleteWorkout } from "@/api/workouts/mutations";
+import { useDeleteWorkout } from "@/api/workouts/workout-mutations";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
 import { toast } from "sonner";
 

@@ -1,4 +1,4 @@
-import { useUpdateWorkoutSet } from "@/api/workouts/mutations";
+import { useUpdateWorkoutSet } from "@/api/workouts/workout-set-mutations";
 import { TWorkoutSetDto, type TWorkoutSet } from "@/api/workouts/types";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";

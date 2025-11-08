@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useAddWorkoutExercise } from "@/api/workouts/mutations";
+import { useAddWorkoutExercise } from "@/api/workouts/workout-exercise-mutations";
 import ExercisesView from "../../exercises/exercises-view/exercises-view";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 

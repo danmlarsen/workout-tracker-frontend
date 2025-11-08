@@ -5,7 +5,7 @@ import { Button } from "./button";
 import {
   usePauseActiveWorkout,
   useResumeActiveWorkout,
-} from "@/api/workouts/mutations";
+} from "@/api/workouts/workout-mutations";
 import { formatTimeFromMs } from "@/lib/utils";
 
 export default function Timer({

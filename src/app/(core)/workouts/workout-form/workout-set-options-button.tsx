@@ -3,7 +3,7 @@
 import {
   useDeleteWorkoutSet,
   useUpdateWorkoutSet,
-} from "@/api/workouts/mutations";
+} from "@/api/workouts/workout-set-mutations";
 import { TWorkoutSet, WORKOUT_SET_TYPES } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import {

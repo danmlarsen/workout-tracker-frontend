@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeleteActiveWorkout } from "@/api/workouts/mutations";
+import { useDeleteActiveWorkout } from "@/api/workouts/workout-mutations";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 import { useActiveWorkoutContext } from "@/context/active-workout-context";

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useActiveWorkout } from "@/api/workouts/queries";
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
-import { useCreateActiveWorkout } from "@/api/workouts/mutations";
+import { useCreateActiveWorkout } from "@/api/workouts/workout-mutations";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 

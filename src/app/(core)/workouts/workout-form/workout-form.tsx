@@ -1,7 +1,10 @@
 "use client";
 
 import AddExerciseButton from "./add-exercise-button";
-import { useCompleteWorkout, useUpdateWorkout } from "@/api/workouts/mutations";
+import {
+  useCompleteWorkout,
+  useUpdateWorkout,
+} from "@/api/workouts/workout-mutations";
 import { Button } from "@/components/ui/button";
 import WorkoutExercise from "./workout-exercise";
 import EditWorkoutNameButton from "./edit-workout-name-button";

@@ -4,7 +4,7 @@ import {
   useCompleteDraftWorkout,
   useCreateDraftWorkout,
   useDeleteWorkout,
-} from "@/api/workouts/mutations";
+} from "@/api/workouts/workout-mutations";
 import { useWorkout } from "@/api/workouts/queries";
 import { Button } from "@/components/ui/button";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
