@@ -245,6 +245,7 @@ export function useAddWorkoutSet(isActiveWorkout?: boolean) {
   const queryClient = useQueryClient();
 
   return useMutation({
+    mutationKey: ["addWorkoutSet"],
     mutationFn: ({
       workoutId,
       workoutExerciseId,
@@ -297,6 +298,53 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
           body: JSON.stringify(data),
         },
       ),
+    onMutate: async (variables) => {
+      const queryKey = isActiveWorkout
+        ? ["activeWorkout"]
+        : ["workout", { id: variables.workoutId }];
+
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey });
+
+      // Snapshot the previous value
+      const previousWorkout = queryClient.getQueryData<TWorkout>(queryKey);
+
+      // Optimistically update the cache
+      if (previousWorkout) {
+        const updatedWorkout = {
+          ...previousWorkout,
+          workoutExercises: previousWorkout.workoutExercises.map((we) =>
+            we.id === variables.workoutExerciseId
+              ? {
+                  ...we,
+                  workoutSets: we.workoutSets.map((set) =>
+                    set.id === variables.setId
+                      ? {
+                          ...set,
+                          ...variables.data,
+                          completedAt: variables.data.completed
+                            ? new Date().toISOString()
+                            : null,
+                        }
+                      : set,
+                  ),
+                }
+              : we,
+          ),
+        };
+
+        queryClient.setQueryData(queryKey, updatedWorkout);
+      }
+
+      // Return context with previous value for rollback
+      return { previousWorkout, queryKey };
+    },
+    onError: (err, variables, context) => {
+      // Rollback on error
+      if (context?.previousWorkout) {
+        queryClient.setQueryData(context.queryKey, context.previousWorkout);
+      }
+    },
     onSuccess: async (updatedWorkout, vars) => {
       if (isActiveWorkout) {
         queryClient.setQueryData(["activeWorkout"], updatedWorkout);
@@ -318,6 +366,7 @@ export function useDeleteWorkoutSet(isActiveWorkout?: boolean) {
   const queryClient = useQueryClient();
 
   return useMutation({
+    mutationKey: ["deleteWorkoutSet"],
     mutationFn: ({
       workoutId,
       workoutExerciseId,

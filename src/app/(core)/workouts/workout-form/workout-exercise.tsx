@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -22,6 +23,8 @@ import { ChevronRightIcon } from "lucide-react";
 import WorkoutExerciseOptionsButton from "./workout-exercise-options-button";
 import WorkoutNotes from "./workout-notes";
 import { useWorkoutFormContext } from "./workout-form";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useMutationState } from "@tanstack/react-query";
 
 type TWorkoutExerciseProps = {
   workoutExercise: TWorkoutExercise;
@@ -48,6 +51,28 @@ export default function WorkoutExercise({
     () => findBestWorkoutSetWithIndex(workoutSets),
     [workoutSets],
   );
+
+  // Track pending add set mutations for this specific exercise
+  const pendingAddSetCount = useMutationState({
+    filters: {
+      mutationKey: ["addWorkoutSet"],
+      status: "pending",
+    },
+    select: (mutation) =>
+      mutation.state.variables as {
+        workoutId: number;
+        workoutExerciseId: number;
+      },
+  }).filter(
+    (variables) => variables?.workoutExerciseId === workoutExercise.id,
+  ).length;
+
+  const handleAddWorkoutSet = () => {
+    addWorkoutSet({
+      workoutId: workoutExercise.workoutId,
+      workoutExerciseId: workoutExercise.id,
+    });
+  };
 
   return (
     <li className="space-y-4">
@@ -125,19 +150,19 @@ export default function WorkoutExercise({
               />
             );
           })}
+          {pendingAddSetCount > 0 &&
+            Array.from({ length: pendingAddSetCount }, (_, i) => (
+              <TableRow key={`pending-set-${i}`}>
+                <TableCell colSpan={5} className="h-13">
+                  <Skeleton className="h-10" />
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
 
       {isEditing && (
-        <Button
-          onClick={() =>
-            addWorkoutSet({
-              workoutId: workoutExercise.workoutId,
-              workoutExerciseId: workoutExercise.id,
-            })
-          }
-          className="w-full"
-        >
+        <Button onClick={handleAddWorkoutSet} className="w-full">
           + Add set
         </Button>
       )}

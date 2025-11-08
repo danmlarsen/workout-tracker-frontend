@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import WorkoutSetOptionsButton from "./workout-set-options-button";
 import { useWorkoutFormContext } from "./workout-form";
+import { useMutationState } from "@tanstack/react-query";
 
 const parseToNumberOrNull = (value: string): number | null => {
   if (value.trim() === "") return null;
@@ -28,6 +29,7 @@ export default function WorkoutSet({
   previousSet,
   placeholderSet,
 }: TWorkoutSetProps) {
+  const [isChecked, setIsChecked] = useState(!!workoutSet.completedAt);
   const [weight, setWeight] = useState(workoutSet.weight?.toString() || "");
   const [reps, setReps] = useState(workoutSet.reps?.toString() || "");
   const [duration, setDuration] = useState(
@@ -38,42 +40,63 @@ export default function WorkoutSet({
 
   const workoutId = workout.id;
 
-  useEffect(() => {
-    setWeight(workoutSet.weight?.toString() || "");
-    setReps(workoutSet.reps?.toString() || "");
-    setDuration(workoutSet.duration?.toString() || "");
-  }, [workoutSet.weight, workoutSet.reps, workoutSet.duration]);
-
-  const updateWorkoutSetMutation = useUpdateWorkoutSet(isActiveWorkout);
+  const { mutate, isPending } = useUpdateWorkoutSet(isActiveWorkout);
   const updateWorkoutSet = (payload: TWorkoutSetDto) =>
-    updateWorkoutSetMutation.mutate({
+    mutate({
       workoutId,
       workoutExerciseId: workoutSet.workoutExerciseId,
       setId: workoutSet.id,
       data: payload,
     });
 
+  // Sync local state with prop changes (from optimistic updates)
+  useEffect(() => {
+    if (!isPending) {
+      setIsChecked(!!workoutSet.completedAt);
+      setWeight(workoutSet.weight?.toString() || "");
+      setReps(workoutSet.reps?.toString() || "");
+      setDuration(workoutSet.duration?.toString() || "");
+    }
+  }, [
+    workoutSet.completedAt,
+    workoutSet.weight,
+    workoutSet.reps,
+    workoutSet.duration,
+    isPending,
+  ]);
+
+  const isPendingDelete = useMutationState({
+    filters: {
+      mutationKey: ["deleteWorkoutSet"],
+      status: "pending",
+    },
+    select: (mutation) => mutation.state.variables as { setId: number },
+  }).some((set) => set.setId === workoutSet.id);
+
   const debouncedUpdateWeight = useDebouncedCallback(
     (weight: number | null) => {
       updateWorkoutSet({ weight });
     },
-    500,
+    200,
   );
 
   const debouncedUpdateReps = useDebouncedCallback((reps: number | null) => {
     updateWorkoutSet({ reps });
-  }, 500);
+  }, 200);
 
   const debouncedUpdateDuration = useDebouncedCallback(
     (duration: number | null) => {
       updateWorkoutSet({ duration });
     },
-    500,
+    200,
   );
 
-  function handleCheckedChange(isChecked: boolean) {
+  function handleCheckedChange(checkedChange: boolean) {
+    setIsChecked(checkedChange);
+
     debouncedUpdateWeight.cancel();
     debouncedUpdateReps.cancel();
+    debouncedUpdateDuration.cancel();
 
     const numericWeight = parseToNumberOrNull(weight);
     const numericReps = parseToNumberOrNull(reps);
@@ -83,18 +106,20 @@ export default function WorkoutSet({
       weight: numericWeight || placeholderSet?.weight || null,
       reps: numericReps || placeholderSet?.reps || null,
       duration: numericDuration || placeholderSet?.duration || null,
-      completed: isChecked,
+      completed: checkedChange,
     };
 
     if (
-      isChecked &&
+      checkedChange &&
       exerciseCategory === "strength" &&
       (!payload.weight || !payload.reps)
     ) {
+      setIsChecked(!!workoutSet.completedAt);
       return;
     }
 
-    if (isChecked && exerciseCategory === "cardio" && !payload.duration) {
+    if (checkedChange && exerciseCategory === "cardio" && !payload.duration) {
+      setIsChecked(!!workoutSet.completedAt);
       return;
     }
 
@@ -155,7 +180,8 @@ export default function WorkoutSet({
     <TableRow
       className={cn(
         "",
-        workoutSet.completedAt && "bg-secondary/5 hover:bg-secondary/10",
+        isChecked && "bg-secondary/5 hover:bg-secondary/10",
+        isPendingDelete && "animate-pulse",
       )}
     >
       <TableCell>
@@ -172,7 +198,7 @@ export default function WorkoutSet({
             value={weight}
             onChange={(e) => handleWeightChange(e.target.value)}
             onBlur={handleWeightBlur}
-            disabled={!!workoutSet.completedAt}
+            disabled={isChecked || isPendingDelete}
             className="h-9"
           />
         )}
@@ -187,7 +213,7 @@ export default function WorkoutSet({
             value={reps}
             onChange={(e) => handleRepsChange(e.target.value)}
             onBlur={handleRepsBlur}
-            disabled={!!workoutSet.completedAt}
+            disabled={isChecked || isPendingDelete}
             className="h-9"
           />
         )}
@@ -200,7 +226,7 @@ export default function WorkoutSet({
             value={duration}
             onChange={(e) => handleDurationChange(e.target.value)}
             onBlur={handleDurationBlur}
-            disabled={!!workoutSet.completedAt}
+            disabled={isChecked || isPendingDelete}
             className="h-9"
           />
         )}
@@ -208,9 +234,9 @@ export default function WorkoutSet({
       <TableCell>
         <Checkbox
           className="size-8 rounded-full"
-          checked={!!workoutSet.completedAt}
+          checked={isChecked}
           onCheckedChange={(checked) => handleCheckedChange(!!checked)}
-          disabled={!isEditing}
+          disabled={!isEditing || isPendingDelete}
         />
       </TableCell>
     </TableRow>
