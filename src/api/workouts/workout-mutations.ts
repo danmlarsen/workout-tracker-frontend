@@ -50,6 +50,7 @@ export function useCompleteWorkout() {
       queryClient.setQueryData(["activeWorkout"], null);
       queryClient.setQueryData(["workout", { id: workoutId }], updatedWorkout);
       await queryClient.invalidateQueries({ queryKey: ["workouts"] });
+      await queryClient.invalidateQueries({ queryKey: ["exercises"] });
     },
   });
 }
@@ -66,6 +67,7 @@ export function useCompleteDraftWorkout() {
     onSuccess: async (updatedWorkout, workoutId) => {
       queryClient.setQueryData(["workout", { id: workoutId }], updatedWorkout);
       await queryClient.invalidateQueries({ queryKey: ["workouts"] });
+      await queryClient.invalidateQueries({ queryKey: ["exercises"] });
     },
   });
 }
