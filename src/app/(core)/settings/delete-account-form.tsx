@@ -12,14 +12,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { passwordSchema } from "@/validation/passwordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
 const schema = z.object({
-  password: passwordSchema,
+  password: z.string().min(1, "Password is required"),
 });
 
 export default function DeleteAccountForm() {
