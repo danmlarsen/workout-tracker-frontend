@@ -1,9 +1,26 @@
 import { type TExercise } from "../exercises/types";
 
 export type TWorkoutsQuery = {
-  results: TWorkout[];
+  results: TWorkoutSummary[];
   nextCursor: number;
 };
+
+export type TWorkoutSummary = Omit<TWorkout, "workoutExercises"> & {
+  workoutExercises: TWorkoutExerciseSummary[];
+  totalWeight: number;
+  totalCompletedSets: number;
+};
+
+export type TWorkoutExerciseSummary = {
+  exerciseName: string;
+  sets: number;
+  bestSet: TWorkoutExerciseBestSet;
+};
+
+export type TWorkoutExerciseBestSet = Pick<
+  TWorkoutSet,
+  "type" | "completedAt" | "reps" | "weight" | "duration"
+>;
 
 export type TWorkout = {
   id: number;

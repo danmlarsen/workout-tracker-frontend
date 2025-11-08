@@ -1,6 +1,5 @@
 "use client";
 
-import { TWorkout } from "@/api/workouts/types";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { useSearchParamState } from "@/hooks/use-search-param-state";
 import { createContext, useContext, useState } from "react";
@@ -10,7 +9,7 @@ import { parseWorkoutTitle } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 
 type WorkoutModalProviderContextValue = {
-  openWorkout: (workout: TWorkout, editing?: boolean) => void;
+  openWorkout: (workoutId: number, editing?: boolean) => void;
 };
 
 const WorkoutModalContext =
@@ -31,8 +30,8 @@ export default function WorkoutModalProvider({
     isLoading,
   } = useWorkout(workoutId || undefined);
 
-  const openWorkout = (workout: TWorkout, editing = true) => {
-    setWorkoutId(workout.id);
+  const openWorkout = (workoutId: number, editing = true) => {
+    setWorkoutId(workoutId);
     setIsEditing(editing);
     setIsOpen(true);
   };

@@ -1,4 +1,8 @@
-import { TWorkout, TWorkoutSet } from "@/api/workouts/types";
+import {
+  TWorkout,
+  TWorkoutExerciseBestSet,
+  TWorkoutSet,
+} from "@/api/workouts/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -60,7 +64,7 @@ export function getBestSetByDuration(sets: TWorkoutSet[]): TWorkoutSet | null {
   );
 }
 
-export function formatBestSet(bestSet: TWorkoutSet | null): string {
+export function formatBestSet(bestSet: TWorkoutExerciseBestSet | null): string {
   if (bestSet?.reps && bestSet.weight) {
     return bestSet ? `${bestSet.weight} kg x ${bestSet.reps}` : "-";
   }

@@ -1,4 +1,4 @@
-import { type TWorkout } from "@/api/workouts/types";
+import { TWorkoutSummary } from "@/api/workouts/types";
 import {
   Card,
   CardContent,
@@ -17,46 +17,21 @@ import {
 import { formatDate } from "date-fns";
 import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu";
 import { CheckCircleIcon, ClockIcon, WeightIcon } from "lucide-react";
-import {
-  formatBestSet,
-  formatTime,
-  getBestSetByDuration,
-  getBestSetByOneRM,
-  parseWorkoutTitle,
-} from "@/lib/utils";
+import { formatBestSet, formatTime, parseWorkoutTitle } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkoutModal } from "./workout-modal-provider";
 
-export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
+export default function WorkoutHistoryItem({
+  workout,
+}: {
+  workout: TWorkoutSummary;
+}) {
   const { openWorkout } = useWorkoutModal();
 
   const { id, startedAt, workoutExercises } = workout;
 
   const workoutTitle = parseWorkoutTitle(workout);
-
-  const workoutDuration = workout.activeDuration
-    ? formatTime(workout.activeDuration)
-    : null;
-
-  const totalWeight = workout.workoutExercises.reduce(
-    (total, exercise) =>
-      total +
-      exercise.workoutSets.reduce(
-        (setTotal, curSet) =>
-          setTotal +
-          (!!curSet.completedAt
-            ? (curSet.weight ?? 0) * (curSet.reps ?? 0)
-            : 0),
-        0,
-      ),
-    0,
-  );
-
-  const totalCompletedSets = workout.workoutExercises.reduce(
-    (total, exercise) =>
-      total + exercise.workoutSets?.filter((set) => !!set.completedAt)?.length,
-    0,
-  );
+  const workoutDuration = formatTime(workout.activeDuration);
 
   return (
     <>
@@ -64,12 +39,12 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="sr-only">{workoutTitle}</CardTitle>
-            <button onClick={() => openWorkout(workout, false)}>
+            <button onClick={() => openWorkout(workout.id, false)}>
               {workoutTitle}
             </button>
             <WorkoutHistoryItemDropdownMenu
               workoutId={id}
-              onClickEdit={() => openWorkout(workout)}
+              onClickEdit={() => openWorkout(workout.id)}
             />
           </div>
           <CardDescription>{formatDate(startedAt, "EEEE PP")}</CardDescription>
@@ -81,15 +56,15 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
                 <ClockIcon size={16} /> <span>{workoutDuration}</span>
               </div>
             )}
-            {!!totalWeight && (
+            {!!workout.totalWeight && (
               <div className="flex items-center gap-2">
-                <WeightIcon size={16} /> <span>{totalWeight}kg</span>
+                <WeightIcon size={16} /> <span>{workout.totalWeight}kg</span>
               </div>
             )}
-            {!!totalCompletedSets && (
+            {!!workout.totalCompletedSets && (
               <div className="flex items-center gap-2">
                 <CheckCircleIcon size={16} />{" "}
-                <span>{totalCompletedSets} sets</span>
+                <span>{workout.totalCompletedSets} sets</span>
               </div>
             )}
           </div>
@@ -108,31 +83,21 @@ export default function WorkoutHistoryItem({ workout }: { workout: TWorkout }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {workoutExercises.map((workoutExercise) => {
-                  const completedSets = workoutExercise.workoutSets.filter(
-                    (set) => !!set.completedAt,
-                  );
-
-                  if (!completedSets) return null;
-
-                  const { exercise } = workoutExercise;
-                  const bestSet = formatBestSet(
-                    exercise.category === "strength"
-                      ? getBestSetByOneRM(completedSets)
-                      : getBestSetByDuration(completedSets),
-                  );
+                {workoutExercises.map((workoutExercise, idx) => {
+                  const exerciseName = workoutExercise.exerciseName;
+                  const bestSet = formatBestSet(workoutExercise.bestSet);
 
                   const NAME_MAXLENGTH = 20;
 
                   return (
-                    <TableRow key={workoutExercise.id}>
+                    <TableRow key={`${workoutExercise.exerciseName}-${idx}`}>
                       <TableCell>
-                        {exercise.name.length >= NAME_MAXLENGTH
-                          ? `${exercise.name.slice(0, NAME_MAXLENGTH - 3).trim()}...`
-                          : exercise.name}
+                        {exerciseName.length >= NAME_MAXLENGTH
+                          ? `${exerciseName.slice(0, NAME_MAXLENGTH - 3).trim()}...`
+                          : exerciseName}
                       </TableCell>
                       <TableCell className="text-center">
-                        {completedSets.length}
+                        {workoutExercise.sets}
                       </TableCell>
                       <TableCell className="text-end">{bestSet}</TableCell>
                     </TableRow>
