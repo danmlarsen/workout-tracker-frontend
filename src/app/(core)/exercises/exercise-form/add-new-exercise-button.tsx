@@ -16,6 +16,7 @@ export default function AddNewExerciseButton() {
         className="px-4"
         content={<ExerciseForm onSuccess={() => setIsOpen(false)} />}
         title="Add New Exercise"
+        description="Add a custom Exercise"
       />
       <Button onClick={() => setIsOpen(true)}>Add New Exercise</Button>
     </>
