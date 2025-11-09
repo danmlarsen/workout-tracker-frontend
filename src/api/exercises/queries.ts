@@ -67,7 +67,7 @@ export const useInfiniteExercises = ({
       );
     },
     initialPageParam: undefined,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => lastPage.meta.nextCursor,
     staleTime: 60 * 60 * 1000,
     gcTime: 24 * 60 * 60 * 1000,
   });
@@ -92,7 +92,7 @@ export const useInfiniteExerciseWorkouts = (exerciseId?: number) => {
       );
     },
     initialPageParam: undefined,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => lastPage.meta.nextCursor,
     enabled: !!exerciseId,
   });
 };

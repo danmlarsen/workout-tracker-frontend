@@ -1,8 +1,12 @@
 import { type TExercise } from "../exercises/types";
 
 export type TWorkoutsQuery = {
-  results: TWorkoutSummary[];
-  nextCursor: number;
+  success: boolean;
+  meta: {
+    hasNextPage: boolean;
+    nextCursor: number;
+  };
+  data: TWorkoutSummary[];
 };
 
 export type TWorkoutSummary = Omit<TWorkout, "workoutExercises"> & {

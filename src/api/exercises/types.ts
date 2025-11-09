@@ -24,8 +24,12 @@ export type TCreateExerciseDto = {
 };
 
 export type TExercisesQuery = {
-  results: TExercise[];
-  nextCursor: number;
+  success: boolean;
+  meta: {
+    hasNextPage: boolean;
+    nextCursor: number;
+  };
+  data: TExercise[];
 };
 
 export type TExercisesQueryFilters = {
@@ -35,8 +39,12 @@ export type TExercisesQueryFilters = {
 };
 
 export type TExerciseWorkoutsQuery = {
-  results: TExerciseWorkouts[];
-  nextCursor: number;
+  success: boolean;
+  meta: {
+    hasNextPage: boolean;
+    nextCursor: number;
+  };
+  data: TExerciseWorkouts[];
 };
 
 export type TExerciseWorkouts = Omit<TWorkout, "workoutExercises"> & {

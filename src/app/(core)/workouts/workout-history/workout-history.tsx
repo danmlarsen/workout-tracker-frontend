@@ -64,13 +64,13 @@ export default function WorkoutHistory() {
               )}
             {isSuccess &&
               data.pages.map((group) =>
-                group.results.map((workout) => (
+                group.data.map((workout) => (
                   <WorkoutHistoryItem key={workout.id} workout={workout} />
                 )),
               )}
             {isSuccess &&
               data.pages.length > 0 &&
-              data.pages[0].results.length === 0 && (
+              data.pages[0].data.length === 0 && (
                 <p className="text-muted-foreground">
                   {selectedDate
                     ? `No workout history found for this date.`

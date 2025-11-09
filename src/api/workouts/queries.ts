@@ -31,7 +31,7 @@ export function useCompletedWorkouts(selectedDate?: Date) {
       );
     },
     initialPageParam: undefined,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: (lastPage) => lastPage.meta.nextCursor,
   });
 }
 

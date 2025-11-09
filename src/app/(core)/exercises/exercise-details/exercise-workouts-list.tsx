@@ -46,7 +46,7 @@ export default function ExerciseWorkoutsList({
           ))}
         {isSuccess &&
           data.pages.map((group) =>
-            group.results.map((workout) => (
+            group.data.map((workout) => (
               <li key={workout.id}>
                 <ExerciseWorkoutsItem workout={workout} exercise={exercise} />
               </li>
@@ -54,7 +54,7 @@ export default function ExerciseWorkoutsList({
           )}
         {isSuccess &&
           data.pages.length > 0 &&
-          data.pages[0].results.length === 0 && (
+          data.pages[0].data.length === 0 && (
             <p className="text-muted-foreground text-center">
               No workout history found for this exercise.
             </p>

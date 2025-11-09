@@ -69,7 +69,7 @@ export default function ExercisesList({
             ))}
           {isSuccess &&
             data.pages.map((group) =>
-              group.results.map((exercise) => (
+              group.data.map((exercise) => (
                 <ExerciseItem
                   key={exercise.id}
                   exercise={exercise}
