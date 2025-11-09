@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "./logo";
 
 const navItems = [
   { label: "Home", href: "/", icon: HomeIcon },
@@ -23,8 +24,11 @@ export default function Navigation() {
   return (
     <>
       <div className="h-16 lg:hidden" />
-      <nav className="bg-sidebar text-sidebar-foreground border-background fixed inset-x-0 bottom-0 lg:inset-x-auto lg:inset-y-0 lg:w-[250px] lg:py-10">
-        <div className="mx-auto grid h-16 max-w-lg">
+      <aside className="bg-sidebar text-sidebar-foreground border-background fixed inset-x-0 bottom-0 lg:inset-x-auto lg:inset-y-0 lg:w-[250px] lg:py-6">
+        <div className="hidden px-4 pb-10 lg:block">
+          <Logo className="w-full max-w-40" />
+        </div>
+        <nav className="mx-auto grid h-16 max-w-lg lg:h-auto">
           <ul className="grid grid-cols-4 lg:flex lg:flex-col lg:gap-4">
             {navItems.map((navItem) => (
               <li key={navItem.label} className="grid">
@@ -43,8 +47,8 @@ export default function Navigation() {
               </li>
             ))}
           </ul>
-        </div>
-      </nav>
+        </nav>
+      </aside>
     </>
   );
 }

@@ -15,12 +15,10 @@ export default function Logo({
   return (
     <Link href="/">
       <svg
-        width="256"
-        height="58"
         viewBox="0 0 256 58"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={cn("", className)}
+        className={cn("h-auto w-[16rem]", className)}
         {...props}
       >
         <g id="Logo">
