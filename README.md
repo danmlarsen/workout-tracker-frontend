@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NextLift Workout Tracker - Frontend
 
-## Getting Started
+## About
 
-First, run the development server:
+NextLift is a workout tracking application that helps users log exercises, track personal records, and monitor their progress over time. Built with modern web technologies, it provides an intuitive interface for creating custom workouts, recording sets and reps, and visualizing fitness achievements.
+
+Frontend for the NextLift workout tracking application built with Next.js and TypeScript.
+
+## Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: TailwindCSS v4
+- **State Management**: TanStack Query (React Query)
+- **UI Components**: Radix UI + shadcn/ui
+- **Forms**: React Hook Form + Zod validation
+- **Authentication**: JWT with refresh tokens
+- **Package Manager**: pnpm
+
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Set up environment variables
+cp .env.local.example .env.local
+
+# Start development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be available at `http://localhost:3002`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Development with Turbopack
+pnpm dev
 
-## Learn More
+# Build for production
+pnpm build
 
-To learn more about Next.js, take a look at the following resources:
+# Start production server
+pnpm start
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Lint code
+pnpm lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+- `src/app/` - Next.js App Router pages and layouts
+- `src/components/` - Reusable UI components
+- `src/api/` - API client and data fetching logic
+- `src/hooks/` - Custom React hooks
+- `src/lib/` - Utility functions and constants
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Authentication
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The app uses JWT authentication with automatic token refresh. Routes are protected using the `<AuthGuard>` component.
+
+## API Integration
+
+All API calls use the auth-aware client from `useApiClient()` hook, which handles automatic token refresh and error handling.
