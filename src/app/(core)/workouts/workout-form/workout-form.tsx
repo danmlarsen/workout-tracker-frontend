@@ -61,8 +61,7 @@ export default function WorkoutForm({
   const hasIncompleteSets =
     workout.workoutExercises?.filter(
       (workoutExercise) =>
-        workoutExercise.workoutSets?.filter((set) => !set.completedAt).length >
-        0,
+        workoutExercise.workoutSets?.filter((set) => !set.completed).length > 0,
     ).length > 0;
 
   const workoutTitle = parseWorkoutTitle(workout);

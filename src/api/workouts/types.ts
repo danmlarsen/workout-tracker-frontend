@@ -19,7 +19,7 @@ export type TWorkoutExerciseSummary = {
 
 export type TWorkoutExerciseBestSet = Pick<
   TWorkoutSet,
-  "type" | "completedAt" | "reps" | "weight" | "duration"
+  "type" | "completed" | "reps" | "weight" | "duration"
 >;
 
 export type TWorkout = {
@@ -56,7 +56,7 @@ export type TWorkoutSet = {
   workoutExerciseId: number;
   createdAt: string;
   updatedAt: string;
-  completedAt: string | null;
+  completed: boolean;
   reps: number | null;
   weight: number | null;
   duration: number | null;

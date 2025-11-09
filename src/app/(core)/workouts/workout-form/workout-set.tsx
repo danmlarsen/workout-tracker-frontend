@@ -4,17 +4,29 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import WorkoutSetOptionsButton from "./workout-set-options-button";
 import { useWorkoutFormContext } from "./workout-form";
 import { useMutationState } from "@tanstack/react-query";
 
-const parseToNumberOrNull = (value: string): number | null => {
+const parseWorkoutValue = (
+  value: string,
+  max: number,
+  shouldTruncate = false,
+): number | null => {
   if (value.trim() === "") return null;
+
   const parsed = parseInt(value, 10);
-  return isNaN(parsed) ? null : parsed;
+  if (isNaN(parsed) || parsed < 1) return null;
+
+  const clamped = Math.min(max, parsed);
+  return shouldTruncate ? Math.trunc(clamped) : clamped;
 };
+
+const parseReps = (value: string) => parseWorkoutValue(value, 999, true);
+const parseWeight = (value: string) => parseWorkoutValue(value, 9999);
+const parseDuration = (value: string) => parseWorkoutValue(value, 9999);
 
 type TWorkoutSetProps = {
   workoutSet: TWorkoutSet;
@@ -29,7 +41,7 @@ export default function WorkoutSet({
   previousSet,
   placeholderSet,
 }: TWorkoutSetProps) {
-  const [isChecked, setIsChecked] = useState(!!workoutSet.completedAt);
+  const [isChecked, setIsChecked] = useState(workoutSet.completed);
   const [weight, setWeight] = useState(workoutSet.weight?.toString() || "");
   const [reps, setReps] = useState(workoutSet.reps?.toString() || "");
   const [duration, setDuration] = useState(
@@ -40,7 +52,7 @@ export default function WorkoutSet({
 
   const workoutId = workout.id;
 
-  const { mutate, isPending } = useUpdateWorkoutSet(isActiveWorkout);
+  const { mutate } = useUpdateWorkoutSet(isActiveWorkout);
   const updateWorkoutSet = (payload: TWorkoutSetDto) =>
     mutate({
       workoutId,
@@ -48,22 +60,6 @@ export default function WorkoutSet({
       setId: workoutSet.id,
       data: payload,
     });
-
-  // Sync local state with prop changes (from optimistic updates)
-  useEffect(() => {
-    if (!isPending) {
-      setIsChecked(!!workoutSet.completedAt);
-      setWeight(workoutSet.weight?.toString() || "");
-      setReps(workoutSet.reps?.toString() || "");
-      setDuration(workoutSet.duration?.toString() || "");
-    }
-  }, [
-    workoutSet.completedAt,
-    workoutSet.weight,
-    workoutSet.reps,
-    workoutSet.duration,
-    isPending,
-  ]);
 
   const isPendingDelete = useMutationState({
     filters: {
@@ -77,18 +73,18 @@ export default function WorkoutSet({
     (weight: number | null) => {
       updateWorkoutSet({ weight });
     },
-    200,
+    500,
   );
 
   const debouncedUpdateReps = useDebouncedCallback((reps: number | null) => {
     updateWorkoutSet({ reps });
-  }, 200);
+  }, 500);
 
   const debouncedUpdateDuration = useDebouncedCallback(
     (duration: number | null) => {
       updateWorkoutSet({ duration });
     },
-    200,
+    500,
   );
 
   function handleCheckedChange(checkedChange: boolean) {
@@ -98,9 +94,9 @@ export default function WorkoutSet({
     debouncedUpdateReps.cancel();
     debouncedUpdateDuration.cancel();
 
-    const numericWeight = parseToNumberOrNull(weight);
-    const numericReps = parseToNumberOrNull(reps);
-    const numericDuration = parseToNumberOrNull(duration);
+    const numericWeight = parseWeight(weight);
+    const numericReps = parseReps(reps);
+    const numericDuration = parseDuration(duration);
 
     const payload = {
       weight: numericWeight || placeholderSet?.weight || null,
@@ -114,12 +110,12 @@ export default function WorkoutSet({
       exerciseCategory === "strength" &&
       (!payload.weight || !payload.reps)
     ) {
-      setIsChecked(!!workoutSet.completedAt);
+      setIsChecked(workoutSet.completed);
       return;
     }
 
     if (checkedChange && exerciseCategory === "cardio" && !payload.duration) {
-      setIsChecked(!!workoutSet.completedAt);
+      setIsChecked(workoutSet.completed);
       return;
     }
 
@@ -127,42 +123,52 @@ export default function WorkoutSet({
   }
 
   function handleWeightChange(value: string) {
-    setWeight(value);
-    const numericValue = parseToNumberOrNull(value);
-    debouncedUpdateWeight(numericValue);
+    // Only allow empty string or valid numbers up to 4 digits
+    if (value === "" || (/^\d{1,4}$/.test(value) && parseInt(value) <= 9999)) {
+      setWeight(value);
+      const numericValue = parseWeight(value);
+      debouncedUpdateWeight(numericValue);
+    }
+    // Invalid input is simply ignored
   }
 
   function handleWeightBlur() {
     debouncedUpdateWeight.cancel();
-    const numericValue = parseToNumberOrNull(weight);
+    const numericValue = parseWeight(weight);
     if (numericValue !== workoutSet.weight) {
       updateWorkoutSet({ weight: numericValue });
     }
   }
 
   function handleRepsChange(value: string) {
-    setReps(value);
-    const numericValue = parseToNumberOrNull(value);
-    debouncedUpdateReps(numericValue);
+    // Only allow empty string or valid numbers up to 3 digits
+    if (value === "" || (/^\d{1,3}$/.test(value) && parseInt(value) <= 999)) {
+      setReps(value);
+      const numericValue = parseReps(value);
+      debouncedUpdateReps(numericValue);
+    }
   }
 
   function handleRepsBlur() {
     debouncedUpdateReps.cancel();
-    const numericValue = parseToNumberOrNull(reps);
+    const numericValue = parseReps(reps);
     if (numericValue !== workoutSet.reps) {
       updateWorkoutSet({ reps: numericValue });
     }
   }
 
   function handleDurationChange(value: string) {
-    setDuration(value);
-    const numericValue = parseToNumberOrNull(value);
-    debouncedUpdateDuration(numericValue);
+    // Only allow empty string or valid numbers up to 4 digits
+    if (value === "" || (/^\d{1,4}$/.test(value) && parseInt(value) <= 9999)) {
+      setDuration(value);
+      const numericValue = parseDuration(value);
+      debouncedUpdateDuration(numericValue);
+    }
   }
 
   function handleDurationBlur() {
     debouncedUpdateDuration.cancel();
-    const numericValue = parseToNumberOrNull(duration);
+    const numericValue = parseDuration(duration);
     if (numericValue !== workoutSet.duration) {
       updateWorkoutSet({ duration: numericValue });
     }

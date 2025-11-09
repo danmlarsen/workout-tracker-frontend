@@ -171,7 +171,7 @@ export function getPlaceholderWorkoutSet(
     // Filter for completed sets with data (weight/reps or duration)
     const completedSets = currentWorkoutSets.filter(
       (set) =>
-        set.completedAt &&
+        set.completed &&
         ((set.weight && set.reps && set.weight > 0 && set.reps > 0) ||
           (set.duration && set.duration > 0)),
     );

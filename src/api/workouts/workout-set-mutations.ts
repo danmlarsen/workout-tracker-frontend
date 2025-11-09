@@ -84,9 +84,6 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
                       ? {
                           ...set,
                           ...variables.data,
-                          completedAt: variables.data.completed
-                            ? new Date().toISOString()
-                            : null,
                         }
                       : set,
                   ),
