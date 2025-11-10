@@ -53,7 +53,7 @@ export function ResponsiveModal({
             <SheetDescription>{description}</SheetDescription>
           </SheetHeader>
           <div
-            className={cn("overflow-y-auto pt-6", className)}
+            className={cn("overflow-y-auto py-6", className)}
             ref={scrollParentRef}
           >
             {content}
