@@ -7,6 +7,7 @@ import WorkoutForm from "../workout-form/workout-form";
 import { useWorkout } from "@/api/workouts/queries";
 import { parseWorkoutTitle } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
+import { useInvalidateWorkout } from "@/api/workouts/workout-mutations";
 
 type WorkoutModalProviderContextValue = {
   openWorkout: (workoutId: number, editing?: boolean) => void;
@@ -23,6 +24,7 @@ export default function WorkoutModalProvider({
   const [isOpen, setIsOpen] = useSearchParamState("workout-modal");
   const [workoutId, setWorkoutId] = useState<number | null>(null);
   const [isEditing, setIsEditing] = useState(true);
+  const invalidateWorkout = useInvalidateWorkout();
 
   const {
     data: workout,
@@ -36,7 +38,10 @@ export default function WorkoutModalProvider({
     setIsOpen(true);
   };
 
-  const closeWorkout = () => {
+  const closeWorkout = async () => {
+    if (workoutId) {
+      await invalidateWorkout(workoutId);
+    }
     setIsOpen(false);
     // Clean up state when modal closes
     setTimeout(() => {

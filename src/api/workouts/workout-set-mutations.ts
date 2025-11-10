@@ -29,9 +29,6 @@ export function useAddWorkoutSet(isActiveWorkout?: boolean) {
           ["workout", { id: vars.workoutId }],
           updatedWorkout,
         );
-        await queryClient.invalidateQueries({
-          queryKey: ["workouts"],
-        });
       }
     },
   });
@@ -112,9 +109,6 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
           ["workout", { id: vars.workoutId }],
           updatedWorkout,
         );
-        await queryClient.invalidateQueries({
-          queryKey: ["workouts"],
-        });
       }
     },
   });
@@ -149,9 +143,6 @@ export function useDeleteWorkoutSet(isActiveWorkout?: boolean) {
           ["workout", { id: vars.workoutId }],
           updatedWorkout,
         );
-        await queryClient.invalidateQueries({
-          queryKey: ["workouts"],
-        });
       }
     },
   });

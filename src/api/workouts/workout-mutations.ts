@@ -22,6 +22,17 @@ export function useCreateDraftWorkout() {
   });
 }
 
+export function useInvalidateWorkout() {
+  const queryClient = useQueryClient();
+
+  return async (id?: number) => {
+    if (id) {
+      await queryClient.invalidateQueries({ queryKey: ["workout", { id }] });
+      await queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    }
+  };
+}
+
 export function useCreateActiveWorkout() {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
