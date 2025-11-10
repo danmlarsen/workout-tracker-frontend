@@ -205,7 +205,7 @@ export default function WorkoutSet({
             onChange={(e) => handleWeightChange(e.target.value)}
             onBlur={handleWeightBlur}
             disabled={isChecked || isPendingDelete}
-            className="h-9"
+            className="h-9 text-center"
           />
         )}
       </TableCell>
@@ -220,7 +220,7 @@ export default function WorkoutSet({
             onChange={(e) => handleRepsChange(e.target.value)}
             onBlur={handleRepsBlur}
             disabled={isChecked || isPendingDelete}
-            className="h-9"
+            className="h-9 text-center"
           />
         )}
         {exerciseCategory === "cardio" && (
@@ -233,7 +233,7 @@ export default function WorkoutSet({
             onChange={(e) => handleDurationChange(e.target.value)}
             onBlur={handleDurationBlur}
             disabled={isChecked || isPendingDelete}
-            className="h-9"
+            className="h-9 text-center"
           />
         )}
       </TableCell>
