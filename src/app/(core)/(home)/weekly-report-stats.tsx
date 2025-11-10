@@ -3,15 +3,16 @@
 import { useWorkoutWeeklyStats } from "@/api/workouts/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCompactNumber, formatNumber, formatWeight } from "@/lib/utils";
-import { endOfWeek, startOfWeek } from "date-fns";
+import { endOfWeek, startOfWeek, subWeeks } from "date-fns";
 import { Calendar1Icon } from "lucide-react";
 import WeeklyReportButton from "./weekly-report-button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function WeeklyReportStats() {
   const now = new Date();
-  const from = startOfWeek(now, { weekStartsOn: 1 });
-  const to = endOfWeek(now, { weekStartsOn: 1 });
+  const previousWeek = subWeeks(now, 1); // Get previous week
+  const from = startOfWeek(previousWeek, { weekStartsOn: 1 });
+  const to = endOfWeek(previousWeek, { weekStartsOn: 1 });
 
   const { data, isLoading, isSuccess, isError } = useWorkoutWeeklyStats(
     from,
