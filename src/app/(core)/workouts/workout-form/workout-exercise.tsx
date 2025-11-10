@@ -160,7 +160,11 @@ export default function WorkoutExercise({
       </Table>
 
       {isEditing && (
-        <Button onClick={handleAddWorkoutSet} className="w-full">
+        <Button
+          onClick={handleAddWorkoutSet}
+          className="w-full"
+          variant="outline"
+        >
           + Add set
         </Button>
       )}

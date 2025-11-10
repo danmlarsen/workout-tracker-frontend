@@ -64,8 +64,6 @@ export default function WorkoutForm({
         workoutExercise.workoutSets?.filter((set) => !set.completed).length > 0,
     ).length > 0;
 
-  const workoutTitle = parseWorkoutTitle(workout);
-
   function handleCompleteWorkout() {
     onSuccess?.();
     completeWorkout.mutate(workout.id);
@@ -120,7 +118,7 @@ export default function WorkoutForm({
         exercise={selectedWorkoutExercise}
       />
 
-      <div className="space-y-8">
+      <div className="space-y-4">
         <div className="flex items-center justify-between">
           {workout.status === "ACTIVE" && (
             <>
@@ -161,7 +159,7 @@ export default function WorkoutForm({
         </div>
 
         <div className="flex items-center justify-between">
-          <h1>{workoutTitle}</h1>
+          <h1 className="text-xl font-bold">{parseWorkoutTitle(workout)}</h1>
           {isEditing && (
             <EditWorkoutNameButton
               workout={workout}
