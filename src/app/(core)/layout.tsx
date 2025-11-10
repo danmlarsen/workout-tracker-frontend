@@ -15,10 +15,14 @@ export default function CoreLayout({
   return (
     <AuthGuard>
       <ActiveWorkoutProvider>
-        <div className="min-h-screen">
-          <div className="p-4">
-            <div className="mx-auto max-w-lg">{children}</div>
+        <div className="grid min-h-screen lg:grid-cols-[auto_1fr]">
+          <div className="hidden w-[16rem] lg:block"></div>
+
+          <div className="p-4 lg:p-8">
+            <div className="mx-auto max-w-5xl">{children}</div>
           </div>
+
+          <div className="h-16 lg:hidden" />
 
           <ActiveWorkoutView />
           <Navigation />

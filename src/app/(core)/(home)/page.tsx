@@ -9,10 +9,16 @@ export default function HomePage() {
       <div className="flex min-h-12 items-center justify-between">
         <h1 className="text-xl font-bold">Home</h1>
       </div>
-      <NewWorkoutButton />
-      <AddWorkoutButton className="w-full">Add Workout</AddWorkoutButton>
-      <LifetimeWorkoutsStats />
-      <WeeklyReportStats />
+      <div className="grid gap-4 sm:grid-cols-[1fr_20rem] sm:gap-8">
+        <div className="space-y-4 sm:col-start-2 sm:row-start-1">
+          <NewWorkoutButton />
+          <AddWorkoutButton className="w-full">Add Workout</AddWorkoutButton>
+        </div>
+        <div className="space-y-4 sm:col-start-1 sm:row-start-1">
+          <LifetimeWorkoutsStats />
+          <WeeklyReportStats />
+        </div>
+      </div>
     </div>
   );
 }
