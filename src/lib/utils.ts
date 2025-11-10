@@ -198,8 +198,8 @@ export function parseWorkoutTitle(
 ) {
   return workout.title
     ? workout.title
-    : new Date(workout.startedAt).toLocaleDateString(undefined, {
-        month: "long",
+    : new Date(workout.startedAt).toLocaleDateString("en-US", {
+        month: "short",
         day: "numeric",
       }) + " Workout";
 }
