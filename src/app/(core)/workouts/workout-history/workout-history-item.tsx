@@ -20,6 +20,7 @@ import { CheckCircleIcon, ClockIcon, WeightIcon } from "lucide-react";
 import { formatBestSet, formatTime, parseWorkoutTitle } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkoutModal } from "./workout-modal-provider";
+import { Button } from "@/components/ui/button";
 
 export default function WorkoutHistoryItem({
   workout,
@@ -39,9 +40,13 @@ export default function WorkoutHistoryItem({
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="sr-only">{workoutTitle}</CardTitle>
-            <button onClick={() => openWorkout(workout.id, false)}>
+            <Button
+              onClick={() => openWorkout(workout.id, false)}
+              variant="link"
+              className="px-0 font-bold lg:text-xl"
+            >
               {workoutTitle}
-            </button>
+            </Button>
             <WorkoutHistoryItemDropdownMenu
               workoutId={id}
               onClickEdit={() => openWorkout(workout.id)}
@@ -49,21 +54,23 @@ export default function WorkoutHistoryItem({
           </div>
           <CardDescription>{formatDate(startedAt, "EEEE PP")}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between gap-4 text-sm">
+        <CardContent className="space-y-4 lg:space-y-8">
+          <div className="flex items-center justify-between gap-4 text-sm lg:text-base">
             {!!workoutDuration && (
               <div className="flex items-center gap-2">
-                <ClockIcon size={16} /> <span>{workoutDuration}</span>
+                <ClockIcon className="size-4 lg:size-6" />{" "}
+                <span>{workoutDuration}</span>
               </div>
             )}
             {!!workout.totalWeight && (
               <div className="flex items-center gap-2">
-                <WeightIcon size={16} /> <span>{workout.totalWeight}kg</span>
+                <WeightIcon className="size-4 lg:size-6" />{" "}
+                <span>{workout.totalWeight}kg</span>
               </div>
             )}
             {!!workout.totalCompletedSets && (
               <div className="flex items-center gap-2">
-                <CheckCircleIcon size={16} />{" "}
+                <CheckCircleIcon className="size-4 lg:size-6" />{" "}
                 <span>{workout.totalCompletedSets} sets</span>
               </div>
             )}

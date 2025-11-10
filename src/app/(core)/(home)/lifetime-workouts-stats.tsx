@@ -17,26 +17,26 @@ export default function LifetimeWorkoutsStats() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <ClockIcon size={16} />
+          <ClockIcon className="size-4 lg:size-6" />
           <span>Lifetime Workouts</span>
         </CardTitle>
       </CardHeader>
       {isSuccess && (
         <CardContent className="grid grid-cols-3 text-center">
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-3xl font-bold">
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <p className="text-3xl font-bold lg:text-4xl">
               {formatNumber(data.totalWorkouts)}
             </p>
             <p className="text-muted-foreground">Workouts</p>
           </div>
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-3xl font-bold">
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <p className="text-3xl font-bold lg:text-4xl">
               {formatCompactNumber(data.totalHours)}
             </p>
             <p className="text-muted-foreground">Hours</p>
           </div>
-          <div className="flex flex-col items-center justify-center">
-            <p className="relative text-3xl font-bold">
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <p className="relative text-3xl font-bold lg:text-4xl">
               {formatWeight(data.totalWeightLifted)}{" "}
               <span className="text-muted-foreground absolute top-0 -right-5 text-sm font-light">
                 kg
