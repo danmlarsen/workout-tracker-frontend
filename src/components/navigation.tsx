@@ -1,21 +1,16 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import {
-  BookOpenIcon,
-  DumbbellIcon,
-  HomeIcon,
-  SettingsIcon,
-} from "lucide-react";
+import { BookOpenIcon, DumbbellIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "./logo";
+import SettingsButton from "./settings/settings-button";
 
 const navItems = [
   { label: "Home", href: "/", icon: HomeIcon },
   { label: "Workouts", href: "/workouts", icon: BookOpenIcon },
   { label: "Exercises", href: "/exercises", icon: DumbbellIcon },
-  { label: "Settings", href: "/settings", icon: SettingsIcon },
 ];
 
 export default function Navigation() {
@@ -44,6 +39,9 @@ export default function Navigation() {
               </Link>
             </li>
           ))}
+          <li className="grid place-items-center lg:justify-start">
+            <SettingsButton />
+          </li>
         </ul>
       </nav>
     </aside>

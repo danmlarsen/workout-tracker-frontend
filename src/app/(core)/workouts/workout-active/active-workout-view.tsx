@@ -7,7 +7,7 @@ import Timer from "@/components/ui/timer";
 import DeleteActiveWorkoutDialog from "./delete-active-workout-dialog";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { useState } from "react";
-import { ExpandIcon, MaximizeIcon, XIcon } from "lucide-react";
+import { MaximizeIcon, XIcon } from "lucide-react";
 import { parseWorkoutTitle } from "@/lib/utils";
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
 
