@@ -38,16 +38,11 @@ export default function WorkoutModalProvider({
     setIsOpen(true);
   };
 
-  const closeWorkout = async () => {
-    if (workoutId) {
-      await invalidateWorkout(workoutId);
-    }
+  const closeWorkout = () => {
     setIsOpen(false);
-    // Clean up state when modal closes
-    setTimeout(() => {
-      setWorkoutId(null);
-      setIsEditing(true);
-    }, 200); // Small delay to allow close animation
+    if (workoutId) {
+      invalidateWorkout(workoutId);
+    }
   };
 
   const toggleEdit = () => {
