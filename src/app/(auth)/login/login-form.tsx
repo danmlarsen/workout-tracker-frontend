@@ -18,11 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-
-const loginSchema = z.object({
-  email: z.email(),
-  password: z.string().min(1, "Please enter a password"),
-});
+import { loginSchema } from "@/validation/loginSchema";
 
 export default function LoginForm() {
   const [isPending, setIsPending] = useState(false);

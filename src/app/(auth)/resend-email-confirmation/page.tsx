@@ -26,23 +26,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-const schema = z.object({
-  email: z.email(),
-});
+import { emailConfirmationSchema } from "@/validation/emailConfirmationSchema";
 
 export default function ResendEmailConfirmation() {
   const [emailSent, setEmailSent] = useState(false);
   const { resendEmailConfirmation } = useAuth();
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<z.infer<typeof emailConfirmationSchema>>({
+    resolver: zodResolver(emailConfirmationSchema),
     defaultValues: {
       email: "",
     },
   });
   const router = useRouter();
 
-  const handleSubmit = async (data: z.infer<typeof schema>) => {
+  const handleSubmit = async (
+    data: z.infer<typeof emailConfirmationSchema>,
+  ) => {
     const response = await resendEmailConfirmation(data.email);
 
     setEmailSent(true);

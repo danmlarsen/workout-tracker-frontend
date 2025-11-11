@@ -18,18 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { passwordSchema } from "@/validation/passwordSchema";
-
-const registerSchema = z
-  .object({
-    email: z.email(),
-    password: passwordSchema,
-    passwordConfirm: z.string(),
-  })
-  .refine((data) => data.password === data.passwordConfirm, {
-    message: "Passwords dont match",
-    path: ["passwordConfirm"],
-  });
+import { registerSchema } from "@/validation/registerSchema";
 
 export default function RegisterForm() {
   const [isPending, setIsPending] = useState(false);

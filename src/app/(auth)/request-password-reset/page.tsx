@@ -25,10 +25,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-const passwordResetSchema = z.object({
-  email: z.email(),
-});
+import { passwordResetSchema } from "@/validation/passwordResetSchema";
 
 export default function ResetPasswordPage() {
   const form = useForm<z.infer<typeof passwordResetSchema>>({
