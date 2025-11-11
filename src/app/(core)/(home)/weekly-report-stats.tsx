@@ -1,16 +1,19 @@
 "use client";
 
+import { endOfWeek, startOfWeek, subWeeks } from "date-fns";
+import { Calendar1Icon } from "lucide-react";
+
 import { useWorkoutWeeklyStats } from "@/api/workouts/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCompactNumber, formatNumber, formatWeight } from "@/lib/utils";
-import { endOfWeek, startOfWeek, subWeeks } from "date-fns";
-import { Calendar1Icon } from "lucide-react";
 import WeeklyReportButton from "./weekly-report-button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DATE_LOCALE } from "@/lib/constants";
 
 export default function WeeklyReportStats() {
+  const dateLocale = DATE_LOCALE;
   const now = new Date();
-  const previousWeek = subWeeks(now, 1); // Get previous week
+  const previousWeek = subWeeks(now, 1);
   const from = startOfWeek(previousWeek, { weekStartsOn: 1 });
   const to = endOfWeek(previousWeek, { weekStartsOn: 1 });
 
@@ -29,12 +32,12 @@ export default function WeeklyReportStats() {
         <CardTitle className="flex items-center gap-2">
           <Calendar1Icon className="size-4 lg:size-6" />
           <span>
-            {from.toLocaleDateString("en-US", {
+            {from.toLocaleDateString(dateLocale, {
               month: "short",
               day: "numeric",
             })}{" "}
             -{" "}
-            {to.toLocaleDateString("en-US", {
+            {to.toLocaleDateString(dateLocale, {
               month: "short",
               day: "numeric",
             })}

@@ -1,8 +1,10 @@
 "use client";
+
+import { useState } from "react";
+import { ChevronRightIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
-import { ChevronRightIcon } from "lucide-react";
-import { useState } from "react";
 
 export default function WeeklyReportButton() {
   const [isOpen, setIsOpen] = useState(false);

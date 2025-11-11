@@ -1,17 +1,18 @@
 "use client";
 
-import { type TExercisesQueryFilters } from "@/api/exercises/types";
-import { type TEquipment, type TMuscleGroup } from "@/lib/constants";
 import { useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
+
+import { type TExercisesQueryFilters } from "@/api/exercises/types";
+import { type TEquipment, type TMuscleGroup } from "@/lib/constants";
 import ExercisesFilters from "./exercises-filters";
 import ExercisesList from "./exercises-list";
 
-export default function ExercisesView({
-  onExerciseClick,
-}: {
+interface ExercisesViewProps {
   onExerciseClick?: (id: number) => void;
-}) {
+}
+
+export default function ExercisesView({ onExerciseClick }: ExercisesViewProps) {
   const [nameFilter, setNameFilter] = useState("");
   const [selectedMuscleGroups, setSelectedMuscleGroups] = useState<
     TMuscleGroup[]

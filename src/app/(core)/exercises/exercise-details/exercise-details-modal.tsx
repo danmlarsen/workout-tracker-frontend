@@ -1,18 +1,22 @@
 "use client";
+
+import { useRef } from "react";
+
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import ExerciseDetails from "./exercise-details";
 import { TExercise } from "@/api/exercises/types";
-import { useRef } from "react";
+
+interface ExerciseDetailsModalProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  exercise?: TExercise;
+}
 
 export default function ExerciseDetailsModal({
   isOpen,
   onOpenChange,
   exercise,
-}: {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  exercise?: TExercise;
-}) {
+}: ExerciseDetailsModalProps) {
   const scrollParentRef = useRef<HTMLDivElement | null>(null);
 
   return (

@@ -15,6 +15,15 @@ import {
   TMuscleGroup,
 } from "@/lib/constants";
 
+interface ExercisesFiltersProps {
+  nameFilter: string;
+  selectedEquipment: TEquipment[];
+  selectedMuscleGroups: TMuscleGroup[];
+  onNameFilterChange: (name: string) => void;
+  onEquipmentChange: (equipment: TEquipment[]) => void;
+  onMuscleGroupsChange: (muscleGroups: TMuscleGroup[]) => void;
+}
+
 export default function ExercisesFilters({
   nameFilter,
   selectedEquipment,
@@ -22,14 +31,7 @@ export default function ExercisesFilters({
   onNameFilterChange,
   onEquipmentChange,
   onMuscleGroupsChange,
-}: {
-  nameFilter: string;
-  selectedEquipment: TEquipment[];
-  selectedMuscleGroups: TMuscleGroup[];
-  onNameFilterChange: (name: string) => void;
-  onEquipmentChange: (equipment: TEquipment[]) => void;
-  onMuscleGroupsChange: (muscleGroups: TMuscleGroup[]) => void;
-}) {
+}: ExercisesFiltersProps) {
   const toggleEquipment = (equipment: TEquipment) => {
     onEquipmentChange(
       selectedEquipment.includes(equipment)

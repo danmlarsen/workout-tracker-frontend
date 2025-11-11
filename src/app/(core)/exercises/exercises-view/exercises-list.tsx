@@ -1,36 +1,29 @@
 "use client";
 
+import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroller";
+
 import { useInfiniteExercises } from "@/api/exercises/queries";
 import { TExercise, type TExercisesQueryFilters } from "@/api/exercises/types";
-import InfiniteScroll from "react-infinite-scroller";
 import ExerciseItem, { ExerciseItemSkeleton } from "./exercise-item";
-import { useState } from "react";
 import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
-import { DEFAULT_LIST_ITEM_AMOUNT } from "@/lib/constants";
+import { EXERCISE_LIST_ITEM_AMOUNT } from "@/lib/constants";
 import { useSearchParamState } from "@/hooks/use-search-param-state";
+
+interface ExercisesListProps {
+  filters?: TExercisesQueryFilters;
+  onExerciseClick?: (id: number) => void;
+}
 
 export default function ExercisesList({
   filters,
   onExerciseClick,
-}: {
-  filters?: TExercisesQueryFilters;
-  onExerciseClick?: (id: number) => void;
-}) {
-  const [exerciseModalOpen, setExerciseModalOpen] =
-    useSearchParamState("exercise-modal");
+}: ExercisesListProps) {
   const [selectedExercise, setSelectedExercise] = useState<
     TExercise | undefined
   >();
-
-  const handleExerciseClick = (exercise: TExercise) => {
-    if (onExerciseClick) {
-      onExerciseClick(exercise.id);
-    } else {
-      setSelectedExercise(exercise);
-      setExerciseModalOpen(true);
-    }
-  };
-
+  const [exerciseModalOpen, setExerciseModalOpen] =
+    useSearchParamState("exercise-modal");
   const {
     data,
     fetchNextPage,
@@ -43,6 +36,15 @@ export default function ExercisesList({
   } = useInfiniteExercises({
     filters,
   });
+
+  const handleExerciseClick = (exercise: TExercise) => {
+    if (onExerciseClick) {
+      onExerciseClick(exercise.id);
+    } else {
+      setSelectedExercise(exercise);
+      setExerciseModalOpen(true);
+    }
+  };
 
   return (
     <>
@@ -64,9 +66,9 @@ export default function ExercisesList({
       >
         <ul>
           {isLoading &&
-            Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
-              <ExerciseItemSkeleton key={`initial-${index}`} />
-            ))}
+            Array.from({ length: EXERCISE_LIST_ITEM_AMOUNT }).map(
+              (_, index) => <ExerciseItemSkeleton key={`initial-${index}`} />,
+            )}
           {isSuccess &&
             data.pages.map((group) =>
               group.data.map((exercise) => (
@@ -78,9 +80,11 @@ export default function ExercisesList({
               )),
             )}
           {isFetchingNextPage &&
-            Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
-              <ExerciseItemSkeleton key={`loading-more-${index}`} />
-            ))}
+            Array.from({ length: EXERCISE_LIST_ITEM_AMOUNT }).map(
+              (_, index) => (
+                <ExerciseItemSkeleton key={`loading-more-${index}`} />
+              ),
+            )}
           {isError && (
             <p className="text-destructive">
               An unexpected error occurred while loading exercises. Please try

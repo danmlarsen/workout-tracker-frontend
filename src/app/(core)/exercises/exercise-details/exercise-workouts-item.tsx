@@ -1,3 +1,5 @@
+import { formatDate } from "date-fns";
+
 import { TExercise, TExerciseWorkouts } from "@/api/exercises/types";
 import {
   Card,
@@ -16,15 +18,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { parseWorkoutTitle } from "@/lib/utils";
-import { formatDate } from "date-fns";
+
+interface ExerciseWorkoutsItemProps {
+  workout: TExerciseWorkouts;
+  exercise: TExercise;
+}
 
 export default function ExerciseWorkoutsItem({
   workout,
   exercise,
-}: {
-  workout: TExerciseWorkouts;
-  exercise: TExercise;
-}) {
+}: ExerciseWorkoutsItemProps) {
   return (
     <Card>
       <CardHeader>

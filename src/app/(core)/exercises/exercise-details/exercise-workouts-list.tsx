@@ -1,20 +1,23 @@
 "use client";
 
+import InfiniteScroll from "react-infinite-scroller";
+
 import { useInfiniteExerciseWorkouts } from "@/api/exercises/queries";
 import { TExercise } from "@/api/exercises/types";
 import ExerciseWorkoutsItem, {
   ExerciseWorkoutsItemSkeleton,
 } from "./exercise-workouts-item";
-import InfiniteScroll from "react-infinite-scroller";
-import { DEFAULT_LIST_ITEM_AMOUNT } from "@/lib/constants";
+import { WORKOUT_LIST_ITEM_AMOUNT } from "@/lib/constants";
+
+interface ExerciseWorkoutsListProps {
+  exercise: TExercise;
+  scrollParentRef?: React.RefObject<HTMLDivElement | null>;
+}
 
 export default function ExerciseWorkoutsList({
   exercise,
   scrollParentRef,
-}: {
-  exercise: TExercise;
-  scrollParentRef?: React.RefObject<HTMLDivElement | null>;
-}) {
+}: ExerciseWorkoutsListProps) {
   const {
     data,
     fetchNextPage,
@@ -39,7 +42,7 @@ export default function ExerciseWorkoutsList({
     >
       <ul className="space-y-4 overflow-y-auto px-4 pb-6">
         {isLoading &&
-          Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
+          Array.from({ length: WORKOUT_LIST_ITEM_AMOUNT }).map((_, index) => (
             <li key={`initial-${index}`}>
               <ExerciseWorkoutsItemSkeleton />
             </li>
@@ -60,7 +63,7 @@ export default function ExerciseWorkoutsList({
             </p>
           )}
         {isFetchingNextPage &&
-          Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map((_, index) => (
+          Array.from({ length: WORKOUT_LIST_ITEM_AMOUNT }).map((_, index) => (
             <li key={`loading-more-${index}`}>
               <ExerciseWorkoutsItemSkeleton />
             </li>

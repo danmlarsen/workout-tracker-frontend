@@ -1,10 +1,11 @@
 "use client";
 
+import { ClockIcon } from "lucide-react";
+
 import { useWorkoutLifetimeStats } from "@/api/workouts/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCompactNumber, formatNumber, formatWeight } from "@/lib/utils";
-import { ClockIcon } from "lucide-react";
 
 export default function LifetimeWorkoutsStats() {
   const { data, isLoading, isSuccess, isError } = useWorkoutLifetimeStats();
