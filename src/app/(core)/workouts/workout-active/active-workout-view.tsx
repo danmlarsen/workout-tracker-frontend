@@ -1,20 +1,28 @@
 "use client";
 
+import { useState } from "react";
+import { MaximizeIcon, XIcon } from "lucide-react";
+
 import { useActiveWorkout } from "@/api/workouts/queries";
 import WorkoutForm from "@/app/(core)/workouts/workout-form/workout-form";
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/ui/timer";
 import DeleteActiveWorkoutDialog from "./delete-active-workout-dialog";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
-import { useState } from "react";
-import { MaximizeIcon, XIcon } from "lucide-react";
 import { parseWorkoutTitle } from "@/lib/utils";
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
+import { useDeleteActiveWorkout } from "@/api/workouts/workout-mutations";
 
 export default function ActiveWorkoutView() {
-  const { data: activeWorkout } = useActiveWorkout();
   const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
   const { activeWorkoutOpen, setActiveWorkoutOpen } = useActiveWorkoutContext();
+  const { data: activeWorkout } = useActiveWorkout();
+  const deleteActiveWorkout = useDeleteActiveWorkout();
+
+  const handleDeleteWorkoutConfirm = () => {
+    setActiveWorkoutOpen(false);
+    deleteActiveWorkout.mutate();
+  };
 
   return (
     <>
@@ -39,6 +47,7 @@ export default function ActiveWorkoutView() {
           <DeleteActiveWorkoutDialog
             isOpen={deleteWorkoutOpen}
             onOpenChanged={setDeleteWorkoutOpen}
+            onConfirm={handleDeleteWorkoutConfirm}
           />
 
           <div className="h-16 lg:hidden" />

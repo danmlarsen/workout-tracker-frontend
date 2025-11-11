@@ -10,15 +10,17 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+interface WorkoutNotesDeleteDialogProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+}
+
 export default function WorkoutNotesDeleteDialog({
   isOpen,
   onOpenChange,
   onConfirm,
-}: {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  onConfirm: () => void;
-}) {
+}: WorkoutNotesDeleteDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>

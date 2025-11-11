@@ -1,3 +1,9 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { useMutationState } from "@tanstack/react-query";
+import { ChevronRightIcon } from "lucide-react";
+
 import { type TWorkoutExercise } from "@/api/workouts/types";
 import WorkoutSet from "./workout-set";
 import {
@@ -17,42 +23,27 @@ import {
   findBestWorkoutSetWithIndex,
   getPlaceholderWorkoutSet,
 } from "@/lib/utils";
-import { useMemo, useState } from "react";
 import { TExercise } from "@/api/exercises/types";
-import { ChevronRightIcon } from "lucide-react";
 import WorkoutExerciseOptionsButton from "./workout-exercise-options-button";
 import WorkoutNotes from "./workout-notes";
 import { useWorkoutFormContext } from "./workout-form";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useMutationState } from "@tanstack/react-query";
 import { useAddWorkoutSet } from "@/api/workouts/workout-set-mutations";
 
-type TWorkoutExerciseProps = {
+interface WorkoutExerciseProps {
   workoutExercise: TWorkoutExercise;
   onOpenExercise: (exercise: TExercise) => void;
-};
+}
 
 export default function WorkoutExercise({
   workoutExercise,
   onOpenExercise,
-}: TWorkoutExerciseProps) {
+}: WorkoutExerciseProps) {
   const [notesOpen, setNotesOpen] = useState(false);
-
   const { isActiveWorkout, isEditing } = useWorkoutFormContext();
-
-  const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
+  const addWorkoutSet = useAddWorkoutSet(isActiveWorkout);
   const updateWorkoutExercise = useUpdateWorkoutExercise(isActiveWorkout);
   const deleteWorkoutExercise = useDeleteWorkoutExercise(isActiveWorkout);
-
-  const workoutSets = workoutExercise.workoutSets;
-  const previousWorkoutSets =
-    workoutExercise.previousWorkoutExercise?.workoutSets;
-
-  // Find the best performing set from current workout with its index
-  const bestCurrentSetInfo = useMemo(
-    () => findBestWorkoutSetWithIndex(workoutSets),
-    [workoutSets],
-  );
 
   // Track pending add set mutations for this specific exercise
   const pendingAddSetCount = useMutationState({
@@ -69,8 +60,18 @@ export default function WorkoutExercise({
     (variables) => variables?.workoutExerciseId === workoutExercise.id,
   ).length;
 
+  const { workoutSets } = workoutExercise;
+  const previousWorkoutSets =
+    workoutExercise.previousWorkoutExercise?.workoutSets;
+
+  // Find the best performing set from current workout with its index
+  const bestCurrentSetInfo = useMemo(
+    () => findBestWorkoutSetWithIndex(workoutSets),
+    [workoutSets],
+  );
+
   const handleAddWorkoutSet = () => {
-    addWorkoutSet({
+    addWorkoutSet.mutate({
       workoutId: workoutExercise.workoutId,
       workoutExerciseId: workoutExercise.id,
     });
@@ -97,8 +98,6 @@ export default function WorkoutExercise({
         </Button>
         {isEditing && (
           <WorkoutExerciseOptionsButton
-            workoutExercise={workoutExercise}
-            isActiveWorkout={isActiveWorkout}
             onOpenNotes={() => setNotesOpen(true)}
             onConfirmDelete={handleDeleteWorkoutExercise}
           />

@@ -1,5 +1,9 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import z from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,25 +23,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import z from "zod";
+import { notesSchema } from "@/validation/notesSchema";
 
-const notesSchema = z.object({
-  notes: z.string().max(200, "Max 200 characters"),
-});
+interface WorkoutNotesDialogProps {
+  notes: string | null;
+  isOpen: boolean;
+  onOpenChange: (newState: boolean) => void;
+  onConfirm: (newNotes: string) => void;
+}
 
 export default function WorkoutNotesDialog({
   notes,
   isOpen,
   onOpenChange,
   onConfirm,
-}: {
-  notes: string | null;
-  isOpen: boolean;
-  onOpenChange: (newState: boolean) => void;
-  onConfirm: (newNotes: string) => void;
-}) {
+}: WorkoutNotesDialogProps) {
   const form = useForm<z.infer<typeof notesSchema>>({
     resolver: zodResolver(notesSchema),
     defaultValues: {
@@ -45,10 +45,10 @@ export default function WorkoutNotesDialog({
     },
   });
 
-  function handleSubmit(data: z.infer<typeof notesSchema>) {
+  const handleSubmit = async (data: z.infer<typeof notesSchema>) => {
     onConfirm(data.notes);
     onOpenChange(false);
-  }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>

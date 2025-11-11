@@ -1,22 +1,23 @@
 "use client";
 
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { useActiveWorkout } from "@/api/workouts/queries";
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
 import { useCreateActiveWorkout } from "@/api/workouts/workout-mutations";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner";
 
 export default function NewWorkoutButton() {
-  const { data: activeWorkout } = useActiveWorkout();
-  const createWorkoutQuery = useCreateActiveWorkout();
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();
+  const { data: activeWorkout } = useActiveWorkout();
+  const createActiveWorkout = useCreateActiveWorkout();
 
-  function handleClick() {
+  const handleClick = () => {
     if (activeWorkout) {
       setActiveWorkoutOpen(true);
     } else {
-      createWorkoutQuery.mutate(undefined, {
+      createActiveWorkout.mutate(undefined, {
         onSuccess: () => {
           setActiveWorkoutOpen(true);
         },
@@ -27,15 +28,15 @@ export default function NewWorkoutButton() {
         },
       });
     }
-  }
+  };
 
   return (
     <Button
       onClick={handleClick}
       className="w-full"
-      disabled={createWorkoutQuery.isPending}
+      disabled={createActiveWorkout.isPending}
     >
-      {createWorkoutQuery.isPending && <Spinner />}
+      {createActiveWorkout.isPending && <Spinner />}
       {activeWorkout ? "Go to active workout" : "Start new Workout"}
     </Button>
   );

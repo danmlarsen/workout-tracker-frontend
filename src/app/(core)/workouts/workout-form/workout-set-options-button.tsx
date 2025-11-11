@@ -4,7 +4,7 @@ import {
   useDeleteWorkoutSet,
   useUpdateWorkoutSet,
 } from "@/api/workouts/workout-set-mutations";
-import { TWorkoutSet, WORKOUT_SET_TYPES } from "@/api/workouts/types";
+import { type TWorkoutSet, WORKOUT_SET_TYPES } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,16 +14,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useWorkoutFormContext } from "./workout-form";
 
+interface WorkoutSetOptionsButtonProps {
+  workoutSet: TWorkoutSet;
+}
+
 export default function WorkoutSetOptionsButton({
   workoutSet,
-}: {
-  workoutSet: TWorkoutSet;
-}) {
+}: WorkoutSetOptionsButtonProps) {
   const { workout, isActiveWorkout, isEditing } = useWorkoutFormContext();
-  const workoutId = workout.id;
-
   const updateWorkoutSet = useUpdateWorkoutSet(isActiveWorkout);
   const deleteWorkoutSet = useDeleteWorkoutSet(isActiveWorkout);
+
+  const workoutId = workout.id;
 
   return (
     <DropdownMenu>
@@ -60,9 +62,29 @@ export default function WorkoutSetOptionsButton({
                 })
               }
               variant="ghost"
-              className="capitalize"
+              className="flex gap-2 capitalize"
             >
-              {type} Set
+              {type === "normal" && (
+                <div className="bg-secondary-foreground flex size-8 items-center justify-center rounded-sm">
+                  {workoutSet.setNumber}
+                </div>
+              )}
+              {type === "warmup" && (
+                <div className="bg-secondary-foreground flex size-8 items-center justify-center rounded-sm text-amber-500">
+                  W
+                </div>
+              )}
+              {type === "dropset" && (
+                <div className="bg-secondary-foreground flex size-8 items-center justify-center rounded-sm text-blue-500">
+                  D
+                </div>
+              )}
+              {type === "failure" && (
+                <div className="bg-secondary-foreground flex size-8 items-center justify-center rounded-sm text-red-500">
+                  F
+                </div>
+              )}
+              <div>{type}</div>
             </Button>
           </DropdownMenuItem>
         ))}
@@ -77,7 +99,10 @@ export default function WorkoutSetOptionsButton({
             }
             variant="ghost"
           >
-            Remove Set
+            <div className="bg-secondary-foreground text-destructive flex size-8 items-center justify-center rounded-sm">
+              X
+            </div>
+            <div>Remove Set</div>
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>

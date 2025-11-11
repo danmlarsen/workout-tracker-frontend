@@ -1,5 +1,7 @@
 "use client";
 
+import { createContext, useContext, useState } from "react";
+
 import AddExerciseButton from "./add-exercise-button";
 import {
   useCompleteWorkout,
@@ -11,9 +13,8 @@ import WorkoutExercise from "./workout-exercise";
 import EditWorkoutNameButton from "./edit-workout-name-button";
 import Timer from "@/components/ui/timer";
 import { type TWorkout } from "@/api/workouts/types";
-import { createContext, useContext, useState } from "react";
 import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
-import { TExercise } from "@/api/exercises/types";
+import { type TExercise } from "@/api/exercises/types";
 import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
 import WorkoutNotes from "./workout-notes";
 import { parseWorkoutTitle } from "@/lib/utils";
@@ -23,13 +24,13 @@ import ExerciseDetailsModal from "../../exercises/exercise-details/exercise-deta
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
 import { Spinner } from "@/components/ui/spinner";
 
-type TWorkoutFormProps = {
+interface WorkoutFormProps {
   workout: TWorkout;
   onSuccess?: () => void;
   onClose?: () => void;
   onToggleEdit?: () => void;
   isEditing?: boolean;
-};
+}
 
 export type WorkoutFormContextValue = {
   workout: TWorkout;
@@ -45,20 +46,17 @@ export default function WorkoutForm({
   onClose,
   onToggleEdit,
   isEditing = true,
-}: TWorkoutFormProps) {
-  const isActiveWorkout = workout.status === "ACTIVE";
-
+}: WorkoutFormProps) {
   const [completeWorkoutDialogOpen, setCompleteWorkoutDialogOpen] =
     useState(false);
   const [workoutNotesOpen, setWorkoutNotesOpen] = useState(false);
   const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
-
   const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
   const [selectedWorkoutExercise, setSelectedWorkoutExercise] = useState<
     TExercise | undefined
   >();
-
   const completeWorkout = useCompleteWorkout();
+  const isActiveWorkout = workout.status === "ACTIVE";
   const updateWorkout = useUpdateWorkout(isActiveWorkout);
   const deleteActiveWorkout = useDeleteActiveWorkout();
   const { setActiveWorkoutOpen } = useActiveWorkoutContext();
@@ -69,38 +67,38 @@ export default function WorkoutForm({
         workoutExercise.workoutSets?.filter((set) => !set.completed).length > 0,
     ).length > 0;
 
-  function handleCompleteWorkout() {
+  const handleCompleteWorkout = () => {
     onSuccess?.();
     completeWorkout.mutate(workout.id);
-  }
+  };
 
-  function handleUpdateWorkoutName(newTitle?: string) {
+  const handleUpdateWorkoutName = (newTitle?: string) => {
     updateWorkout.mutate({
       workoutId: workout.id,
       data: { title: newTitle || null },
     });
-  }
+  };
 
-  function handleUpdateWorkoutDate(startedDate: Date) {
+  const handleUpdateWorkoutDate = (startedDate: Date) => {
     const startedAt = startedDate.toISOString();
 
     updateWorkout.mutate({
       workoutId: workout.id,
       data: { startedAt },
     });
-  }
+  };
 
-  function handleUpdateWorkoutDuration(duration: number) {
+  const handleUpdateWorkoutDuration = (duration: number) => {
     updateWorkout.mutate({
       workoutId: workout.id,
       data: { activeDuration: duration },
     });
-  }
+  };
 
-  function handleDeleteActiveWorkoutConfirm() {
+  const handleDeleteActiveWorkoutConfirm = () => {
     setActiveWorkoutOpen(false);
     deleteActiveWorkout.mutate();
-  }
+  };
 
   return (
     <WorkoutFormContext.Provider
@@ -112,7 +110,7 @@ export default function WorkoutForm({
     >
       <CompleteWorkoutDialog
         open={completeWorkoutDialogOpen}
-        onOpenChange={(open) => setCompleteWorkoutDialogOpen(open)}
+        onOpenChange={setCompleteWorkoutDialogOpen}
         onConfirm={handleCompleteWorkout}
         incomplete={hasIncompleteSets}
       />
@@ -182,7 +180,7 @@ export default function WorkoutForm({
         {!isActiveWorkout && isEditing && (
           <DatePicker
             date={new Date(workout.startedAt)}
-            onDateChanged={(date) => handleUpdateWorkoutDate(date)}
+            onDateChanged={handleUpdateWorkoutDate}
           />
         )}
 

@@ -1,27 +1,29 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import { useAddWorkoutExercise } from "@/api/workouts/workout-exercise-mutations";
 import ExercisesView from "../../exercises/exercises-view/exercises-view";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { Spinner } from "@/components/ui/spinner";
 
+interface AddExerciseButtonProps {
+  workoutId: number;
+  isActiveWorkout?: boolean;
+}
+
 export default function AddExerciseButton({
   workoutId,
   isActiveWorkout = false,
-}: {
-  workoutId: number;
-  isActiveWorkout?: boolean;
-}) {
+}: AddExerciseButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const addWorkoutExercise = useAddWorkoutExercise(isActiveWorkout);
 
-  const mutateWorkoutExercise = useAddWorkoutExercise(isActiveWorkout);
+  const handleExerciseClick = (exerciseId: number) => {
+    if (addWorkoutExercise.isPending) return;
 
-  function handleExerciseClick(exerciseId: number) {
-    if (mutateWorkoutExercise.isPending) return;
-
-    mutateWorkoutExercise.mutate(
+    addWorkoutExercise.mutate(
       { workoutId, exerciseId },
       {
         onSuccess: () => {
@@ -29,7 +31,7 @@ export default function AddExerciseButton({
         },
       },
     );
-  }
+  };
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function AddExerciseButton({
             <div className="px-4">
               <ExercisesView onExerciseClick={handleExerciseClick} />
             </div>
-            {mutateWorkoutExercise.isPending && (
+            {addWorkoutExercise.isPending && (
               <div className="fixed inset-0 z-50 bg-black/50">
                 <Spinner className="absolute top-1/2 left-1/2 z-50 size-6 -translate-x-1/2 -translate-y-1/2" />
               </div>

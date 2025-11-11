@@ -1,11 +1,20 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { PencilIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
+import { PencilIcon, TrashIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import WorkoutNotesDialog from "./workout-notes-dialog";
 import WorkoutNotesDeleteDialog from "./workout-notes-delete-dialog";
 import { useWorkoutFormContext } from "./workout-form";
+
+interface WorkoutNotesProps {
+  notes: string | null;
+  notesOpen: boolean;
+  onNotesOpenChange: (open: boolean) => void;
+  onUpdate: (notes: string) => void;
+  showPlaceholder?: boolean;
+}
 
 export default function WorkoutNotes({
   notes,
@@ -13,25 +22,18 @@ export default function WorkoutNotes({
   onNotesOpenChange,
   onUpdate,
   showPlaceholder = false,
-}: {
-  notes: string | null;
-  notesOpen: boolean;
-  onNotesOpenChange: (open: boolean) => void;
-  onUpdate: (notes: string) => void;
-  showPlaceholder?: boolean;
-}) {
+}: WorkoutNotesProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
   const { isEditing } = useWorkoutFormContext();
 
-  function handleUpdateNotes(notes: string) {
+  const handleUpdateNotes = (notes: string) => {
     onUpdate(notes);
-  }
+  };
 
-  function handleDeleteNotes() {
+  const handleDeleteNotes = () => {
     setDeleteDialogOpen(false);
     onUpdate("");
-  }
+  };
 
   return (
     <>

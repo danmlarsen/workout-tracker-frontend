@@ -1,5 +1,7 @@
 "use client";
 
+import { ChangeEventHandler, useState } from "react";
+
 import { TWorkout } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,20 +15,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { ChangeEventHandler, useState } from "react";
+import { DATE_LOCALE } from "@/lib/constants";
+
+interface EditWorkoutNameButtonProps {
+  workout: TWorkout;
+  handleEdit: (newWorkoutName?: string) => void;
+}
 
 export default function EditWorkoutNameButton({
   workout,
   handleEdit,
-}: {
-  workout: TWorkout;
-  handleEdit: (newWorkoutName?: string) => void;
-}) {
+}: EditWorkoutNameButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [newWorkoutName, setNewWorkoutName] = useState(workout.title || "");
 
+  const dateLocale = DATE_LOCALE;
   const placeholderTitle =
-    new Date(workout.startedAt).toLocaleDateString("en-US", {
+    new Date(workout.startedAt).toLocaleDateString(dateLocale, {
       month: "short",
       day: "numeric",
     }) + " Workout";

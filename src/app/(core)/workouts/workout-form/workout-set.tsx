@@ -1,14 +1,24 @@
+"use client";
+
+import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { useMutationState } from "@tanstack/react-query";
+
 import { useUpdateWorkoutSet } from "@/api/workouts/workout-set-mutations";
-import { TWorkoutSetDto, type TWorkoutSet } from "@/api/workouts/types";
+import { type TWorkoutSetDto, type TWorkoutSet } from "@/api/workouts/types";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
 import WorkoutSetOptionsButton from "./workout-set-options-button";
 import { useWorkoutFormContext } from "./workout-form";
-import { useMutationState } from "@tanstack/react-query";
+
+interface WorkoutSetProps {
+  workoutSet: TWorkoutSet;
+  exerciseCategory: "strength" | "cardio";
+  previousSet?: TWorkoutSet;
+  placeholderSet?: Partial<TWorkoutSet>;
+}
 
 const parseWorkoutValue = (
   value: string,
@@ -28,30 +38,28 @@ const parseReps = (value: string) => parseWorkoutValue(value, 999, true);
 const parseWeight = (value: string) => parseWorkoutValue(value, 9999);
 const parseDuration = (value: string) => parseWorkoutValue(value, 9999);
 
-type TWorkoutSetProps = {
-  workoutSet: TWorkoutSet;
-  exerciseCategory: "strength" | "cardio";
-  previousSet?: TWorkoutSet;
-  placeholderSet?: Partial<TWorkoutSet>;
-};
-
 export default function WorkoutSet({
   workoutSet,
   exerciseCategory,
   previousSet,
   placeholderSet,
-}: TWorkoutSetProps) {
+}: WorkoutSetProps) {
   const [isChecked, setIsChecked] = useState(workoutSet.completed);
   const [weight, setWeight] = useState(workoutSet.weight?.toString() || "");
   const [reps, setReps] = useState(workoutSet.reps?.toString() || "");
   const [duration, setDuration] = useState(
     workoutSet?.duration?.toString() || "",
   );
-
   const { workout, isActiveWorkout, isEditing } = useWorkoutFormContext();
+  const isPendingDelete = useMutationState({
+    filters: {
+      mutationKey: ["deleteWorkoutSet"],
+      status: "pending",
+    },
+    select: (mutation) => mutation.state.variables as { setId: number },
+  }).some((set) => set.setId === workoutSet.id);
 
   const workoutId = workout.id;
-
   const { mutate } = useUpdateWorkoutSet(isActiveWorkout);
   const updateWorkoutSet = (payload: TWorkoutSetDto) =>
     mutate({
@@ -60,14 +68,6 @@ export default function WorkoutSet({
       setId: workoutSet.id,
       data: payload,
     });
-
-  const isPendingDelete = useMutationState({
-    filters: {
-      mutationKey: ["deleteWorkoutSet"],
-      status: "pending",
-    },
-    select: (mutation) => mutation.state.variables as { setId: number },
-  }).some((set) => set.setId === workoutSet.id);
 
   const debouncedUpdateWeight = useDebouncedCallback(
     (weight: number | null) => {
@@ -87,7 +87,7 @@ export default function WorkoutSet({
     500,
   );
 
-  function handleCheckedChange(checkedChange: boolean) {
+  const handleCheckedChange = (checkedChange: boolean) => {
     setIsChecked(checkedChange);
 
     debouncedUpdateWeight.cancel();
@@ -133,9 +133,9 @@ export default function WorkoutSet({
     }
 
     updateWorkoutSet(payload);
-  }
+  };
 
-  function handleWeightChange(value: string) {
+  const handleWeightChange = (value: string) => {
     // Only allow empty string or valid numbers up to 4 digits
     if (value === "" || (/^\d{1,4}$/.test(value) && parseInt(value) <= 9999)) {
       setWeight(value);
@@ -143,49 +143,49 @@ export default function WorkoutSet({
       debouncedUpdateWeight(numericValue);
     }
     // Invalid input is simply ignored
-  }
+  };
 
-  function handleWeightBlur() {
+  const handleWeightBlur = () => {
     debouncedUpdateWeight.cancel();
     const numericValue = parseWeight(weight);
     if (numericValue !== workoutSet.weight) {
       updateWorkoutSet({ weight: numericValue });
     }
-  }
+  };
 
-  function handleRepsChange(value: string) {
+  const handleRepsChange = (value: string) => {
     // Only allow empty string or valid numbers up to 3 digits
     if (value === "" || (/^\d{1,3}$/.test(value) && parseInt(value) <= 999)) {
       setReps(value);
       const numericValue = parseReps(value);
       debouncedUpdateReps(numericValue);
     }
-  }
+  };
 
-  function handleRepsBlur() {
+  const handleRepsBlur = () => {
     debouncedUpdateReps.cancel();
     const numericValue = parseReps(reps);
     if (numericValue !== workoutSet.reps) {
       updateWorkoutSet({ reps: numericValue });
     }
-  }
+  };
 
-  function handleDurationChange(value: string) {
+  const handleDurationChange = (value: string) => {
     // Only allow empty string or valid numbers up to 4 digits
     if (value === "" || (/^\d{1,4}$/.test(value) && parseInt(value) <= 9999)) {
       setDuration(value);
       const numericValue = parseDuration(value);
       debouncedUpdateDuration(numericValue);
     }
-  }
+  };
 
-  function handleDurationBlur() {
+  const handleDurationBlur = () => {
     debouncedUpdateDuration.cancel();
     const numericValue = parseDuration(duration);
     if (numericValue !== workoutSet.duration) {
       updateWorkoutSet({ duration: numericValue });
     }
-  }
+  };
 
   let previousSetString = "-";
   if (exerciseCategory === "strength" && previousSet) {
@@ -198,7 +198,6 @@ export default function WorkoutSet({
   return (
     <TableRow
       className={cn(
-        "",
         isChecked && "bg-secondary/5 hover:bg-secondary/10",
         isPendingDelete && "animate-pulse",
       )}

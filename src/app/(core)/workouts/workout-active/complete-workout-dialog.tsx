@@ -2,17 +2,19 @@
 
 import ConfirmDialog from "@/components/ui/confirm-dialog";
 
+interface CompleteWorkoutDialogProps {
+  open: boolean;
+  onOpenChange: (newValue: boolean) => void;
+  onConfirm: () => void;
+  incomplete?: boolean;
+}
+
 export default function CompleteWorkoutDialog({
   open,
   onOpenChange,
   onConfirm,
   incomplete = false,
-}: {
-  open: boolean;
-  onOpenChange: (newValue: boolean) => void;
-  onConfirm: () => void;
-  incomplete?: boolean;
-}) {
+}: CompleteWorkoutDialogProps) {
   return (
     <ConfirmDialog
       isOpen={open}

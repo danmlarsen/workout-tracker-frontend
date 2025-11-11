@@ -1,6 +1,7 @@
 "use client";
 
-import { TWorkoutExercise } from "@/api/workouts/types";
+import { MoreHorizontalIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,17 +9,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontalIcon } from "lucide-react";
+
+interface WorkoutExerciseOptionsButtonProps {
+  onOpenNotes: () => void;
+  onConfirmDelete: () => void;
+}
 
 export default function WorkoutExerciseOptionsButton({
   onOpenNotes,
   onConfirmDelete,
-}: {
-  workoutExercise: TWorkoutExercise;
-  isActiveWorkout: boolean;
-  onOpenNotes: () => void;
-  onConfirmDelete: () => void;
-}) {
+}: WorkoutExerciseOptionsButtonProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

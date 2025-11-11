@@ -2,15 +2,17 @@
 
 import ConfirmDialog from "@/components/ui/confirm-dialog";
 
+interface DeleteActiveWorkoutDialogProps {
+  isOpen: boolean;
+  onOpenChanged: (newState: boolean) => void;
+  onConfirm: () => void;
+}
+
 export default function DeleteActiveWorkoutDialog({
   isOpen,
   onOpenChanged,
   onConfirm,
-}: {
-  isOpen: boolean;
-  onOpenChanged: (newState: boolean) => void;
-  onConfirm: () => void;
-}) {
+}: DeleteActiveWorkoutDialogProps) {
   return (
     <ConfirmDialog
       isOpen={isOpen}
