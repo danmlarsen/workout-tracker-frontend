@@ -232,3 +232,46 @@ export function getDayRangeUTC(date = new Date()) {
     to: end.toISOString(),
   };
 }
+
+/**
+ * Generates YouTube embed URL with Short-optimized parameters
+ */
+export function getYouTubeEmbedUrl(
+  videoId: string,
+  options?: {
+    autoplay?: boolean;
+    start?: number;
+    mute?: boolean;
+    loop?: boolean;
+  },
+): string {
+  const params = new URLSearchParams();
+
+  if (options?.autoplay) params.set("autoplay", "1");
+  if (options?.start) params.set("start", options.start.toString());
+  if (options?.mute) params.set("mute", "1");
+  if (options?.loop) {
+    params.set("loop", "1");
+    params.set("playlist", videoId); // Required for looping
+  }
+
+  const queryString = params.toString();
+  return `https://www.youtube.com/embed/${videoId}${queryString ? `?${queryString}` : ""}`;
+}
+
+/**
+ * Generates YouTube thumbnail URL from video ID
+ */
+export function getYouTubeThumbnail(
+  videoId: string,
+  quality: "default" | "medium" | "high" | "maxres" = "medium",
+): string {
+  const qualityMap = {
+    default: "default", // 120x90
+    medium: "mqdefault", // 320x180
+    high: "hqdefault", // 480x360
+    maxres: "maxresdefault", // 1280x720 (if available)
+  };
+
+  return `https://img.youtube.com/vi/${videoId}/${qualityMap[quality]}.jpg`;
+}

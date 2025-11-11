@@ -1,11 +1,8 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const DEFAULT_LIST_ITEM_AMOUNT = 5;
-
-if (!API_URL) {
-  throw new Error("NEXT_PUBLIC_API_URL environment variable is required");
-}
-
-export const API_TESTING_TOKEN = process.env.NEXT_PUBLIC_TESTING_TOKEN;
+export const WORKOUT_LIST_ITEM_AMOUNT = 5;
+export const EXERCISE_LIST_ITEM_AMOUNT = 20;
+export const DATE_LOCALE = "en-US";
 
 export const EQUIPMENT_OPTIONS = [
   "barbell",
