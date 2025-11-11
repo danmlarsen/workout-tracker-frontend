@@ -98,10 +98,23 @@ export default function WorkoutSet({
     const numericReps = parseReps(reps);
     const numericDuration = parseDuration(duration);
 
+    const shouldUsePlaceholder = checkedChange && !workoutSet.completed;
+
     const payload = {
-      weight: numericWeight || placeholderSet?.weight || null,
-      reps: numericReps || placeholderSet?.reps || null,
-      duration: numericDuration || placeholderSet?.duration || null,
+      weight:
+        numericWeight ||
+        (shouldUsePlaceholder ? placeholderSet?.weight : workoutSet.weight) ||
+        null,
+      reps:
+        numericReps ||
+        (shouldUsePlaceholder ? placeholderSet?.reps : workoutSet.reps) ||
+        null,
+      duration:
+        numericDuration ||
+        (shouldUsePlaceholder
+          ? placeholderSet?.duration
+          : workoutSet.duration) ||
+        null,
       completed: checkedChange,
     };
 
