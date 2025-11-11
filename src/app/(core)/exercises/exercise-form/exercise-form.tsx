@@ -3,6 +3,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
+import { toast } from "sonner";
+
 import {
   Form,
   FormControl,
@@ -18,23 +20,13 @@ import { Button } from "@/components/ui/button";
 import { useCreateExercise } from "@/api/exercises/mutations";
 import { EQUIPMENT_OPTIONS, MUSCLE_GROUP_OPTIONS } from "@/lib/constants";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner";
+import { exerciseSchema } from "@/validation/exerciseSchema";
 
-const exerciseSchema = z.object({
-  name: z.string().min(2, "Exercise name too short (min 2 characters)"),
-  category: z.enum(["strength", "cardio"], "Invalid type"),
-  equipment: z.enum(EQUIPMENT_OPTIONS, "Invalid equipment"),
-  targetMuscleGroups: z
-    .array(z.enum(MUSCLE_GROUP_OPTIONS))
-    .min(1, "Please pick at least one target muscle group"),
-  secondaryMuscleGroups: z.array(z.enum(MUSCLE_GROUP_OPTIONS)),
-});
-
-export default function ExerciseForm({
-  onSuccess,
-}: {
+interface ExerciseFormProps {
   onSuccess?: () => void;
-}) {
+}
+
+export default function ExerciseForm({ onSuccess }: ExerciseFormProps) {
   const form = useForm<z.infer<typeof exerciseSchema>>({
     resolver: zodResolver(exerciseSchema),
     defaultValues: {
@@ -45,10 +37,10 @@ export default function ExerciseForm({
       secondaryMuscleGroups: [],
     },
   });
-  const createExerciseMutation = useCreateExercise();
+  const createExercise = useCreateExercise();
 
-  async function handleSubmit(data: z.infer<typeof exerciseSchema>) {
-    createExerciseMutation.mutate(data, {
+  const handleSubmit = async (data: z.infer<typeof exerciseSchema>) => {
+    createExercise.mutate(data, {
       onSuccess: () => {
         toast.success(`Exercise: ${data.name} has been created`);
         onSuccess?.();
@@ -59,16 +51,14 @@ export default function ExerciseForm({
         );
       },
     });
-  }
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <fieldset
           className="space-y-6"
-          disabled={
-            form.formState.isSubmitting || createExerciseMutation.isPending
-          }
+          disabled={form.formState.isSubmitting || createExercise.isPending}
         >
           <FormField
             control={form.control}
@@ -243,7 +233,7 @@ export default function ExerciseForm({
 
           <Button type="submit" className="w-full">
             {form.formState.isSubmitting ||
-              (createExerciseMutation.isPending && <Spinner />)}
+              (createExercise.isPending && <Spinner />)}
             Create Exercise
           </Button>
         </fieldset>
