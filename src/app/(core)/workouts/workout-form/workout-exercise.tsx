@@ -1,6 +1,9 @@
 import { type TWorkoutExercise } from "@/api/workouts/types";
 import WorkoutSet from "./workout-set";
-import { useUpdateWorkoutExercise } from "@/api/workouts/workout-exercise-mutations";
+import {
+  useDeleteWorkoutExercise,
+  useUpdateWorkoutExercise,
+} from "@/api/workouts/workout-exercise-mutations";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -39,6 +42,7 @@ export default function WorkoutExercise({
 
   const { mutate: addWorkoutSet } = useAddWorkoutSet(isActiveWorkout);
   const updateWorkoutExercise = useUpdateWorkoutExercise(isActiveWorkout);
+  const deleteWorkoutExercise = useDeleteWorkoutExercise(isActiveWorkout);
 
   const workoutSets = workoutExercise.workoutSets;
   const previousWorkoutSets =
@@ -72,8 +76,17 @@ export default function WorkoutExercise({
     });
   };
 
+  const handleDeleteWorkoutExercise = () => {
+    deleteWorkoutExercise.mutate({
+      workoutId: workoutExercise.workoutId,
+      workoutExerciseId: workoutExercise.id,
+    });
+  };
+
   return (
-    <li className="space-y-4">
+    <li
+      className={`space-y-4 ${deleteWorkoutExercise.isPending ? "pointer-events-none animate-pulse" : ""}`}
+    >
       <div className="flex items-center justify-between">
         <Button
           onClick={() => onOpenExercise(workoutExercise.exercise)}
@@ -87,6 +100,7 @@ export default function WorkoutExercise({
             workoutExercise={workoutExercise}
             isActiveWorkout={isActiveWorkout}
             onOpenNotes={() => setNotesOpen(true)}
+            onConfirmDelete={handleDeleteWorkoutExercise}
           />
         )}
       </div>
