@@ -1,6 +1,12 @@
 "use client";
 
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { useAuth } from "@/api/auth/auth-context";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,11 +18,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
 
 const loginSchema = z.object({
   email: z.email(),
@@ -24,6 +25,8 @@ const loginSchema = z.object({
 });
 
 export default function LoginForm() {
+  const [isPending, setIsPending] = useState(false);
+  const { loginWithCredentials } = useAuth();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -31,12 +34,9 @@ export default function LoginForm() {
       password: "",
     },
   });
-
   const router = useRouter();
-  const { loginWithCredentials } = useAuth();
-  const [isPending, setIsPending] = useState(false);
 
-  async function handleSubmit(data: z.infer<typeof loginSchema>) {
+  const handleSubmit = async (data: z.infer<typeof loginSchema>) => {
     setIsPending(true);
     const response = await loginWithCredentials(data.email, data.password);
     setIsPending(false);
@@ -56,7 +56,7 @@ export default function LoginForm() {
         });
       }
     }
-  }
+  };
 
   return (
     <Form {...form}>

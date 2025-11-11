@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { MailOpenIcon } from "lucide-react";
+
 import AuthGuard from "@/api/auth/auth-guard";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,10 +10,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MailOpenIcon } from "lucide-react";
-import Link from "next/link";
 
-export default function EmailConfirmation({ email }: { email: string }) {
+interface EmailConfirmationProps {
+  email: string;
+}
+
+export default function EmailConfirmation({ email }: EmailConfirmationProps) {
   return (
     <AuthGuard requireAuth={false}>
       <Card className="w-full max-w-lg">

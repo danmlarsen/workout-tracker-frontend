@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   Card,
   CardContent,
@@ -7,14 +9,15 @@ import {
 } from "@/components/ui/card";
 import RegisterForm from "./register-form";
 import AuthGuard from "@/api/auth/auth-guard";
-import Link from "next/link";
 import EmailConfirmation from "./email-confirmation";
+
+interface RegisterPageProps {
+  searchParams: Promise<{ success?: "true"; email?: string }>;
+}
 
 export default async function RegisterPage({
   searchParams,
-}: {
-  searchParams: Promise<{ success?: "true"; email?: string }>;
-}) {
+}: RegisterPageProps) {
   const searchParamValues = await searchParams;
 
   if (searchParamValues.success === "true" && searchParamValues.email) {

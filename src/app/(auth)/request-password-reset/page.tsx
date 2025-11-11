@@ -1,5 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import z from "zod";
+
 import { useAuth } from "@/api/auth/auth-context";
 import AuthGuard from "@/api/auth/auth-guard";
 import { Button } from "@/components/ui/button";
@@ -20,10 +25,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import z from "zod";
 
 const passwordResetSchema = z.object({
   email: z.email(),
@@ -38,9 +39,9 @@ export default function ResetPasswordPage() {
   });
   const { requestPasswordReset } = useAuth();
 
-  async function handleSubmit(data: z.infer<typeof passwordResetSchema>) {
+  const handleSubmit = async (data: z.infer<typeof passwordResetSchema>) => {
     await requestPasswordReset(data.email);
-  }
+  };
 
   if (form.formState.isSubmitSuccessful) {
     return (

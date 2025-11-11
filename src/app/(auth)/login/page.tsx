@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import AuthGuard from "@/api/auth/auth-guard";
 import {
   Card,
   CardContent,
@@ -6,8 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import LoginForm from "./login-form";
-import AuthGuard from "@/api/auth/auth-guard";
-import Link from "next/link";
 
 export default function LoginPage() {
   return (

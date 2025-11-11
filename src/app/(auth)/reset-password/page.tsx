@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
+
 import { useAuth } from "@/api/auth/auth-context";
 import AuthGuard from "@/api/auth/auth-guard";
 import { Button } from "@/components/ui/button";
@@ -14,14 +21,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { changePasswordSchema } from "@/validation/changePasswordSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
 
 export default function ResetPasswordPage() {
+  const [resetSuccess, setResetSuccess] = useState(false);
+  const { resetPassword } = useAuth();
   const form = useForm<z.infer<typeof changePasswordSchema>>({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: {
@@ -29,15 +32,11 @@ export default function ResetPasswordPage() {
       newPasswordConfirm: "",
     },
   });
-
-  const { resetPassword } = useAuth();
   const searchParams = useSearchParams();
-
-  const [resetSuccess, setResetSuccess] = useState(false);
 
   const token = searchParams.get("token");
 
-  async function handleSubmit(data: z.infer<typeof changePasswordSchema>) {
+  const handleSubmit = async (data: z.infer<typeof changePasswordSchema>) => {
     if (!token) {
       form.setError("root", {
         type: "custom",
@@ -56,7 +55,7 @@ export default function ResetPasswordPage() {
         message: response.message,
       });
     }
-  }
+  };
 
   if (resetSuccess) {
     return (

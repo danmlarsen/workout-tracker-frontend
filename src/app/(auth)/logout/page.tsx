@@ -1,14 +1,15 @@
 "use client";
 
-import { useAuth } from "@/api/auth/auth-context";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import { useAuth } from "@/api/auth/auth-context";
+
 export default function LogoutPage() {
-  const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { logout } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     async function handleLogout() {

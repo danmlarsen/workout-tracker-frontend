@@ -1,25 +1,23 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
+
 import { useAuth } from "@/api/auth/auth-context";
 import AuthGuard from "@/api/auth/auth-guard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 
-type ConfirmationState = "loading" | "success" | "error" | "missing-token";
+type TConfirmationState = "loading" | "success" | "error" | "missing-token";
 
 export default function ConfirmEmailPage() {
+  const [state, setState] = useState<TConfirmationState>("missing-token");
+  const confirmationAttempted = useRef(false); // Track if confirmation has been attempted to prevent double calls
   const searchParams = useSearchParams();
   const router = useRouter();
   const { confirmEmail } = useAuth();
-
-  const [state, setState] = useState<ConfirmationState>("missing-token");
-
-  // Track if confirmation has been attempted to prevent double calls
-  const confirmationAttempted = useRef(false);
 
   useEffect(() => {
     const token = searchParams.get("token");

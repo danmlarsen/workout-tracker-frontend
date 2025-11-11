@@ -1,5 +1,11 @@
 "use client";
 
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import { useAuth } from "@/api/auth/auth-context";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,11 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { passwordSchema } from "@/validation/passwordSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
 
 const registerSchema = z
   .object({
@@ -31,6 +32,7 @@ const registerSchema = z
   });
 
 export default function RegisterForm() {
+  const [isPending, setIsPending] = useState(false);
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -39,12 +41,10 @@ export default function RegisterForm() {
       passwordConfirm: "",
     },
   });
-
   const { register } = useAuth();
   const router = useRouter();
-  const [isPending, setIsPending] = useState(false);
 
-  async function handleSubmit(data: z.infer<typeof registerSchema>) {
+  const handleSubmit = async (data: z.infer<typeof registerSchema>) => {
     setIsPending(true);
     const response = await register(data.email, data.password);
     setIsPending(false);
@@ -63,7 +63,7 @@ export default function RegisterForm() {
         });
       }
     }
-  }
+  };
 
   return (
     <Form {...form}>

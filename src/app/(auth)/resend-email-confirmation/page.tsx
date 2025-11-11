@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
+
 import { useAuth } from "@/api/auth/auth-context";
 import AuthGuard from "@/api/auth/auth-guard";
 import { Button } from "@/components/ui/button";
@@ -19,18 +26,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
 
 const schema = z.object({
   email: z.email(),
 });
 
 export default function ResendEmailConfirmation() {
+  const [emailSent, setEmailSent] = useState(false);
   const { resendEmailConfirmation } = useAuth();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -38,12 +40,9 @@ export default function ResendEmailConfirmation() {
       email: "",
     },
   });
-
   const router = useRouter();
 
-  const [emailSent, setEmailSent] = useState(false);
-
-  async function handleSubmit(data: z.infer<typeof schema>) {
+  const handleSubmit = async (data: z.infer<typeof schema>) => {
     const response = await resendEmailConfirmation(data.email);
 
     setEmailSent(true);
@@ -60,7 +59,7 @@ export default function ResendEmailConfirmation() {
         message: response.message,
       });
     }
-  }
+  };
 
   return (
     <AuthGuard requireAuth={false}>
