@@ -3,6 +3,7 @@
 import AddExerciseButton from "./add-exercise-button";
 import {
   useCompleteWorkout,
+  useDeleteActiveWorkout,
   useUpdateWorkout,
 } from "@/api/workouts/workout-mutations";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,8 @@ import { parseWorkoutTitle } from "@/lib/utils";
 import DatePicker from "@/components/date-picker";
 import DurationInput from "@/components/duration-input";
 import ExerciseDetailsModal from "../../exercises/exercise-details/exercise-details-modal";
+import { useActiveWorkoutContext } from "@/context/active-workout-context";
+import { Spinner } from "@/components/ui/spinner";
 
 type TWorkoutFormProps = {
   workout: TWorkout;
@@ -57,6 +60,8 @@ export default function WorkoutForm({
 
   const completeWorkout = useCompleteWorkout();
   const updateWorkout = useUpdateWorkout(isActiveWorkout);
+  const deleteActiveWorkout = useDeleteActiveWorkout();
+  const { setActiveWorkoutOpen } = useActiveWorkoutContext();
 
   const hasIncompleteSets =
     workout.workoutExercises?.filter(
@@ -92,6 +97,11 @@ export default function WorkoutForm({
     });
   }
 
+  function handleDeleteActiveWorkoutConfirm() {
+    setActiveWorkoutOpen(false);
+    deleteActiveWorkout.mutate();
+  }
+
   return (
     <WorkoutFormContext.Provider
       value={{
@@ -110,6 +120,7 @@ export default function WorkoutForm({
       <DeleteActiveWorkoutDialog
         isOpen={deleteWorkoutOpen}
         onOpenChanged={setDeleteWorkoutOpen}
+        onConfirm={handleDeleteActiveWorkoutConfirm}
       />
 
       <ExerciseDetailsModal
@@ -213,8 +224,10 @@ export default function WorkoutForm({
             onClick={() => setDeleteWorkoutOpen(true)}
             className="w-full"
             variant="destructive"
+            disabled={deleteActiveWorkout.isPending}
           >
-            Discard Workout
+            {deleteActiveWorkout.isPending && <Spinner />}
+            <span>Discard Workout</span>
           </Button>
         )}
       </div>
