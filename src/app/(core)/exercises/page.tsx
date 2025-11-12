@@ -3,7 +3,7 @@ import ExercisesView from "./exercises-view/exercises-view";
 
 export default function ExercisesPage() {
   return (
-    <div className="space-y-4">
+    <div className="mx-auto max-w-3xl space-y-4">
       <div className="flex min-h-12 items-center justify-between">
         <h1 className="text-xl font-bold">Exercises</h1>
         <AddNewExerciseButton />
