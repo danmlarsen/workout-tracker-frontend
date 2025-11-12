@@ -23,7 +23,7 @@ import {
   findBestWorkoutSetWithIndex,
   getPlaceholderWorkoutSet,
 } from "@/lib/utils";
-import { TExercise } from "@/api/exercises/types";
+import { ExerciseData } from "@/api/exercises/types";
 import WorkoutExerciseOptionsButton from "./workout-exercise-options-button";
 import WorkoutNotes from "./workout-notes";
 import { useWorkoutFormContext } from "./workout-form";
@@ -32,7 +32,7 @@ import { useAddWorkoutSet } from "@/api/workouts/workout-set-mutations";
 
 interface WorkoutExerciseProps {
   workoutExercise: TWorkoutExercise;
-  onOpenExercise: (exercise: TExercise) => void;
+  onOpenExercise: (exercise: ExerciseData) => void;
 }
 
 export default function WorkoutExercise({

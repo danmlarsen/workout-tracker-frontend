@@ -3,14 +3,14 @@
 import InfiniteScroll from "react-infinite-scroller";
 
 import { useInfiniteExerciseWorkouts } from "@/api/exercises/queries";
-import { TExercise } from "@/api/exercises/types";
+import { ExerciseData } from "@/api/exercises/types";
 import ExerciseWorkoutsItem, {
   ExerciseWorkoutsItemSkeleton,
 } from "./exercise-workouts-item";
 import { WORKOUT_LIST_ITEM_AMOUNT } from "@/lib/constants";
 
 interface ExerciseWorkoutsListProps {
-  exercise: TExercise;
+  exercise: ExerciseData;
   scrollParentRef?: React.RefObject<HTMLDivElement | null>;
 }
 

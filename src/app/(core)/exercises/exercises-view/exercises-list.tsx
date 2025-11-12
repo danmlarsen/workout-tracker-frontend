@@ -4,14 +4,17 @@ import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
 import { useInfiniteExercises } from "@/api/exercises/queries";
-import { TExercise, type TExercisesQueryFilters } from "@/api/exercises/types";
+import {
+  ExerciseData,
+  type ExercisesQueryFilters,
+} from "@/api/exercises/types";
 import ExerciseItem, { ExerciseItemSkeleton } from "./exercise-item";
 import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
 import { EXERCISE_LIST_ITEM_AMOUNT } from "@/lib/constants";
 import { useSearchParamState } from "@/hooks/use-search-param-state";
 
 interface ExercisesListProps {
-  filters?: TExercisesQueryFilters;
+  filters?: ExercisesQueryFilters;
   onExerciseClick?: (id: number) => void;
 }
 
@@ -20,7 +23,7 @@ export default function ExercisesList({
   onExerciseClick,
 }: ExercisesListProps) {
   const [selectedExercise, setSelectedExercise] = useState<
-    TExercise | undefined
+    ExerciseData | undefined
   >();
   const [exerciseModalOpen, setExerciseModalOpen] =
     useSearchParamState("exercise-modal");
@@ -37,7 +40,7 @@ export default function ExercisesList({
     filters,
   });
 
-  const handleExerciseClick = (exercise: TExercise) => {
+  const handleExerciseClick = (exercise: ExerciseData) => {
     if (onExerciseClick) {
       onExerciseClick(exercise.id);
     } else {

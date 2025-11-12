@@ -4,12 +4,12 @@ import { useRef } from "react";
 
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import ExerciseDetails from "./exercise-details";
-import { TExercise } from "@/api/exercises/types";
+import { ExerciseData } from "@/api/exercises/types";
 
 interface ExerciseDetailsModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  exercise?: TExercise;
+  exercise?: ExerciseData;
 }
 
 export default function ExerciseDetailsModal({

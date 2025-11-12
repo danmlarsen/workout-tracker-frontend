@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 
-import { type TExercisesQueryFilters } from "@/api/exercises/types";
+import { type ExercisesQueryFilters } from "@/api/exercises/types";
 import { type TEquipment, type TMuscleGroup } from "@/lib/constants";
 import ExercisesFilters from "./exercises-filters";
 import ExercisesList from "./exercises-list";
@@ -21,8 +21,8 @@ export default function ExercisesView({ onExerciseClick }: ExercisesViewProps) {
 
   const [debouncedName] = useDebounce(nameFilter, 300);
 
-  const filters = useMemo((): TExercisesQueryFilters => {
-    const result: TExercisesQueryFilters = {};
+  const filters = useMemo((): ExercisesQueryFilters => {
+    const result: ExercisesQueryFilters = {};
 
     if (debouncedName.trim()) result.name = debouncedName.trim();
     if (selectedEquipment.length > 0) result.equipment = selectedEquipment;

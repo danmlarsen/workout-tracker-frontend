@@ -1,4 +1,4 @@
-import { type TExercise } from "../exercises/types";
+import { type ExerciseData } from "../exercises/types";
 
 export type TWorkoutsQuery = {
   success: boolean;
@@ -48,7 +48,7 @@ export type TWorkoutExercise = {
   exerciseId: number;
   createdAt: string;
   updatedAt: string;
-  exercise: TExercise;
+  exercise: ExerciseData;
   workoutSets: TWorkoutSet[];
   exerciseOrder: number;
   previousWorkoutExercise?: TWorkoutExercise;

@@ -1,6 +1,6 @@
 import { formatDate } from "date-fns";
 
-import { TExercise, TExerciseWorkouts } from "@/api/exercises/types";
+import { ExerciseData, ExerciseWorkoutsData } from "@/api/exercises/types";
 import {
   Card,
   CardContent,
@@ -20,8 +20,8 @@ import {
 import { parseWorkoutTitle } from "@/lib/utils";
 
 interface ExerciseWorkoutsItemProps {
-  workout: TExerciseWorkouts;
-  exercise: TExercise;
+  workout: ExerciseWorkoutsData;
+  exercise: ExerciseData;
 }
 
 export default function ExerciseWorkoutsItem({

@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useApiClient } from "../client";
-import { type TExercise, type TCreateExerciseDto } from "./types";
+import { type ExerciseData, type CreateExerciseDto } from "./types";
 
 export const useCreateExercise = () => {
   const { apiClient } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: TCreateExerciseDto) =>
-      apiClient<TExercise>("/exercises", {
+    mutationFn: (data: CreateExerciseDto) =>
+      apiClient<ExerciseData>("/exercises", {
         method: "POST",
         body: JSON.stringify(data),
       }),

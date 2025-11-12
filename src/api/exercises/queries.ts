@@ -1,18 +1,18 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
-  type TExercisesQuery,
-  type TExercisesQueryFilters,
-  type TExercise,
-  type TExerciseWorkoutsQuery,
+  type ExercisesResponse,
+  type ExercisesQueryFilters,
+  type ExerciseData,
+  type ExerciseWorkoutsResponse,
 } from "./types";
 import { useApiClient } from "../client";
 
 export const useExercises = () => {
   const { apiClient } = useApiClient();
 
-  return useQuery<TExercise[]>({
+  return useQuery<ExerciseData[]>({
     queryKey: ["exercises"],
-    queryFn: () => apiClient<TExercise[]>("/exercises"),
+    queryFn: () => apiClient<ExerciseData[]>("/exercises"),
     staleTime: 60 * 60 * 1000,
     gcTime: 24 * 60 * 60 * 1000,
   });
@@ -21,9 +21,9 @@ export const useExercises = () => {
 export const useExercise = (exerciseId?: number) => {
   const { apiClient } = useApiClient();
 
-  return useQuery<TExercise>({
+  return useQuery<ExerciseData>({
     queryKey: ["exercises", exerciseId],
-    queryFn: () => apiClient<TExercise>(`/exercises/${exerciseId}`),
+    queryFn: () => apiClient<ExerciseData>(`/exercises/${exerciseId}`),
     enabled: !!exerciseId,
     staleTime: 60 * 60 * 1000,
     gcTime: 24 * 60 * 60 * 1000,
@@ -33,11 +33,11 @@ export const useExercise = (exerciseId?: number) => {
 export const useInfiniteExercises = ({
   filters,
 }: {
-  filters?: TExercisesQueryFilters;
+  filters?: ExercisesQueryFilters;
 } = {}) => {
   const { apiClient } = useApiClient();
 
-  return useInfiniteQuery<TExercisesQuery>({
+  return useInfiniteQuery<ExercisesResponse>({
     queryKey: filters ? ["exercises", filters] : ["exercises"],
     queryFn: ({ pageParam = undefined }) => {
       const searchParams = new URLSearchParams();
@@ -62,7 +62,7 @@ export const useInfiniteExercises = ({
 
       const queryString = searchParams.toString();
 
-      return apiClient<TExercisesQuery>(
+      return apiClient<ExercisesResponse>(
         `/exercises${queryString ? `?${queryString}` : ""}`,
       );
     },
@@ -76,7 +76,7 @@ export const useInfiniteExercises = ({
 export const useInfiniteExerciseWorkouts = (exerciseId?: number) => {
   const { apiClient } = useApiClient();
 
-  return useInfiniteQuery<TExerciseWorkoutsQuery>({
+  return useInfiniteQuery<ExerciseWorkoutsResponse>({
     queryKey: ["exercises", { exerciseId }, "workouts"],
     queryFn: ({ pageParam = undefined }) => {
       const searchParams = new URLSearchParams();
@@ -87,7 +87,7 @@ export const useInfiniteExerciseWorkouts = (exerciseId?: number) => {
 
       const queryString = searchParams.toString();
 
-      return apiClient<TExerciseWorkoutsQuery>(
+      return apiClient<ExerciseWorkoutsResponse>(
         `/exercises/${exerciseId}/workouts${queryString ? `?${queryString}` : ""}`,
       );
     },

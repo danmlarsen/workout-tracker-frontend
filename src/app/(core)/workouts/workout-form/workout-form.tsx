@@ -14,7 +14,7 @@ import EditWorkoutNameButton from "./edit-workout-name-button";
 import Timer from "@/components/ui/timer";
 import { type TWorkout } from "@/api/workouts/types";
 import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
-import { type TExercise } from "@/api/exercises/types";
+import { type ExerciseData } from "@/api/exercises/types";
 import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
 import WorkoutNotes from "./workout-notes";
 import { parseWorkoutTitle } from "@/lib/utils";
@@ -53,7 +53,7 @@ export default function WorkoutForm({
   const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
   const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
   const [selectedWorkoutExercise, setSelectedWorkoutExercise] = useState<
-    TExercise | undefined
+    ExerciseData | undefined
   >();
   const completeWorkout = useCompleteWorkout();
   const isActiveWorkout = workout.status === "ACTIVE";

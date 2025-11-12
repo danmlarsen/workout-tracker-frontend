@@ -1,9 +1,9 @@
-import { TExercise } from "@/api/exercises/types";
+import { ExerciseData } from "@/api/exercises/types";
 import ExerciseAvatar from "@/components/ui/exercise-avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ExerciseItemProps {
-  exercise: TExercise;
+  exercise: ExerciseData;
   onExerciseClick: (id: number) => void;
 }
 

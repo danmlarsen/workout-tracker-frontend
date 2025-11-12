@@ -1,7 +1,7 @@
 import { type TEquipment, type TMuscleGroup } from "@/lib/constants";
 import { type TWorkout, type TWorkoutSet } from "../workouts/types";
 
-export type TExercise = {
+export type ExerciseData = {
   id: number;
   name: string;
   userId: number | null;
@@ -15,7 +15,7 @@ export type TExercise = {
   timesUsed: number;
 };
 
-export type TCreateExerciseDto = {
+export type CreateExerciseDto = {
   name: string;
   category: string;
   targetMuscleGroups: string[];
@@ -23,30 +23,30 @@ export type TCreateExerciseDto = {
   equipment: string;
 };
 
-export type TExercisesQuery = {
+export type ExercisesResponse = {
   success: boolean;
   meta: {
     hasNextPage: boolean;
     nextCursor: number;
   };
-  data: TExercise[];
+  data: ExerciseData[];
 };
 
-export type TExercisesQueryFilters = {
+export type ExercisesQueryFilters = {
   name?: string;
   targetMuscleGroups?: TMuscleGroup[];
   equipment?: TEquipment[];
 };
 
-export type TExerciseWorkoutsQuery = {
+export type ExerciseWorkoutsResponse = {
   success: boolean;
   meta: {
     hasNextPage: boolean;
     nextCursor: number;
   };
-  data: TExerciseWorkouts[];
+  data: ExerciseWorkoutsData[];
 };
 
-export type TExerciseWorkouts = Omit<TWorkout, "workoutExercises"> & {
+export type ExerciseWorkoutsData = Omit<TWorkout, "workoutExercises"> & {
   workoutSets: TWorkoutSet[];
 };
