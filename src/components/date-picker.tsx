@@ -1,28 +1,32 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronDownIcon } from "lucide-react";
+
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
-import { ChevronDownIcon } from "lucide-react";
 import { Calendar } from "./ui/workout-calendar";
 import { useWorkoutCalendar } from "@/api/workouts/queries";
 
-export default function DatePicker({
-  date,
-  onDateChanged,
-}: {
+interface DatePickerProps {
   date: Date;
   onDateChanged: (date: Date) => void;
-}) {
+}
+
+export default function DatePicker({ date, onDateChanged }: DatePickerProps) {
   const [open, setOpen] = useState(false);
-
   const currentDate = date || new Date();
-
   const { data: calendarData } = useWorkoutCalendar(currentDate.getFullYear());
-
   const workoutDates = calendarData
     ? calendarData.workoutDates.map((str) => new Date(str))
     : [];
+
+  const handleSelectDate = (date: Date | undefined) => {
+    if (date) {
+      onDateChanged(date);
+    }
+    setOpen(false);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -41,12 +45,7 @@ export default function DatePicker({
           mode="single"
           selected={date}
           captionLayout="dropdown"
-          onSelect={(date) => {
-            if (date) {
-              onDateChanged(date);
-            }
-            setOpen(false);
-          }}
+          onSelect={handleSelectDate}
           modifiers={{
             workout: workoutDates,
           }}

@@ -1,17 +1,18 @@
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-type LogoProps = {
+import { cn } from "@/lib/utils";
+
+interface LogoProps extends React.ComponentProps<"svg"> {
   textColor?: string;
   accentColor?: string;
-};
+}
 
 export default function Logo({
   className,
   textColor = "var(--foreground)",
   accentColor = "var(--accent)",
   ...props
-}: React.ComponentProps<"svg"> & LogoProps) {
+}: LogoProps) {
   return (
     <Link href="/">
       <svg

@@ -1,6 +1,8 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { CogIcon, MoonIcon, SunIcon } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { MoonIcon, SunIcon } from "lucide-react";
 
 export default function ThemeToggle() {
   const { setTheme } = useTheme();
@@ -24,13 +25,16 @@ export default function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
+          <SunIcon />
+          Light theme
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
+          <MoonIcon />
+          Dark theme
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
+          <CogIcon />
+          Use system default
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
