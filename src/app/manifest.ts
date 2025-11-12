@@ -43,5 +43,35 @@ export default function manifest(): MetadataRoute.Manifest {
       },
       { src: "/favicon.ico", sizes: "any", type: "image/x-icon" },
     ],
+    screenshots: [
+      {
+        src: "/screenshots/desktop/desktop-1.png",
+        sizes: "1024x576",
+        type: "image/png",
+        form_factor: "wide",
+        label: "Nextlift desktop",
+      },
+      {
+        src: "/screenshots/mobile/mobile-1.png",
+        sizes: "320x692",
+        type: "image/png",
+        form_factor: "narrow",
+        label: "Nextlift mobile 1",
+      },
+      {
+        src: "/screenshots/mobile/mobile-2.png",
+        sizes: "320x692",
+        type: "image/png",
+        form_factor: "narrow",
+        label: "Nextlift mobile 2",
+      },
+      {
+        src: "/screenshots/mobile/mobile-3.png",
+        sizes: "320x692",
+        type: "image/png",
+        form_factor: "narrow",
+        label: "Nextlift mobile 3",
+      },
+    ],
   };
 }
