@@ -27,16 +27,21 @@ const parseWorkoutValue = (
 ): number | null => {
   if (value.trim() === "") return null;
 
-  const parsed = parseInt(value, 10);
+  const parsed = parseFloat(value);
   if (isNaN(parsed) || parsed < 1) return null;
 
   const clamped = Math.min(max, parsed);
-  return shouldTruncate ? Math.trunc(clamped) : clamped;
+
+  if (shouldTruncate) {
+    return Math.trunc(clamped);
+  }
+
+  return value.includes(".") ? parseFloat(clamped.toFixed(2)) : clamped;
 };
 
 const parseReps = (value: string) => parseWorkoutValue(value, 999, true);
 const parseWeight = (value: string) => parseWorkoutValue(value, 9999);
-const parseDuration = (value: string) => parseWorkoutValue(value, 9999);
+const parseDuration = (value: string) => parseWorkoutValue(value, 9999, true);
 
 export default function WorkoutSet({
   workoutSet,
@@ -137,7 +142,10 @@ export default function WorkoutSet({
 
   const handleWeightChange = (value: string) => {
     // Only allow empty string or valid numbers up to 4 digits
-    if (value === "" || (/^\d{1,4}$/.test(value) && parseInt(value) <= 9999)) {
+    if (
+      value === "" ||
+      (/^\d{1,4}(\.\d{0,2})?$/.test(value) && parseFloat(value) <= 9999)
+    ) {
       setWeight(value);
       const numericValue = parseWeight(value);
       debouncedUpdateWeight(numericValue);
