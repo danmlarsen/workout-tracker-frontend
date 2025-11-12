@@ -17,7 +17,7 @@ import {
   SheetTitle,
 } from "./sheet";
 
-type TResponsiveModalProps = {
+interface ResponsiveModalProps {
   content: React.ReactNode;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -26,7 +26,7 @@ type TResponsiveModalProps = {
   className?: string;
   scrollParentRef?: React.RefObject<HTMLDivElement | null>;
   onAnimationEnd?: () => void;
-};
+}
 
 export function ResponsiveModal({
   content,
@@ -37,7 +37,7 @@ export function ResponsiveModal({
   className,
   scrollParentRef,
   onAnimationEnd,
-}: TResponsiveModalProps) {
+}: ResponsiveModalProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {

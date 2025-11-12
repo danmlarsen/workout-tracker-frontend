@@ -1,4 +1,7 @@
 "use client";
+
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import ChangePasswordForm from "./change-password-form";
-import { useState } from "react";
 
 export default function ChangePasswordButton({
   className,

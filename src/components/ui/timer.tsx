@@ -1,6 +1,9 @@
-import { TWorkout } from "@/api/workouts/types";
-import { PauseIcon, PlayIcon } from "lucide-react";
+"use client";
+
 import { useEffect, useState } from "react";
+import { PauseIcon, PlayIcon } from "lucide-react";
+
+import { TWorkout } from "@/api/workouts/types";
 import { Button } from "./button";
 import {
   usePauseActiveWorkout,
@@ -8,15 +11,16 @@ import {
 } from "@/api/workouts/workout-mutations";
 import { formatTimeFromMs } from "@/lib/utils";
 
+interface TimerProps {
+  workout: TWorkout;
+  isButton?: boolean;
+}
+
 export default function Timer({
   workout: { startedAt, pauseDuration, isPaused, lastPauseStartTime },
   isButton = false,
-}: {
-  workout: TWorkout;
-  isButton?: boolean;
-}) {
+}: TimerProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
-
   const pauseWorkout = usePauseActiveWorkout();
   const resumeWorkout = useResumeActiveWorkout();
 

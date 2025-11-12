@@ -1,5 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
+
 import { useAuth } from "@/api/auth/auth-context";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,22 +18,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { changePasswordSchema } from "@/validation/changePasswordSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import z from "zod";
+import { currentPasswordSchema } from "@/validation/currentPasswordSchema";
 
-const schema = z
-  .object({
-    currentPassword: z.string(),
-  })
-  .and(changePasswordSchema);
+const schema = currentPasswordSchema.and(changePasswordSchema);
+
+interface ChangePasswordFormProps {
+  onSuccess?: () => void;
+}
 
 export default function ChangePasswordForm({
   onSuccess,
-}: {
-  onSuccess?: () => void;
-}) {
+}: ChangePasswordFormProps) {
+  const { changePassword } = useAuth();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -38,9 +39,7 @@ export default function ChangePasswordForm({
     },
   });
 
-  const { changePassword } = useAuth();
-
-  async function handleSubmit(data: z.infer<typeof schema>) {
+  const handleSubmit = async (data: z.infer<typeof schema>) => {
     const response = await changePassword(
       data.currentPassword,
       data.newPassword,
@@ -55,7 +54,7 @@ export default function ChangePasswordForm({
         message: response.message,
       });
     }
-  }
+  };
 
   return (
     <Form {...form}>

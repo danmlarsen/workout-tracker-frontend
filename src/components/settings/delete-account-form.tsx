@@ -1,5 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
+
 import { useAuth } from "@/api/auth/auth-context";
 import { useDeleteAccount } from "@/api/user/mutations";
 import { Button } from "@/components/ui/button";
@@ -12,28 +17,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import z from "zod";
-
-const schema = z.object({
-  password: z.string().min(1, "Password is required"),
-});
+import { currentPasswordSchema } from "@/validation/currentPasswordSchema";
 
 export default function DeleteAccountForm() {
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<z.infer<typeof currentPasswordSchema>>({
+    resolver: zodResolver(currentPasswordSchema),
     defaultValues: {
-      password: "",
+      currentPassword: "",
     },
   });
-
   const { logout } = useAuth();
   const deleteAccount = useDeleteAccount();
 
-  async function handleSubmit(data: z.infer<typeof schema>) {
-    deleteAccount.mutate(data.password, {
+  const handleSubmit = async (data: z.infer<typeof currentPasswordSchema>) => {
+    deleteAccount.mutate(data.currentPassword, {
       onSuccess: () => {
         toast.success("Successfully deleted your account");
         logout();
@@ -45,7 +42,7 @@ export default function DeleteAccountForm() {
         });
       },
     });
-  }
+  };
 
   return (
     <Form {...form}>
@@ -53,7 +50,7 @@ export default function DeleteAccountForm() {
         <fieldset className="space-y-4">
           <FormField
             control={form.control}
-            name="password"
+            name="currentPassword"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>

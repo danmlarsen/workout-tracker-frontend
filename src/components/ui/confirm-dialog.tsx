@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "./button";
 import {
   Dialog,
@@ -9,6 +10,17 @@ import {
   DialogTitle,
 } from "./dialog";
 
+interface ConfirmDialogProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+  title?: string;
+  text?: string;
+  content?: React.ReactNode;
+  confirmText?: string;
+  variant?: "default" | "destructive";
+}
+
 export default function ConfirmDialog({
   isOpen,
   onOpenChange,
@@ -18,16 +30,7 @@ export default function ConfirmDialog({
   content,
   confirmText = "Confirm",
   variant = "default",
-}: {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  onConfirm: () => void;
-  title?: string;
-  text?: string;
-  content?: React.ReactNode;
-  confirmText?: string;
-  variant?: "default" | "destructive";
-}) {
+}: ConfirmDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>

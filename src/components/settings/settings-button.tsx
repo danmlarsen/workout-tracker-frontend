@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
+import { SettingsIcon } from "lucide-react";
+
 import { ResponsiveModal } from "../ui/responsive-modal";
 import ChangePasswordButton from "@/components/settings/change-password-button";
 import ThemeToggle from "../theme-toggle";
 import { Button } from "../ui/button";
-import Link from "next/link";
 import DeleteAccountButton from "@/components/settings/delete-account-button";
-import { SettingsIcon } from "lucide-react";
 import { useSearchParamState } from "@/hooks/use-search-param-state";
 
 export default function SettingsButton() {
