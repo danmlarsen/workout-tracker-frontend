@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useApiClient } from "../client";
-import { TWorkout, TWorkoutSetDto } from "./types";
+import { type WorkoutData, type WorkoutSetDto } from "./types";
 
 export function useAddWorkoutSet(isActiveWorkout?: boolean) {
   const { apiClient } = useApiClient();
@@ -15,7 +15,7 @@ export function useAddWorkoutSet(isActiveWorkout?: boolean) {
       workoutId: number;
       workoutExerciseId: number;
     }) =>
-      apiClient<TWorkout>(
+      apiClient<WorkoutData>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}/sets`,
         {
           method: "POST",
@@ -48,9 +48,9 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
       workoutId: number;
       workoutExerciseId: number;
       setId: number;
-      data: TWorkoutSetDto;
+      data: WorkoutSetDto;
     }) =>
-      apiClient<TWorkout>(
+      apiClient<WorkoutData>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}/sets/${setId}`,
         {
           method: "PATCH",
@@ -66,7 +66,7 @@ export function useUpdateWorkoutSet(isActiveWorkout?: boolean) {
       await queryClient.cancelQueries({ queryKey });
 
       // Snapshot the previous value
-      const previousWorkout = queryClient.getQueryData<TWorkout>(queryKey);
+      const previousWorkout = queryClient.getQueryData<WorkoutData>(queryKey);
 
       // Optimistically update the cache
       if (previousWorkout) {
@@ -129,7 +129,7 @@ export function useDeleteWorkoutSet(isActiveWorkout?: boolean) {
       workoutExerciseId: number;
       setId: number;
     }) =>
-      apiClient<TWorkout>(
+      apiClient<WorkoutData>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}/sets/${setId}`,
         {
           method: "DELETE",

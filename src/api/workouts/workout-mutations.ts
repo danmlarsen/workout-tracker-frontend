@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useApiClient } from "../client";
 import {
-  type TUpdateWorkoutDto,
-  type TWorkout,
-  TCreateWorkoutDto,
+  type UpdateWorkoutDto,
+  type WorkoutData,
+  type CreateWorkoutDto,
 } from "./types";
 
 export function useCreateDraftWorkout() {
@@ -11,8 +11,8 @@ export function useCreateDraftWorkout() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: TCreateWorkoutDto) =>
-      apiClient<TWorkout>("/workouts", {
+    mutationFn: (data: CreateWorkoutDto) =>
+      apiClient<WorkoutData>("/workouts", {
         method: "POST",
         body: JSON.stringify(data),
       }),
@@ -39,7 +39,7 @@ export function useCreateActiveWorkout() {
 
   return useMutation({
     mutationFn: () =>
-      apiClient<TWorkout>("/workouts/active", {
+      apiClient<WorkoutData>("/workouts/active", {
         method: "POST",
       }),
     onSuccess: (newWorkout) => {
@@ -54,7 +54,7 @@ export function useCompleteWorkout() {
 
   return useMutation({
     mutationFn: (workoutId: number) =>
-      apiClient<TWorkout>(`/workouts/${workoutId}/complete`, {
+      apiClient<WorkoutData>(`/workouts/${workoutId}/complete`, {
         method: "POST",
       }),
     onSuccess: async (updatedWorkout, workoutId) => {
@@ -72,7 +72,7 @@ export function useCompleteDraftWorkout() {
 
   return useMutation({
     mutationFn: (workoutId: number) =>
-      apiClient<TWorkout>(`/workouts/${workoutId}/complete`, {
+      apiClient<WorkoutData>(`/workouts/${workoutId}/complete`, {
         method: "POST",
       }),
     onSuccess: async (updatedWorkout, workoutId) => {
@@ -89,7 +89,7 @@ export function useDeleteActiveWorkout() {
 
   return useMutation({
     mutationFn: () =>
-      apiClient<TWorkout>("/workouts/active", {
+      apiClient<WorkoutData>("/workouts/active", {
         method: "DELETE",
       }),
     onSuccess: () => {
@@ -108,9 +108,9 @@ export function useUpdateWorkout(isActiveWorkout?: boolean) {
       data,
     }: {
       workoutId: number;
-      data: TUpdateWorkoutDto;
+      data: UpdateWorkoutDto;
     }) =>
-      apiClient<TWorkout>(`/workouts/${workoutId}`, {
+      apiClient<WorkoutData>(`/workouts/${workoutId}`, {
         method: "PATCH",
         body: JSON.stringify(data),
       }),
@@ -136,7 +136,7 @@ export function useDeleteWorkout() {
 
   return useMutation({
     mutationFn: (workoutId: number) =>
-      apiClient<TWorkout>(`/workouts/${workoutId}`, {
+      apiClient<WorkoutData>(`/workouts/${workoutId}`, {
         method: "DELETE",
       }),
     onSuccess: async (_, workoutId) => {
@@ -152,7 +152,7 @@ export function usePauseActiveWorkout() {
 
   return useMutation({
     mutationFn: () =>
-      apiClient<TWorkout>(`/workouts/active/pause`, {
+      apiClient<WorkoutData>(`/workouts/active/pause`, {
         method: "PATCH",
       }),
     onSuccess: (updatedWorkout) => {
@@ -167,7 +167,7 @@ export function useResumeActiveWorkout() {
 
   return useMutation({
     mutationFn: () =>
-      apiClient<TWorkout>(`/workouts/active/resume`, {
+      apiClient<WorkoutData>(`/workouts/active/resume`, {
         method: "PATCH",
       }),
     onSuccess: (updatedWorkout) => {

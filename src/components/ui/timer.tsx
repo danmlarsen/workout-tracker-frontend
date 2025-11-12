@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { PauseIcon, PlayIcon } from "lucide-react";
 
-import { TWorkout } from "@/api/workouts/types";
+import { type WorkoutData } from "@/api/workouts/types";
 import { Button } from "./button";
 import {
   usePauseActiveWorkout,
@@ -12,7 +12,7 @@ import {
 import { formatTimeFromMs } from "@/lib/utils";
 
 interface TimerProps {
-  workout: TWorkout;
+  workout: WorkoutData;
   isButton?: boolean;
 }
 

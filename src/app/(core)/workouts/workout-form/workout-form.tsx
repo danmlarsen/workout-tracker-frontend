@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import WorkoutExercise from "./workout-exercise";
 import EditWorkoutNameButton from "./edit-workout-name-button";
 import Timer from "@/components/ui/timer";
-import { type TWorkout } from "@/api/workouts/types";
+import { type WorkoutData } from "@/api/workouts/types";
 import CompleteWorkoutDialog from "../workout-active/complete-workout-dialog";
 import { type ExerciseData } from "@/api/exercises/types";
 import DeleteActiveWorkoutDialog from "../workout-active/delete-active-workout-dialog";
@@ -25,7 +25,7 @@ import { useActiveWorkoutContext } from "@/context/active-workout-context";
 import { Spinner } from "@/components/ui/spinner";
 
 interface WorkoutFormProps {
-  workout: TWorkout;
+  workout: WorkoutData;
   onSuccess?: () => void;
   onClose?: () => void;
   onToggleEdit?: () => void;
@@ -33,7 +33,7 @@ interface WorkoutFormProps {
 }
 
 export type WorkoutFormContextValue = {
-  workout: TWorkout;
+  workout: WorkoutData;
   isActiveWorkout: boolean;
   isEditing: boolean;
 };

@@ -1,5 +1,5 @@
 import { type TEquipment, type TMuscleGroup } from "@/lib/constants";
-import { type TWorkout, type TWorkoutSet } from "../workouts/types";
+import { type WorkoutData, type WorkoutSetData } from "../workouts/types";
 
 export type ExerciseData = {
   id: number;
@@ -47,6 +47,6 @@ export type ExerciseWorkoutsResponse = {
   data: ExerciseWorkoutsData[];
 };
 
-export type ExerciseWorkoutsData = Omit<TWorkout, "workoutExercises"> & {
-  workoutSets: TWorkoutSet[];
+export type ExerciseWorkoutsData = Omit<WorkoutData, "workoutExercises"> & {
+  workoutSets: WorkoutSetData[];
 };

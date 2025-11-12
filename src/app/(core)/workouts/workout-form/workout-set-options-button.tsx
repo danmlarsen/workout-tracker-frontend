@@ -4,7 +4,7 @@ import {
   useDeleteWorkoutSet,
   useUpdateWorkoutSet,
 } from "@/api/workouts/workout-set-mutations";
-import { type TWorkoutSet, WORKOUT_SET_TYPES } from "@/api/workouts/types";
+import { type WorkoutSetData, WORKOUT_SET_TYPES } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,7 +15,7 @@ import {
 import { useWorkoutFormContext } from "./workout-form";
 
 interface WorkoutSetOptionsButtonProps {
-  workoutSet: TWorkoutSet;
+  workoutSet: WorkoutSetData;
 }
 
 export default function WorkoutSetOptionsButton({

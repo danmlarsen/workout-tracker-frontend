@@ -2,9 +2,9 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 import {
-  TWorkout,
-  TWorkoutExerciseBestSet,
-  TWorkoutSet,
+  type WorkoutData,
+  type WorkoutExerciseBestSet,
+  type WorkoutSetData,
 } from "@/api/workouts/types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -46,7 +46,9 @@ export function calculateOneRepMax(weight: number, reps: number): number {
   return weight * (1 + reps / 30);
 }
 
-export function getBestSetByOneRM(sets: TWorkoutSet[]): TWorkoutSet | null {
+export function getBestSetByOneRM(
+  sets: WorkoutSetData[],
+): WorkoutSetData | null {
   if (sets.length === 0) return null;
 
   return sets.reduce((best, current) => {
@@ -57,7 +59,9 @@ export function getBestSetByOneRM(sets: TWorkoutSet[]): TWorkoutSet | null {
   });
 }
 
-export function getBestSetByDuration(sets: TWorkoutSet[]): TWorkoutSet | null {
+export function getBestSetByDuration(
+  sets: WorkoutSetData[],
+): WorkoutSetData | null {
   if (sets.length === 0) return null;
 
   return sets.reduce((best, current) =>
@@ -65,7 +69,7 @@ export function getBestSetByDuration(sets: TWorkoutSet[]): TWorkoutSet | null {
   );
 }
 
-export function formatBestSet(bestSet: TWorkoutExerciseBestSet | null): string {
+export function formatBestSet(bestSet: WorkoutExerciseBestSet | null): string {
   if (bestSet?.reps && bestSet.weight) {
     return bestSet ? `${bestSet.weight} kg x ${bestSet.reps}` : "-";
   }
@@ -77,11 +81,11 @@ export function formatBestSet(bestSet: TWorkoutExerciseBestSet | null): string {
   return "";
 }
 
-export function findBestWorkoutSetWithIndex(workoutSets: TWorkoutSet[]): {
-  bestSet: TWorkoutSet | null;
+export function findBestWorkoutSetWithIndex(workoutSets: WorkoutSetData[]): {
+  bestSet: WorkoutSetData | null;
   bestSetIndex: number;
 } {
-  let bestSet: TWorkoutSet | null = null;
+  let bestSet: WorkoutSetData | null = null;
   let bestSetIndex = -1;
 
   workoutSets.forEach((set, index) => {
@@ -115,8 +119,8 @@ export function findBestWorkoutSetWithIndex(workoutSets: TWorkoutSet[]): {
 }
 
 export function isSetBetter(
-  currentSet: TWorkoutSet,
-  referenceSet: TWorkoutSet,
+  currentSet: WorkoutSetData,
+  referenceSet: WorkoutSetData,
 ): boolean {
   const currentOneRM = calculateOneRepMax(
     currentSet.weight || 0,
@@ -138,11 +142,11 @@ export function isSetBetter(
 
 export function getPlaceholderWorkoutSet(
   setIndex: number,
-  bestCurrentSet: TWorkoutSet | null,
+  bestCurrentSet: WorkoutSetData | null,
   bestSetIndex: number,
-  previousWorkoutSets: TWorkoutSet[] | undefined,
-  currentWorkoutSets?: TWorkoutSet[],
-): TWorkoutSet | undefined {
+  previousWorkoutSets: WorkoutSetData[] | undefined,
+  currentWorkoutSets?: WorkoutSetData[],
+): WorkoutSetData | undefined {
   // Only use current workout's best set for subsequent sets
   if (
     bestCurrentSet &&
@@ -195,7 +199,7 @@ export function getPlaceholderWorkoutSet(
 }
 
 export function parseWorkoutTitle(
-  workout: Pick<TWorkout, "title" | "startedAt">,
+  workout: Pick<WorkoutData, "title" | "startedAt">,
 ) {
   return workout.title
     ? workout.title

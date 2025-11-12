@@ -1,40 +1,40 @@
 import { type ExerciseData } from "../exercises/types";
 
-export type TWorkoutsQuery = {
+export type WorkoutsResponse = {
   success: boolean;
   meta: {
     hasNextPage: boolean;
     nextCursor: number;
   };
-  data: TWorkoutSummary[];
+  data: WorkoutSummaryData[];
 };
 
-export type TWorkoutSummary = Omit<TWorkout, "workoutExercises"> & {
-  workoutExercises: TWorkoutExerciseSummary[];
+export type WorkoutSummaryData = Omit<WorkoutData, "workoutExercises"> & {
+  workoutExercises: WorkoutExerciseSummaryData[];
   totalWeight: number;
   totalCompletedSets: number;
 };
 
-export type TWorkoutExerciseSummary = {
+export type WorkoutExerciseSummaryData = {
   exerciseName: string;
   sets: number;
-  bestSet: TWorkoutExerciseBestSet;
+  bestSet: WorkoutExerciseBestSet;
 };
 
-export type TWorkoutExerciseBestSet = Pick<
-  TWorkoutSet,
+export type WorkoutExerciseBestSet = Pick<
+  WorkoutSetData,
   "type" | "completed" | "reps" | "weight" | "duration"
 >;
 
-export type TWorkout = {
+export type WorkoutData = {
   id: number;
   title?: string;
   createdAt: string;
   updatedAt: string;
   startedAt: string;
   userId: number;
-  workoutExercises: TWorkoutExercise[];
-  status: TWorkoutStatus;
+  workoutExercises: WorkoutExerciseData[];
+  status: WorkoutStatus;
   notes: string | null;
   isPaused: boolean;
   pauseDuration: number;
@@ -42,20 +42,20 @@ export type TWorkout = {
   activeDuration: number;
 };
 
-export type TWorkoutExercise = {
+export type WorkoutExerciseData = {
   id: number;
   workoutId: number;
   exerciseId: number;
   createdAt: string;
   updatedAt: string;
   exercise: ExerciseData;
-  workoutSets: TWorkoutSet[];
+  workoutSets: WorkoutSetData[];
   exerciseOrder: number;
-  previousWorkoutExercise?: TWorkoutExercise;
+  previousWorkoutExercise?: WorkoutExerciseData;
   notes: string | null;
 };
 
-export type TWorkoutSet = {
+export type WorkoutSetData = {
   id: number;
   workoutExerciseId: number;
   createdAt: string;
@@ -66,47 +66,47 @@ export type TWorkoutSet = {
   duration: number | null;
   setNumber: number;
   notes: string | null;
-  type: TWorkoutSetType;
+  type: WorkoutSetType;
 };
 
-export type TWorkoutSetDto = {
+export type WorkoutSetDto = {
   reps?: number | null;
   weight?: number | null;
   duration?: number | null;
   completed?: boolean;
-  type?: TWorkoutSetType;
+  type?: WorkoutSetType;
 };
 
-export type TCreateWorkoutDto = {
+export type CreateWorkoutDto = {
   title?: string | null;
   notes?: string | null;
   startedAt?: string;
   activeDuration?: number;
 };
 
-export type TUpdateWorkoutDto = {
+export type UpdateWorkoutDto = {
   title?: string | null;
   notes?: string | null;
   startedAt?: string;
   activeDuration?: number;
 };
 
-export type TWorkoutStats = {
+export type WorkoutStatsData = {
   totalWorkouts: number;
   totalHours: number;
   totalWeightLifted: number;
 };
 
-export type TWorkoutCalendarData = {
+export type WorkoutCalendarData = {
   workoutDates: string[];
   totalWorkouts: number;
 };
 
-export type TUpdateWorkoutExerciseDto = {
+export type UpdateWorkoutExerciseDto = {
   notes?: string;
 };
 
-export type TWorkoutStatus = "DRAFT" | "ACTIVE" | "COMPLETED";
+export type WorkoutStatus = "DRAFT" | "ACTIVE" | "COMPLETED";
 
 export const WORKOUT_SET_TYPES = [
   "normal",
@@ -114,4 +114,4 @@ export const WORKOUT_SET_TYPES = [
   "dropset",
   "failure",
 ] as const;
-export type TWorkoutSetType = (typeof WORKOUT_SET_TYPES)[number];
+export type WorkoutSetType = (typeof WORKOUT_SET_TYPES)[number];

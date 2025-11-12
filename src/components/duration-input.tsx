@@ -6,7 +6,7 @@ import { Label } from "./ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { TWorkout } from "@/api/workouts/types";
+import { type WorkoutData } from "@/api/workouts/types";
 import { formatTimeFromMs } from "@/lib/utils";
 import { useWorkoutFormContext } from "@/app/(core)/workouts/workout-form/workout-form";
 
@@ -23,7 +23,7 @@ const timeStringToSeconds = (timeString: string) => {
 };
 
 interface DurationInputProps {
-  workout: TWorkout;
+  workout: WorkoutData;
   onDurationChanged: (duration: number) => void;
 }
 

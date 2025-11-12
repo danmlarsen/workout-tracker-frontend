@@ -2,7 +2,7 @@
 
 import { ChangeEventHandler, useState } from "react";
 
-import { TWorkout } from "@/api/workouts/types";
+import { type WorkoutData } from "@/api/workouts/types";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { DATE_LOCALE } from "@/lib/constants";
 
 interface EditWorkoutNameButtonProps {
-  workout: TWorkout;
+  workout: WorkoutData;
   handleEdit: (newWorkoutName?: string) => void;
 }
 

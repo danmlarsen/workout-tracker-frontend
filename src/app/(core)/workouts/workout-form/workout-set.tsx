@@ -5,7 +5,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { useMutationState } from "@tanstack/react-query";
 
 import { useUpdateWorkoutSet } from "@/api/workouts/workout-set-mutations";
-import { type TWorkoutSetDto, type TWorkoutSet } from "@/api/workouts/types";
+import { type WorkoutSetDto, type WorkoutSetData } from "@/api/workouts/types";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -14,10 +14,10 @@ import WorkoutSetOptionsButton from "./workout-set-options-button";
 import { useWorkoutFormContext } from "./workout-form";
 
 interface WorkoutSetProps {
-  workoutSet: TWorkoutSet;
+  workoutSet: WorkoutSetData;
   exerciseCategory: "strength" | "cardio";
-  previousSet?: TWorkoutSet;
-  placeholderSet?: Partial<TWorkoutSet>;
+  previousSet?: WorkoutSetData;
+  placeholderSet?: Partial<WorkoutSetData>;
 }
 
 const parseWorkoutValue = (
@@ -61,7 +61,7 @@ export default function WorkoutSet({
 
   const workoutId = workout.id;
   const { mutate } = useUpdateWorkoutSet(isActiveWorkout);
-  const updateWorkoutSet = (payload: TWorkoutSetDto) =>
+  const updateWorkoutSet = (payload: WorkoutSetDto) =>
     mutate({
       workoutId,
       workoutExerciseId: workoutSet.workoutExerciseId,

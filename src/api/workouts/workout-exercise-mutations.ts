@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useApiClient } from "../client";
-import { TUpdateWorkoutExerciseDto, TWorkout } from "./types";
+import { type UpdateWorkoutExerciseDto, type WorkoutData } from "./types";
 
 export function useAddWorkoutExercise(isActiveWorkout?: boolean) {
   const { apiClient } = useApiClient();
@@ -14,7 +14,7 @@ export function useAddWorkoutExercise(isActiveWorkout?: boolean) {
       workoutId: number;
       exerciseId: number;
     }) =>
-      apiClient<TWorkout>(`/workouts/${workoutId}/workoutExercises`, {
+      apiClient<WorkoutData>(`/workouts/${workoutId}/workoutExercises`, {
         method: "POST",
         body: JSON.stringify({
           exerciseId,
@@ -48,9 +48,9 @@ export function useUpdateWorkoutExercise(isActiveWorkout?: boolean) {
     }: {
       workoutId: number;
       workoutExerciseId: number;
-      data: TUpdateWorkoutExerciseDto;
+      data: UpdateWorkoutExerciseDto;
     }) =>
-      apiClient<TWorkout>(
+      apiClient<WorkoutData>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}`,
         {
           method: "PATCH",
@@ -85,7 +85,7 @@ export function useDeleteWorkoutExercise(isActiveWorkout?: boolean) {
       workoutId: number;
       workoutExerciseId: number;
     }) =>
-      apiClient<TWorkout>(
+      apiClient<WorkoutData>(
         `/workouts/${workoutId}/workoutExercises/${workoutExerciseId}`,
         {
           method: "DELETE",

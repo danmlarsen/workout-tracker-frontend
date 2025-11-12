@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useMutationState } from "@tanstack/react-query";
 import { ChevronRightIcon } from "lucide-react";
 
-import { type TWorkoutExercise } from "@/api/workouts/types";
+import { type WorkoutExerciseData } from "@/api/workouts/types";
 import WorkoutSet from "./workout-set";
 import {
   useDeleteWorkoutExercise,
@@ -31,7 +31,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAddWorkoutSet } from "@/api/workouts/workout-set-mutations";
 
 interface WorkoutExerciseProps {
-  workoutExercise: TWorkoutExercise;
+  workoutExercise: WorkoutExerciseData;
   onOpenExercise: (exercise: ExerciseData) => void;
 }
 

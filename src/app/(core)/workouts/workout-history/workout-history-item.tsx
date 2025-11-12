@@ -1,7 +1,7 @@
 import { formatDate } from "date-fns";
 import { CheckCircleIcon, ClockIcon, WeightIcon } from "lucide-react";
 
-import { TWorkoutSummary } from "@/api/workouts/types";
+import { type WorkoutSummaryData } from "@/api/workouts/types";
 import {
   Card,
   CardContent,
@@ -24,7 +24,7 @@ import { useWorkoutModal } from "./workout-modal-provider";
 import { Button } from "@/components/ui/button";
 
 interface WorkoutHistoryItemProps {
-  workout: TWorkoutSummary;
+  workout: WorkoutSummaryData;
 }
 
 export default function WorkoutHistoryItem({
