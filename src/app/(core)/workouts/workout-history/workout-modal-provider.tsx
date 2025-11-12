@@ -1,36 +1,40 @@
 "use client";
 
+import { createContext, useContext, useState } from "react";
+
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { useSearchParamState } from "@/hooks/use-search-param-state";
-import { createContext, useContext, useState } from "react";
 import WorkoutForm from "../workout-form/workout-form";
 import { useWorkout } from "@/api/workouts/queries";
 import { parseWorkoutTitle } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 import { useInvalidateWorkout } from "@/api/workouts/workout-mutations";
 
-type WorkoutModalProviderContextValue = {
+interface WorkoutModalProviderContextValue {
   openWorkout: (workoutId: number, editing?: boolean) => void;
-};
+}
 
 const WorkoutModalContext =
   createContext<WorkoutModalProviderContextValue | null>(null);
 
+interface WorkoutModalProviderProps {
+  children: React.ReactNode;
+}
+
 export default function WorkoutModalProvider({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: WorkoutModalProviderProps) {
   const [isOpen, setIsOpen] = useSearchParamState("workout-modal");
   const [workoutId, setWorkoutId] = useState<number | null>(null);
   const [isEditing, setIsEditing] = useState(true);
   const invalidateWorkout = useInvalidateWorkout();
-
   const {
     data: workout,
     isSuccess,
     isLoading,
   } = useWorkout(workoutId || undefined);
+
+  const workoutTitle = workout ? parseWorkoutTitle(workout) : "Loading...";
 
   const openWorkout = (workoutId: number, editing = true) => {
     setWorkoutId(workoutId);
@@ -48,8 +52,6 @@ export default function WorkoutModalProvider({
   const toggleEdit = () => {
     setIsEditing((prev) => !prev);
   };
-
-  const workoutTitle = workout ? parseWorkoutTitle(workout) : "Loading...";
 
   return (
     <WorkoutModalContext.Provider value={{ openWorkout }}>

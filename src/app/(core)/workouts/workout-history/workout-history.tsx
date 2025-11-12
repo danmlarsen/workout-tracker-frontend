@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroller";
+
 import {
   useCompletedWorkouts,
   useWorkoutLifetimeStats,
@@ -7,16 +10,13 @@ import {
 import WorkoutHistoryItem, {
   WorkoutHistoryItemSkeleton,
 } from "./workout-history-item";
-import InfiniteScroll from "react-infinite-scroller";
 import WorkoutHistoryCalendar from "./workout-history-calendar";
-import { useState } from "react";
 import AddWorkoutButton from "./add-workout-button";
-import { DEFAULT_LIST_ITEM_AMOUNT } from "@/lib/constants";
+import { WORKOUT_LIST_ITEM_AMOUNT } from "@/lib/constants";
 import WorkoutModalProvider from "./workout-modal-provider";
 
 export default function WorkoutHistory() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-
   const {
     data,
     fetchNextPage,
@@ -27,7 +27,6 @@ export default function WorkoutHistory() {
     isSuccess,
     isError,
   } = useCompletedWorkouts(selectedDate);
-
   const { data: workoutStats } = useWorkoutLifetimeStats();
 
   return (
@@ -61,7 +60,7 @@ export default function WorkoutHistory() {
             >
               <ul className="space-y-4 sm:space-y-8">
                 {isLoading &&
-                  Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map(
+                  Array.from({ length: WORKOUT_LIST_ITEM_AMOUNT }).map(
                     (_, index) => (
                       <WorkoutHistoryItemSkeleton key={`initial-${index}`} />
                     ),
@@ -82,7 +81,7 @@ export default function WorkoutHistory() {
                     </p>
                   )}
                 {isFetchingNextPage &&
-                  Array.from({ length: DEFAULT_LIST_ITEM_AMOUNT }).map(
+                  Array.from({ length: WORKOUT_LIST_ITEM_AMOUNT }).map(
                     (_, index) => (
                       <WorkoutHistoryItemSkeleton
                         key={`loading-more-${index}`}

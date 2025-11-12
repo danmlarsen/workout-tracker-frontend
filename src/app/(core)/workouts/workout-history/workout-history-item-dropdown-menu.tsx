@@ -1,5 +1,9 @@
 "use client";
 
+import { useState } from "react";
+import { toast } from "sonner";
+import { MoreHorizontalIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,30 +11,29 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontalIcon } from "lucide-react";
-import { useState } from "react";
 import { useDeleteWorkout } from "@/api/workouts/workout-mutations";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
-import { toast } from "sonner";
+
+interface WorkoutHistoryItemDropdownMenuProps {
+  workoutId: number;
+  onClickEdit: () => void;
+}
 
 export default function WorkoutHistoryItemDropdownMenu({
   workoutId,
   onClickEdit,
-}: {
-  workoutId: number;
-  onClickEdit: () => void;
-}) {
+}: WorkoutHistoryItemDropdownMenuProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const { mutate: deleteWorkoutMutation } = useDeleteWorkout();
+  const deleteWorkout = useDeleteWorkout();
 
-  function handleDelete() {
-    deleteWorkoutMutation(workoutId, {
+  const handleDelete = () => {
+    deleteWorkout.mutate(workoutId, {
       onSuccess: () => {
         toast.success(`Successfully deleted workout`);
       },
     });
     setDeleteDialogOpen(false);
-  }
+  };
 
   return (
     <>

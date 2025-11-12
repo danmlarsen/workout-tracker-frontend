@@ -1,3 +1,6 @@
+import { formatDate } from "date-fns";
+import { CheckCircleIcon, ClockIcon, WeightIcon } from "lucide-react";
+
 import { TWorkoutSummary } from "@/api/workouts/types";
 import {
   Card,
@@ -14,25 +17,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDate } from "date-fns";
 import WorkoutHistoryItemDropdownMenu from "./workout-history-item-dropdown-menu";
-import { CheckCircleIcon, ClockIcon, WeightIcon } from "lucide-react";
 import { formatBestSet, formatTime, parseWorkoutTitle } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkoutModal } from "./workout-modal-provider";
 import { Button } from "@/components/ui/button";
 
+interface WorkoutHistoryItemProps {
+  workout: TWorkoutSummary;
+}
+
 export default function WorkoutHistoryItem({
   workout,
-}: {
-  workout: TWorkoutSummary;
-}) {
+}: WorkoutHistoryItemProps) {
+  const {
+    id,
+    startedAt,
+    workoutExercises,
+    activeDuration,
+    totalWeight,
+    totalCompletedSets,
+  } = workout;
   const { openWorkout } = useWorkoutModal();
-
-  const { id, startedAt, workoutExercises } = workout;
-
   const workoutTitle = parseWorkoutTitle(workout);
-  const workoutDuration = formatTime(workout.activeDuration);
+  const workoutDuration = formatTime(activeDuration);
 
   return (
     <>
@@ -41,7 +49,7 @@ export default function WorkoutHistoryItem({
           <div className="flex items-center justify-between">
             <CardTitle className="sr-only">{workoutTitle}</CardTitle>
             <Button
-              onClick={() => openWorkout(workout.id, false)}
+              onClick={() => openWorkout(id, false)}
               variant="link"
               className="px-0 font-bold lg:text-xl"
             >
@@ -49,7 +57,7 @@ export default function WorkoutHistoryItem({
             </Button>
             <WorkoutHistoryItemDropdownMenu
               workoutId={id}
-              onClickEdit={() => openWorkout(workout.id)}
+              onClickEdit={() => openWorkout(id)}
             />
           </div>
           <CardDescription>{formatDate(startedAt, "EEEE PP")}</CardDescription>
@@ -62,16 +70,16 @@ export default function WorkoutHistoryItem({
                 <span>{workoutDuration}</span>
               </div>
             )}
-            {!!workout.totalWeight && (
+            {!!totalWeight && (
               <div className="flex items-center gap-2">
                 <WeightIcon className="size-4 lg:size-6" />{" "}
-                <span>{workout.totalWeight}kg</span>
+                <span>{totalWeight}kg</span>
               </div>
             )}
-            {!!workout.totalCompletedSets && (
+            {!!totalCompletedSets && (
               <div className="flex items-center gap-2">
                 <CheckCircleIcon className="size-4 lg:size-6" />{" "}
-                <span>{workout.totalCompletedSets} sets</span>
+                <span>{totalCompletedSets} sets</span>
               </div>
             )}
           </div>
@@ -81,12 +89,12 @@ export default function WorkoutHistoryItem({
             </p>
           )}
           {workoutExercises.length > 0 && (
-            <Table>
+            <Table className="table-fixed">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Exercise</TableHead>
-                  <TableHead className="w-8 text-center">Sets</TableHead>
-                  <TableHead className="w-30 text-end">Best Set</TableHead>
+                  <TableHead className="w-auto">Exercise</TableHead>
+                  <TableHead className="w-16 text-center">Sets</TableHead>
+                  <TableHead className="w-24 text-end">Best Set</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -94,19 +102,15 @@ export default function WorkoutHistoryItem({
                   const exerciseName = workoutExercise.exerciseName;
                   const bestSet = formatBestSet(workoutExercise.bestSet);
 
-                  const NAME_MAXLENGTH = 20;
-
                   return (
                     <TableRow key={`${workoutExercise.exerciseName}-${idx}`}>
-                      <TableCell>
-                        {exerciseName.length >= NAME_MAXLENGTH
-                          ? `${exerciseName.slice(0, NAME_MAXLENGTH - 3).trim()}...`
-                          : exerciseName}
+                      <TableCell title={exerciseName}>
+                        <div className="truncate">{exerciseName}</div>
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="w-16 text-center">
                         {workoutExercise.sets}
                       </TableCell>
-                      <TableCell className="text-end">{bestSet}</TableCell>
+                      <TableCell className="w-24 text-end">{bestSet}</TableCell>
                     </TableRow>
                   );
                 })}
