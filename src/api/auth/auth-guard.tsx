@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useAuth } from './auth-context';
-import { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
+import { useAuth } from "./auth-context";
+import { useEffect, useState } from "react";
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -10,10 +10,14 @@ interface AuthGuardProps {
   redirectTo?: string;
 }
 
-export default function AuthGuard({ children, requireAuth = true, redirectTo }: AuthGuardProps) {
+export default function AuthGuard({
+  children,
+  requireAuth = true,
+  redirectTo,
+}: AuthGuardProps) {
+  const [hasMounted, setHasMounted] = useState(false);
   const router = useRouter();
   const { isLoggedIn } = useAuth();
-  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
@@ -23,7 +27,7 @@ export default function AuthGuard({ children, requireAuth = true, redirectTo }: 
     if (!hasMounted) return;
 
     const shouldRedirect = requireAuth ? !isLoggedIn : isLoggedIn;
-    const defaultRedirect = requireAuth ? '/login' : '/';
+    const defaultRedirect = requireAuth ? "/login" : "/";
 
     if (shouldRedirect) {
       router.push(redirectTo || defaultRedirect);

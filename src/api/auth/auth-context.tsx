@@ -1,17 +1,18 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
 import Logo from "@/components/logo";
 import { Spinner } from "@/components/ui/spinner";
 import { API_URL } from "@/lib/constants";
-import { useQueryClient } from "@tanstack/react-query";
-import { createContext, useContext, useEffect, useState } from "react";
 
-export type AuthResult = {
+export interface AuthResult {
   success: boolean;
   statusCode?: number;
   code?: string;
   message?: string;
-};
+}
 
-export type AuthContextType = {
+export interface AuthContextType {
   accessToken: string | null;
   isLoggedIn: boolean;
   isLoading: boolean;
@@ -31,7 +32,11 @@ export type AuthContextType = {
   resetPassword: (token: string, password: string) => Promise<AuthResult>;
   logout: () => Promise<void>;
   refresh: () => Promise<string | null>;
-};
+}
+
+export interface AuthProviderProps {
+  children: React.ReactNode;
+}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -41,7 +46,7 @@ export const useAuth = () => {
   return ctx;
 };
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const queryClient = useQueryClient();
