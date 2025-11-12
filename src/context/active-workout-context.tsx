@@ -1,7 +1,8 @@
 "use client";
 
-import { useSearchParamState } from "@/hooks/use-search-param-state";
 import { createContext, useContext } from "react";
+
+import { useSearchParamState } from "@/hooks/use-search-param-state";
 
 export interface ActiveWorkoutContextValue {
   activeWorkoutOpen: boolean;
@@ -12,11 +13,13 @@ const ActiveWorkoutContext = createContext<ActiveWorkoutContextValue | null>(
   null,
 );
 
+interface ActiveWorkoutProviderProps {
+  children: React.ReactNode;
+}
+
 export const ActiveWorkoutProvider = ({
   children,
-}: {
-  children: React.ReactNode;
-}) => {
+}: ActiveWorkoutProviderProps) => {
   const [activeWorkoutOpen, setActiveWorkoutOpen] = useSearchParamState(
     "active-workout-modal",
   );
