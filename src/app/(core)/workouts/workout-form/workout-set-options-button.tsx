@@ -62,7 +62,7 @@ export default function WorkoutSetOptionsButton({
                 })
               }
               variant="ghost"
-              className="flex gap-2 capitalize"
+              className="flex w-full justify-start gap-2 px-1 capitalize"
             >
               {type === "normal" && (
                 <div className="bg-secondary-foreground flex size-8 items-center justify-center rounded-sm">
@@ -98,6 +98,7 @@ export default function WorkoutSetOptionsButton({
               })
             }
             variant="ghost"
+            className="flex w-full justify-start gap-2 px-1 capitalize"
           >
             <div className="bg-secondary-foreground text-destructive flex size-8 items-center justify-center rounded-sm">
               X
