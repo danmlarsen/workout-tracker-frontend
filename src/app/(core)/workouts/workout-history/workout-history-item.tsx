@@ -94,7 +94,7 @@ export default function WorkoutHistoryItem({
                 <TableRow>
                   <TableHead className="w-auto">Exercise</TableHead>
                   <TableHead className="w-16 text-center">Sets</TableHead>
-                  <TableHead className="w-24 text-end">Best Set</TableHead>
+                  <TableHead className="w-28 text-end">Best Set</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -110,7 +110,7 @@ export default function WorkoutHistoryItem({
                       <TableCell className="w-16 text-center">
                         {workoutExercise.sets}
                       </TableCell>
-                      <TableCell className="w-24 text-end">{bestSet}</TableCell>
+                      <TableCell className="w-28 text-end">{bestSet}</TableCell>
                     </TableRow>
                   );
                 })}
