@@ -23,12 +23,13 @@ interface WorkoutSetProps {
 const parseWorkoutValue = (
   value: string,
   max: number,
+  min: number,
   shouldTruncate = false,
 ): number | null => {
   if (value.trim() === "") return null;
 
   const parsed = parseFloat(value);
-  if (isNaN(parsed) || parsed < 1) return null;
+  if (isNaN(parsed) || parsed < min) return null;
 
   const clamped = Math.min(max, parsed);
 
@@ -39,9 +40,10 @@ const parseWorkoutValue = (
   return value.includes(".") ? parseFloat(clamped.toFixed(2)) : clamped;
 };
 
-const parseReps = (value: string) => parseWorkoutValue(value, 999, true);
-const parseWeight = (value: string) => parseWorkoutValue(value, 9999);
-const parseDuration = (value: string) => parseWorkoutValue(value, 9999, true);
+const parseReps = (value: string) => parseWorkoutValue(value, 999, 1, true);
+const parseWeight = (value: string) => parseWorkoutValue(value, 9999, 0);
+const parseDuration = (value: string) =>
+  parseWorkoutValue(value, 9999, 1, true);
 
 export default function WorkoutSet({
   workoutSet,
@@ -107,8 +109,8 @@ export default function WorkoutSet({
 
     const payload = {
       weight:
-        numericWeight ||
-        (shouldUsePlaceholder ? placeholderSet?.weight : workoutSet.weight) ||
+        numericWeight ??
+        (shouldUsePlaceholder ? placeholderSet?.weight : workoutSet.weight) ??
         null,
       reps:
         numericReps ||
@@ -126,7 +128,7 @@ export default function WorkoutSet({
     if (
       checkedChange &&
       exerciseCategory === "strength" &&
-      (!payload.weight || !payload.reps)
+      (payload.weight === null || !payload.reps)
     ) {
       setIsChecked(workoutSet.completed);
       return;
