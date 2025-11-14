@@ -5,6 +5,8 @@ import Logo from "@/components/logo";
 import { Spinner } from "@/components/ui/spinner";
 import { API_URL } from "@/lib/constants";
 
+const SESSION_FLAG = "hasSession";
+
 export interface AuthResult {
   success: boolean;
   statusCode?: number;
@@ -78,6 +80,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const { access_token: accessToken } = await res.json();
       setAccessToken(accessToken);
+      localStorage.setItem(SESSION_FLAG, "1");
 
       return {
         success: true,
@@ -112,6 +115,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const { access_token: accessToken } = await res.json();
       setAccessToken(accessToken);
+      localStorage.setItem(SESSION_FLAG, "1");
 
       return {
         success: true,
@@ -317,6 +321,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     setAccessToken(null);
+    localStorage.removeItem(SESSION_FLAG);
     queryClient.clear();
   };
 
@@ -334,6 +339,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
 
       setAccessToken(null);
+      localStorage.removeItem(SESSION_FLAG);
       return null;
     } catch {
       setAccessToken(null);
@@ -344,7 +350,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-    refresh();
+    if (localStorage.getItem(SESSION_FLAG)) {
+      refresh();
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   if (isLoading) {
