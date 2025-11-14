@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import LoginForm from "./login-form";
+import RecaptchaNotice from "@/components/recaptcha-notice";
 
 export default function LoginPage() {
   return (
@@ -19,6 +20,7 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <LoginForm />
+          <RecaptchaNotice />
         </CardContent>
         <CardFooter className="flex flex-col items-center justify-center gap-2">
           <div>

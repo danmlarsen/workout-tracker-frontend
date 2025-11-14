@@ -21,6 +21,7 @@ export interface AuthContextType {
     email: string,
     password: string,
   ) => Promise<AuthResult>;
+  loginWithCaptcha: (token: string) => Promise<AuthResult>;
   register: (email: string, password: string) => Promise<AuthResult>;
   changePassword: (
     currentPassword: string,
@@ -71,6 +72,40 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         return {
           success: false,
           message: parsedResponse?.message || "Login failed",
+          code: parsedResponse?.code,
+        };
+      }
+
+      const { access_token: accessToken } = await res.json();
+      setAccessToken(accessToken);
+
+      return {
+        success: true,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "Network error. Please try again later.",
+      };
+    }
+  };
+
+  const loginWithCaptcha = async (captchaToken: string) => {
+    try {
+      const res = await fetch(`${API_URL}/auth/demo/create-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ captchaToken }),
+      });
+
+      if (!res.ok) {
+        const parsedResponse = await res.json();
+        return {
+          success: false,
+          message: parsedResponse?.message || "Failed to start demo session",
           code: parsedResponse?.code,
         };
       }
@@ -333,6 +368,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isLoading,
         login,
         loginWithCredentials,
+        loginWithCaptcha,
         register,
         changePassword,
         confirmEmail,
