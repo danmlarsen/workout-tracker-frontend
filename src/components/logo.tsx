@@ -14,7 +14,7 @@ export default function Logo({
   ...props
 }: LogoProps) {
   return (
-    <Link href="/">
+    <Link href="/" aria-label="Home">
       <svg
         viewBox="0 0 256 58"
         fill="none"
