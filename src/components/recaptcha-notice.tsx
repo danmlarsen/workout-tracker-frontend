@@ -12,7 +12,7 @@ export default function RecaptchaNotice({
       )}
       {...props}
     >
-      This site is protected by reCAPTCHA <br />
+      This demo is protected by reCAPTCHA <br />
       Google{" "}
       <a
         href="https://policies.google.com/privacy"
