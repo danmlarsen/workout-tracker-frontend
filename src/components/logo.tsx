@@ -5,16 +5,18 @@ import { cn } from "@/lib/utils";
 interface LogoProps extends React.ComponentProps<"svg"> {
   textColor?: string;
   accentColor?: string;
+  url?: string;
 }
 
 export default function Logo({
   className,
   textColor = "var(--foreground)",
   accentColor = "var(--accent)",
+  url = "/",
   ...props
 }: LogoProps) {
   return (
-    <Link href="/" aria-label="Home">
+    <Link href={url} aria-label="Home">
       <svg
         viewBox="0 0 256 58"
         fill="none"

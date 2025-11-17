@@ -38,7 +38,7 @@ export default function LoginForm() {
     setIsPending(false);
 
     if (response.success) {
-      router.push("/");
+      router.push("/app");
     } else {
       if (response.code && response.code === "EMAIL_NOT_CONFIRMED") {
         form.setError("root", {

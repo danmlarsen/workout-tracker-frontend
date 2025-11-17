@@ -27,7 +27,7 @@ export default function AuthGuard({
     if (!hasMounted) return;
 
     const shouldRedirect = requireAuth ? !isLoggedIn : isLoggedIn;
-    const defaultRedirect = requireAuth ? "/login" : "/";
+    const defaultRedirect = requireAuth ? "/login" : "/app";
 
     if (shouldRedirect) {
       router.push(redirectTo || defaultRedirect);
