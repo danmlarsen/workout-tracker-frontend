@@ -9,7 +9,7 @@ import {
   type ExercisesQueryFilters,
 } from "@/api/exercises/types";
 import ExerciseItem, { ExerciseItemSkeleton } from "./exercise-item";
-import ExerciseDetailsModal from "../exercise-details/exercise-details-modal";
+import ExerciseDetailsModal from "../../../../features/exercises/components/exercise-details/exercise-details-modal";
 import { EXERCISE_LIST_ITEM_AMOUNT } from "@/lib/constants";
 import { useSearchParamState } from "@/hooks/use-search-param-state";
 

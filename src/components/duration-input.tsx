@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { type WorkoutData } from "@/api/workouts/types";
 import { formatTimeFromMs } from "@/lib/utils";
-import { useWorkoutFormContext } from "@/app/(core)/workouts/workout-form/workout-form";
+import { useWorkoutFormContext } from "@/features/workouts/components/workout-form/workout-form";
 
 const secondsToTimeString = (seconds: number) => {
   const hours = Math.floor(seconds / 3600);

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { MaximizeIcon, XIcon } from "lucide-react";
 
 import { useActiveWorkout } from "@/api/workouts/queries";
-import WorkoutForm from "@/app/(core)/workouts/workout-form/workout-form";
+import WorkoutForm from "@/features/workouts/components/workout-form/workout-form";
 import { Button } from "@/components/ui/button";
 import Timer from "@/components/ui/timer";
 import DeleteActiveWorkoutDialog from "./delete-active-workout-dialog";
