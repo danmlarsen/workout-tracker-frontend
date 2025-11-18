@@ -14,7 +14,7 @@ export default function LandingPage() {
           NextLift is a fast, distraction-free workout tracker that makes it
           easy to log sets, follow your plan, and see your progress over time.
         </p>
-        <div className="flex justify-center gap-4 md:justify-start">
+        <div className="flex justify-center gap-2 sm:gap-4 md:justify-start">
           <Button asChild>
             <Link href="/register">Get Started</Link>
           </Button>
