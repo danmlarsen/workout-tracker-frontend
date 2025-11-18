@@ -20,7 +20,7 @@ import WorkoutNotes from "./workout-notes";
 import { parseWorkoutTitle } from "@/lib/utils";
 import DatePicker from "@/components/date-picker";
 import DurationInput from "@/components/duration-input";
-import ExerciseDetailsModal from "../../exercises/exercise-details/exercise-details-modal";
+import ExerciseDetailsModal from "@/features/exercises/components/exercise-details/exercise-details-modal";
 import { useActiveWorkoutContext } from "@/context/active-workout-context";
 import { Spinner } from "@/components/ui/spinner";
 

@@ -9,9 +9,9 @@ import Logo from "./logo";
 import SettingsButton from "./settings/settings-button";
 
 const navItems = [
-  { label: "Home", href: "/", icon: HomeIcon },
-  { label: "Workouts", href: "/workouts", icon: BookOpenIcon },
-  { label: "Exercises", href: "/exercises", icon: DumbbellIcon },
+  { label: "Home", href: "/app", icon: HomeIcon },
+  { label: "Workouts", href: "/app/workouts", icon: BookOpenIcon },
+  { label: "Exercises", href: "/app/exercises", icon: DumbbellIcon },
 ];
 
 export default function Navigation() {
@@ -20,7 +20,7 @@ export default function Navigation() {
   return (
     <aside className="bg-sidebar text-sidebar-foreground border-background fixed inset-x-0 bottom-0 lg:inset-x-auto lg:inset-y-0 lg:w-[16rem] lg:py-8">
       <div className="hidden px-8 pb-10 lg:block">
-        <Logo className="w-full max-w-40" />
+        <Logo className="w-full max-w-40" url="/app" />
       </div>
       <nav className="mx-auto grid h-16 max-w-lg lg:h-auto lg:px-4">
         <ul className="grid grid-cols-4 lg:flex lg:flex-col lg:gap-4">

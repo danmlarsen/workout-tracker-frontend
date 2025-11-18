@@ -17,7 +17,7 @@ export default function LogoutPage() {
         setIsLoggingOut(true);
         await logout();
         toast.success("Successfully logged out", { id: "logout-toast" });
-        router.replace("/login");
+        router.replace("/");
       }
     }
     handleLogout();
