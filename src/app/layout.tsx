@@ -11,7 +11,34 @@ const interSans = Inter({
 
 export const metadata: Metadata = {
   title: "NextLift - Workout Tracker",
-  description: "Workout Tracker App",
+  description:
+    "NextLift is a fast, distraction-free workout tracker that makes it easy to log sets, follow your plan, and see your progress over time.",
+  keywords: [
+    "workout tracker",
+    "fitness app",
+    "exercise logging",
+    "progress tracking",
+    "workout planner",
+    "health and fitness",
+    "gym log",
+    "training journal",
+  ],
+  authors: [{ name: "Dan Marius Larsen", url: "https://www.danmarius.no" }],
+  creator: "Dan Marius Larsen",
+  twitter: {
+    card: "summary_large_image",
+    title: "NextLift - Workout Tracker",
+    description:
+      "NextLift is a fast, distraction-free workout tracker that makes it easy to log sets, follow your plan, and see your progress over time.",
+  },
+  openGraph: {
+    title: "NextLift - Workout Tracker",
+    description:
+      "NextLift is a fast, distraction-free workout tracker that makes it easy to log sets, follow your plan, and see your progress over time.",
+    type: "website",
+    url: "https://nextlift.app",
+    siteName: "NextLift",
+  },
 };
 
 interface RootLayoutProps {

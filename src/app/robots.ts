@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/login", "/register", "/workouts", "/exercises", "/settings"],
+      disallow: ["/login", "/register", "/app"],
     },
     // sitemap: 'https://acme.com/sitemap.xml',
   };
