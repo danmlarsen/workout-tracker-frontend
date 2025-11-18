@@ -33,9 +33,12 @@ export default async function RegisterPage({
         <CardContent>
           <RegisterForm />
         </CardContent>
-        <CardFooter className="flex items-center justify-center gap-2">
+        <CardFooter className="text-muted-foreground flex items-center justify-center gap-2 text-sm">
           <span>Already have an account?</span>
-          <Link href="/login" className="font-bold underline">
+          <Link
+            href="/login"
+            className="text-foreground font-bold underline underline-offset-2"
+          >
             Login
           </Link>
         </CardFooter>

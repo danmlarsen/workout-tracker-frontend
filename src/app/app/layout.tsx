@@ -15,7 +15,7 @@ export default function CoreLayout({ children }: CoreLayoutProps) {
   return (
     <AuthGuard>
       <ActiveWorkoutProvider>
-        <div className="grid min-h-dvh lg:grid-cols-[auto_1fr]">
+        <div className="grid lg:grid-cols-[auto_1fr]">
           <div className="hidden w-[16rem] lg:block"></div>
 
           <div className="p-4 lg:p-8">

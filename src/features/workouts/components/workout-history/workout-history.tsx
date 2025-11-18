@@ -48,55 +48,49 @@ export default function WorkoutHistory() {
             </h2>
             <AddWorkoutButton selectedDate={selectedDate} />
           </div>
-          <div className="space-y-4">
-            <InfiniteScroll
-              initialLoad={false}
-              loadMore={() => {
-                if (!isFetching) {
-                  fetchNextPage();
-                }
-              }}
-              hasMore={hasNextPage}
-            >
-              <ul className="space-y-4 sm:space-y-8">
-                {isLoading &&
-                  Array.from({ length: WORKOUT_LIST_ITEM_AMOUNT }).map(
-                    (_, index) => (
-                      <WorkoutHistoryItemSkeleton key={`initial-${index}`} />
-                    ),
-                  )}
-                {isSuccess &&
-                  data.pages.map((group) =>
-                    group.data.map((workout) => (
-                      <WorkoutHistoryItem key={workout.id} workout={workout} />
-                    )),
-                  )}
-                {isSuccess &&
-                  data.pages.length > 0 &&
-                  data.pages[0].data.length === 0 && (
-                    <p className="text-muted-foreground">
-                      {selectedDate
-                        ? `No workout history found for this date.`
-                        : "No workout history found."}
-                    </p>
-                  )}
-                {isFetchingNextPage &&
-                  Array.from({ length: WORKOUT_LIST_ITEM_AMOUNT }).map(
-                    (_, index) => (
-                      <WorkoutHistoryItemSkeleton
-                        key={`loading-more-${index}`}
-                      />
-                    ),
-                  )}
-                {isError && (
-                  <p className="text-destructive">
-                    An unexpected error occurred while loading workouts. Please
-                    try again later.
+          <InfiniteScroll
+            initialLoad={false}
+            loadMore={() => {
+              if (!isFetching) {
+                fetchNextPage();
+              }
+            }}
+            hasMore={hasNextPage}
+          >
+            <ul className="space-y-4 sm:space-y-8">
+              {isLoading &&
+                Array.from({ length: 2 }).map((_, index) => (
+                  <WorkoutHistoryItemSkeleton key={`initial-${index}`} />
+                ))}
+              {isSuccess &&
+                data.pages.map((group) =>
+                  group.data.map((workout) => (
+                    <WorkoutHistoryItem key={workout.id} workout={workout} />
+                  )),
+                )}
+              {isSuccess &&
+                data.pages.length > 0 &&
+                data.pages[0].data.length === 0 && (
+                  <p className="text-muted-foreground">
+                    {selectedDate
+                      ? `No workout history found for this date.`
+                      : "No workout history found."}
                   </p>
                 )}
-              </ul>
-            </InfiniteScroll>
-          </div>
+              {isFetchingNextPage &&
+                Array.from({ length: WORKOUT_LIST_ITEM_AMOUNT }).map(
+                  (_, index) => (
+                    <WorkoutHistoryItemSkeleton key={`loading-more-${index}`} />
+                  ),
+                )}
+              {isError && (
+                <p className="text-destructive">
+                  An unexpected error occurred while loading workouts. Please
+                  try again later.
+                </p>
+              )}
+            </ul>
+          </InfiniteScroll>
         </div>
       </div>
     </WorkoutModalProvider>

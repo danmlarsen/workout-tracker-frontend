@@ -88,16 +88,22 @@ export default function ResetPasswordPage() {
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex flex-col items-center justify-center gap-2">
+        <CardFooter className="text-muted-foreground flex flex-col items-center justify-center gap-2 text-sm">
           <div>
             <span>Remember your password?</span>{" "}
-            <Link href="/login" className="font-bold underline">
+            <Link
+              href="/login"
+              className="text-foreground font-bold underline underline-offset-2"
+            >
               Login
             </Link>
           </div>
           <div>
             <span>Don&apos;t have an account?</span>{" "}
-            <Link href="/register" className="font-bold underline">
+            <Link
+              href="/register"
+              className="text-foreground font-bold underline underline-offset-2"
+            >
               Register
             </Link>
           </div>

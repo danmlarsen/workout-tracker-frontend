@@ -20,10 +20,13 @@ export default function LoginPage() {
         <CardContent>
           <LoginForm />
         </CardContent>
-        <CardFooter className="flex flex-col items-center justify-center gap-2">
+        <CardFooter className="text-muted-foreground flex flex-col items-center justify-center gap-2 text-sm">
           <div>
             <span>Need to create an account?</span>{" "}
-            <Link href="/register" className="font-bold underline">
+            <Link
+              href="/register"
+              className="text-foreground font-bold underline underline-offset-2"
+            >
               Register
             </Link>
           </div>
@@ -31,7 +34,7 @@ export default function LoginPage() {
             <span>Forgot password?</span>{" "}
             <Link
               href="/request-password-reset"
-              className="font-bold underline"
+              className="text-foreground font-bold underline underline-offset-2"
             >
               Reset my password
             </Link>
