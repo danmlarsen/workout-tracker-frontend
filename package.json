@@ -9,7 +9,7 @@
     "lint": "eslint",
     "api:generate": "orval --config orval.config.ts",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run --reporter=verbose"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

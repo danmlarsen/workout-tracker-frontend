@@ -28,8 +28,10 @@ export function formatNumber(
     }).format(value);
   }
 
-  // Use standard formatting with commas
-  return new Intl.NumberFormat("en-US").format(value);
+  // Use standard formatting with commas and respect maximumFractionDigits
+  return new Intl.NumberFormat("en-US", {
+    maximumFractionDigits,
+  }).format(value);
 }
 
 export function formatCompactNumber(value: number): string {
