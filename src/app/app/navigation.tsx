@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { BookOpenIcon, DumbbellIcon, HomeIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import Logo from "./logo";
-import SettingsButton from "./settings/settings-button";
+import Logo from "@/components/logo";
+import SettingsButton from "@/components/settings/settings-button";
 
 const navItems = [
   { label: "Home", href: "/app", icon: HomeIcon },

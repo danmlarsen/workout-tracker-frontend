@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AuthGuard from "@/api/auth/auth-guard";
 import ActiveWorkoutView from "@/features/workouts/components/workout-active/active-workout-view";
-import Navigation from "@/components/navigation";
+import Navigation from "./navigation";
 import { ActiveWorkoutProvider } from "@/context/active-workout-context";
 
 interface CoreLayoutProps {
