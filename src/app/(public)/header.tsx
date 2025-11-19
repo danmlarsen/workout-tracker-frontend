@@ -30,9 +30,6 @@ export default function LandingHeader() {
                 <Button asChild>
                   <Link href="/app">Go to App</Link>
                 </Button>
-                <Button asChild variant="outline">
-                  <Link href="/logout">Log Out</Link>
-                </Button>
               </>
             )}
           </div>
