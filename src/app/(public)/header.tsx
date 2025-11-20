@@ -18,10 +18,10 @@ export default function LandingHeader() {
             {!isLoggedIn && (
               <>
                 <Button asChild>
-                  <Link href="/register">Sign Up</Link>
+                  <Link href="/register">Sign up</Link>
                 </Button>
                 <Button asChild variant="outline">
-                  <Link href="/login">Log In</Link>
+                  <Link href="/login">Log in</Link>
                 </Button>
               </>
             )}

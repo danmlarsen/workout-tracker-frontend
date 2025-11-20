@@ -102,7 +102,7 @@ export default function ResendEmailConfirmation() {
         </CardContent>
         <CardFooter className="flex items-center justify-center gap-2">
           <Button asChild variant="outline" className="w-full">
-            <Link href="/login">Go back to Login</Link>
+            <Link href="/login">Go back to Log in</Link>
           </Button>
         </CardFooter>
       </Card>

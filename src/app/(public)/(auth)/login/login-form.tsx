@@ -98,7 +98,7 @@ export default function LoginForm() {
           )}
 
           <Button type="submit" className="w-full">
-            Login
+            Log in
             {(form.formState.isSubmitting || isPending) && <Spinner />}
           </Button>
         </fieldset>

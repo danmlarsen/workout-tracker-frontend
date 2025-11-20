@@ -81,7 +81,7 @@ export default function DemoPage() {
           <div>
             <span>Want to create a real account?</span>{" "}
             <Link href="/register" className="font-bold underline">
-              Register
+              Sign up
             </Link>
           </div>
         </CardFooter>

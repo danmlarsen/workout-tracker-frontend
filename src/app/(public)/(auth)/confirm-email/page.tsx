@@ -80,7 +80,7 @@ export default function ConfirmEmailPage() {
               <Loader2 className="text-accent animate-spin" />
             </div>
             <Button className="w-full" asChild>
-              <Link href="/login">Go to Login</Link>
+              <Link href="/login">Go to Log in</Link>
             </Button>
           </>
         );
@@ -98,7 +98,7 @@ export default function ConfirmEmailPage() {
                 </Link>
               </Button>
               <Button variant="outline" className="w-full" asChild>
-                <Link href="/register">Go to Registration</Link>
+                <Link href="/register">Go to Sign in</Link>
               </Button>
             </div>
           </>
@@ -117,7 +117,7 @@ export default function ConfirmEmailPage() {
                 </Link>
               </Button>
               <Button variant="outline" className="w-full" asChild>
-                <Link href="/register">Go to Registration</Link>
+                <Link href="/register">Go to Sign in</Link>
               </Button>
             </div>
           </>

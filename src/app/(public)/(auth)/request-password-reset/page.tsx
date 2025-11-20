@@ -95,7 +95,7 @@ export default function ResetPasswordPage() {
               href="/login"
               className="text-foreground font-bold underline underline-offset-2"
             >
-              Login
+              Log in
             </Link>
           </div>
           <div>
@@ -104,7 +104,7 @@ export default function ResetPasswordPage() {
               href="/register"
               className="text-foreground font-bold underline underline-offset-2"
             >
-              Register
+              Sign up
             </Link>
           </div>
         </CardFooter>

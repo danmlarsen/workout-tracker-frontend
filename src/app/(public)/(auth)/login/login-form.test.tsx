@@ -31,7 +31,7 @@ describe("<LoginForm />", () => {
     render(<LoginForm />);
     emailInput = screen.getByLabelText(/email/i);
     passwordInput = screen.getByLabelText(/password/i);
-    loginButton = screen.getByRole("button", { name: /login/i });
+    loginButton = screen.getByRole("button", { name: /log in/i });
   });
 
   afterEach(() => {

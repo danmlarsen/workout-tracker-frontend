@@ -28,7 +28,7 @@ export default async function RegisterPage({
     <AuthGuard requireAuth={false}>
       <Card className="w-full max-w-lg">
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle>Create your account</CardTitle>
         </CardHeader>
         <CardContent>
           <RegisterForm />
@@ -39,7 +39,7 @@ export default async function RegisterPage({
             href="/login"
             className="text-foreground font-bold underline underline-offset-2"
           >
-            Login
+            Log in
           </Link>
         </CardFooter>
       </Card>

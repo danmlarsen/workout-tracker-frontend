@@ -15,7 +15,7 @@ export default function LoginPage() {
     <AuthGuard requireAuth={false}>
       <Card className="w-full max-w-lg">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>Log in to your account</CardTitle>
         </CardHeader>
         <CardContent>
           <LoginForm />
@@ -27,7 +27,7 @@ export default function LoginPage() {
               href="/register"
               className="text-foreground font-bold underline underline-offset-2"
             >
-              Register
+              Sign up
             </Link>
           </div>
           <div>

@@ -32,7 +32,7 @@ describe("<RegisterForm />", () => {
     render(<RegisterForm />);
     emailInput = screen.getByLabelText(/email/i);
     passwordInputs = screen.getAllByLabelText(/password/i);
-    registerButton = screen.getByRole("button", { name: /register/i });
+    registerButton = screen.getByRole("button", { name: /sign up/i });
   });
 
   afterEach(() => {

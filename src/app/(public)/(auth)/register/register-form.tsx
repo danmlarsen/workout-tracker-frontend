@@ -116,7 +116,7 @@ export default function RegisterForm() {
           )}
 
           <Button type="submit" className="w-full">
-            Register
+            Sign up
             {(form.formState.isSubmitting || isPending) && <Spinner />}
           </Button>
         </fieldset>
