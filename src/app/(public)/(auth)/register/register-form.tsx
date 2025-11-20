@@ -56,7 +56,7 @@ export default function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
         <fieldset
           disabled={form.formState.isSubmitting || isPending}
           className="space-y-4"
