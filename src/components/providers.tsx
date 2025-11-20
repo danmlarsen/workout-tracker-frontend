@@ -1,6 +1,7 @@
 "use client";
 
 import { QueryClientProvider } from "@tanstack/react-query";
+import { Analytics } from "@vercel/analytics/next";
 
 import { queryClient } from "@/react-query/queryClient";
 import { AuthProvider } from "@/api/auth/auth-context";
@@ -23,6 +24,7 @@ export default function Providers({ children }: ProvidersProps) {
         <AuthProvider>
           <>
             {children}
+            <Analytics />
             <Toaster position="top-center" />
           </>
         </AuthProvider>
