@@ -215,7 +215,9 @@ export default function WorkoutSet({
       <TableCell>
         <WorkoutSetOptionsButton workoutSet={workoutSet} />
       </TableCell>
-      <TableCell>{previousSetString}</TableCell>
+      <TableCell className="text-muted-foreground">
+        {previousSetString}
+      </TableCell>
       <TableCell>
         {exerciseCategory === "strength" && (
           <Input
