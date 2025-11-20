@@ -22,11 +22,20 @@ describe("<LoginForm />", () => {
   let passwordInput: HTMLElement;
   let loginButton: HTMLElement;
 
+  const validEmail = "test@example.com";
+  const invalidEmail = "user@not-registered.com";
+
+  const password = "password";
+
   beforeEach(() => {
     render(<LoginForm />);
     emailInput = screen.getByLabelText(/email/i);
     passwordInput = screen.getByLabelText(/password/i);
     loginButton = screen.getByRole("button", { name: /login/i });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
   it("renders", () => {
@@ -42,24 +51,22 @@ describe("<LoginForm />", () => {
     expect(passwordInput).toHaveAttribute("aria-invalid", "true");
   });
 
-  it("calls loginWithCredentials on valid submission", async () => {
+  it("calls loginWithCredentials and push on valid submission", async () => {
     loginWithCredentials.mockResolvedValueOnce({ success: true });
 
-    await userEvent.type(emailInput, "test@example.com");
-    await userEvent.type(passwordInput, "supersecret");
+    await userEvent.type(emailInput, validEmail);
+    await userEvent.type(passwordInput, password);
     await userEvent.click(loginButton);
 
-    expect(loginWithCredentials).toHaveBeenCalledWith(
-      "test@example.com",
-      "supersecret",
-    );
+    expect(loginWithCredentials).toHaveBeenCalledWith(validEmail, password);
+    expect(push).toHaveBeenCalled();
   });
 
   it("renders validation error on invalid login", async () => {
     loginWithCredentials.mockResolvedValueOnce({ success: false });
 
-    await userEvent.type(emailInput, "invalid@example.com");
-    await userEvent.type(passwordInput, "supersecret");
+    await userEvent.type(emailInput, invalidEmail);
+    await userEvent.type(passwordInput, password);
     await userEvent.click(loginButton);
 
     expect(screen.getByText(/login failed/i)).toBeInTheDocument();

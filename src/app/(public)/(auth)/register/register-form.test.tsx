@@ -35,6 +35,10 @@ describe("<RegisterForm />", () => {
     registerButton = screen.getByRole("button", { name: /register/i });
   });
 
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("renders", () => {
     expect(emailInput).toBeInTheDocument();
     expect(passwordInputs[0]).toBeInTheDocument();
